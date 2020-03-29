@@ -1,0 +1,9 @@
+*.pyc
+.DS_Store
+.hg
+.svn
+env
+
+node_modules
+~
+package-lock.json
