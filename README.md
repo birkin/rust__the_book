@@ -9,4 +9,12 @@
 
         $ rustc --out-dir ../binaries/ ./hello_world.rs
 
+- cargo
+
+    - nice, outputs to a separate directory
+
+    - i like that `cargo check` can check without auto-compiling
+
+    - i like that `cargo run` can compile-_and_-build
+
 ---
