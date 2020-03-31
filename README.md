@@ -17,4 +17,14 @@
 
     - i like that `cargo run` can compile-_and_-build
 
+    - so cool...
+
+            $ cargo doc --open
+
+---
+
+currently at:
+
+`Comparing the Guess to the Secret Number`
+
 ---
