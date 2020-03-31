@@ -12,4 +12,10 @@ fn main() {
         .expect("Failed to readline");
 
     println!("You guessed: {}", guess);
+
+    // let x = io::stdin()
+    //     .read_line(&mut guess)
+    //     .expect("Failed to readline");
+    // println!("x, ```{}```", x );
+
 }
