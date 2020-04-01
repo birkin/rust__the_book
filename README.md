@@ -25,6 +25,8 @@
 
 currently at:
 
-`Comparing the Guess to the Secret Number`
+<https://doc.rust-lang.org/stable/book/ch02-00-guessing-game-tutorial.html#allowing-multiple-guesses-with-looping>
+
+`Allowing Multiple Guesses with Looping`
 
 ---
