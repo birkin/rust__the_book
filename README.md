@@ -27,6 +27,7 @@ currently at:
 
 <https://doc.rust-lang.org/stable/book/ch02-00-guessing-game-tutorial.html#allowing-multiple-guesses-with-looping>
 
-`Allowing Multiple Guesses with Looping`
+just completed guessing game; next...
+- update the message if the input is not a number.
 
 ---
