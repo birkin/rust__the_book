@@ -23,11 +23,31 @@
 
 ---
 
+
+- things that make rust safer...
+
+    - actionable type-annotations
+
+    - variable mutability must be explicitly set on initialization
+
+---
+
+
+concepts...
+
+- shadowing vs mut
+
+    - a variable initialized with mut can't change it's type
+
+    - `let var_w_same_name` _does_ let the new var have a different type
+
+---
+
 currently at:
 
-<https://doc.rust-lang.org/stable/book/ch02-00-guessing-game-tutorial.html#allowing-multiple-guesses-with-looping>
+<https://doc.rust-lang.org/stable/book/ch03-02-data-types.html>
 
-just completed guessing game; next...
-- update the message if the input is not a number.
+beginning.
+
 
 ---
