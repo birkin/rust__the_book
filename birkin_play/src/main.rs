@@ -1,5 +1,5 @@
 #[macro_use]
-extern crate simple_error;
+// extern crate simple_error;
 
 use std::thread::sleep;
 use std::time::{Duration, Instant};
@@ -20,7 +20,7 @@ fn main() {
 
     if some_var == None {
         println!("`None` found");
-        bail!("envars not set");
+        // bail!("envars not set");
     } else {
         println!("Something found");
     }

@@ -7,6 +7,7 @@
 
 ---
 
+
 ##### random...
 
 - if i want to have a 'code' and 'binaries' directory in the 'stuff_dir', and I'm in 'code', I can compile with:
@@ -28,6 +29,8 @@
 - interesting articles
 
     - [One Program Written in Python, Go, and Rust](https://www.nicolas-hahn.com/python/go/rust/programming/2019/07/01/program-in-python-go-rust/#performance)
+
+- next... <https://stevedonovan.github.io/rust-gentle-intro/>
 
 ---
 
