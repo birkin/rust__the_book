@@ -57,6 +57,8 @@
 
 - not rust-specific, but an example of a 'generic' function -- <https://doc.rust-lang.org/book/ch10-02-traits.html#fixing-the-largest-function-with-trait-bounds>. If I'm understanding other reading I've done recently, this is tricky or not possible in Go, where function-parameters have to be explicitly defined.
 
+- to read, re error-handling... <https://brson.github.io/2016/11/30/starting-with-error-chain>
+
 ---
 
 ---
