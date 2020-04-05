@@ -62,6 +62,8 @@
 
 - to read, re error-handling... <https://brson.github.io/2016/11/30/starting-with-error-chain>
 
+- borrowing -- re-read this in 2 days, then 4 days, then a week apart to burn it in: <https://doc.rust-lang.org/stable/book/ch04-01-what-is-ownership.html>
+
 ---
 
 ---
