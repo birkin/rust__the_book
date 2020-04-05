@@ -67,10 +67,9 @@
 ---
 
 currently at:
+https://doc.rust-lang.org/stable/book/ch04-00-understanding-ownership.html://doc.rust-lang.org/stable/book/ch03-05-control-flow.html>
 
-<https://doc.rust-lang.org/stable/book/ch03-05-control-flow.html>
-
-At ```Conditional Loops with while```.
+At beginning.
 
 
 ---
