@@ -71,8 +71,7 @@
 currently at:
 https://doc.rust-lang.org/stable/book/ch04-00-understanding-ownership.html://doc.rust-lang.org/stable/book/ch03-05-control-flow.html>
 
-At beginning.
-
+At "Return Values and Scope".
 
 ---
 
