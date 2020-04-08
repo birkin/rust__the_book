@@ -69,9 +69,9 @@
 ---
 
 currently at:
-https://doc.rust-lang.org/stable/book/ch04-00-understanding-ownership.html://doc.rust-lang.org/stable/book/ch03-05-control-flow.html>
+<https://doc.rust-lang.org/stable/book/ch04-02-references-and-borrowing.html>
 
-At "Return Values and Scope".
+At <https://doc.rust-lang.org/stable/book/ch04-02-references-and-borrowing.html#mutable-references>.
 
 ---
 

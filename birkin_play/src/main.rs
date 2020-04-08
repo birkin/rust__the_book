@@ -6,12 +6,15 @@ use std::ffi;  // `Foreign Function Interface`
 use std::option;
 
 
+// NEXT: logging!
+
+
 fn main() {
 
     let start = Instant::now();
 
     // get envar
-    let some_var: option::Option<ffi::OsString> = env::var_os("SOME_ENVAR");
+    let some_var: option::Option<ffi::OsString> = env::var_os("SOME_ENVAR");  // see <https://doc.rust-lang.org/std/ffi/index.html> -- I should handle Result( value, error) here.
     println!("some_var, `{:?}`", some_var);
     if some_var == None {
         println!("some_var not found; quitting");
