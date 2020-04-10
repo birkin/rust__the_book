@@ -1,3 +1,7 @@
+#[macro_use]
+extern crate log;
+extern crate env_logger;
+
 use std::thread::sleep;
 use std::time::{Duration, Instant};
 
@@ -12,6 +16,9 @@ use std::option;
 fn main() {
 
     let start = Instant::now();
+
+    env_logger::init();
+    error!("logger test");
 
     // get envar
     let some_var: option::Option<ffi::OsString> = env::var_os("SOME_ENVAR");  // see <https://doc.rust-lang.org/std/ffi/index.html> -- I should handle Result( value, error) here.

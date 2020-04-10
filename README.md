@@ -64,6 +64,57 @@
 
 - borrowing -- re-read this in 2 days, then 4 days, then a week apart to burn it in: <https://doc.rust-lang.org/stable/book/ch04-01-what-is-ownership.html>
 
+- concurrency
+
+    - <https://stjepang.github.io/2019/01/29/lock-free-rust-crossbeam-in-2019.html>
+
+    - <https://lib.rs/crates/rayon>
+
+    - <https://blog.yoshuawuyts.com/async-http/>
+
+- resources...
+
+    - <https://www.tutorialspoint.com/rust/index.htm>
+
+---
+
+#### logging...
+
+- resources...
+
+    - <https://github.com/rust-lang/log>
+        - <https://docs.rs/log/0.4.10/log/>  (docds.rs is the crate-documentation site)
+
+- trying the simple logging example at <https://rust-lang-nursery.github.io/rust-cookbook/development_tools/debugging/log.html#log-an-error-message-to-the-console>
+
+    - put this at the top:
+
+            #[macro_use]
+            extern crate log;
+            extern crate env_logger;
+
+    - then, near the top of `fn main()` put:
+
+            env_logger::init();
+            error!("logger test");
+
+    - output...
+
+            error[E0463]: can't find crate for `log`
+             --> src/main.rs:2:1
+              |
+            2 | extern crate log;
+              | ^^^^^^^^^^^^^^^^^ can't find crate
+
+            error: aborting due to previous error
+
+    - solution:
+
+        - go to <https://crates.io>, search on package, and add them to the `Cargo.toml` file under `[dependencies]`.
+
+        - then a `cargo check` or run will auto-import them.
+
+
 ---
 
 ---
