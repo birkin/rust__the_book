@@ -91,10 +91,70 @@ fn main() {
 
 
 
-    At: <https://doc.rust-lang.org/stable/book/ch04-02-references-and-borrowing.html#mutable-references>
+    /* Doesn't work, because "...We _also_ cannot have a mutable reference
+       while we have an immutable one. Users of an immutable reference
+       don’t expect the values to suddenly change out from under them!" */
+    // let mut s = String::from("hello");
 
-    "A similar rule exists..."
+    // let r1 = &s;
+    // let r2 = &s;
+    // let r3 = &mut s;  // no go
+
+    // println!("{:?}, {}, and {}", r1, r2, r3 );
+
+
+    /* Works, because in the function, `s` goes out-of-scope when the
+       function-call is over, but that's ok because it has been moved
+       here, to `something`. */
+    // let something = no_dangle();
+    // println!("something, `{:?}`", something);
+
+
+    let mut s = String::from("hello world");
+
+    let word = first_word(&s); // word will get the value 5
+    println!("word, `{:?}`", word);
+
+    println!("s before clear, `{:?}`", s);
+    s.clear(); // this empties the String, making it equal to ""
+    println!("s after clear, `{:?}`", s);
+
+
+
+    At: <https://doc.rust-lang.org/stable/book/ch04-03-slices.html>
+    ```With all this information in mind, let’s rewrite first_word```
+
 }
+
+
+fn first_word(s: &String) -> usize {
+    let bytes = s.as_bytes();
+
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return i;
+        }
+    }
+
+    s.len()
+}
+
+
+// fn no_dangle() -> String {
+//     let s = String::from("hello");
+//     s
+// }
+
+
+
+/* This implementation of dangle() doesn't work, because it returns
+   a reference to something that goes out-of-scope upon the return! */
+// fn dangle() -> &String {
+//     let s = String::from("hello");
+//     &s
+// }
+
+
 
 // fn change( some_string: &mut String ) {
 //     some_string.push_str( ", world" );

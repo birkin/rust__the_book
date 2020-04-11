@@ -72,6 +72,8 @@
 
     - <https://blog.yoshuawuyts.com/async-http/>
 
+    - <https://blog.yoshuawuyts.com/streams-concurrency/>
+
 - resources...
 
     - <https://www.tutorialspoint.com/rust/index.htm>
@@ -119,10 +121,8 @@
 
 ---
 
-currently at:
-<https://doc.rust-lang.org/stable/book/ch04-02-references-and-borrowing.html>
 
-At <https://doc.rust-lang.org/stable/book/ch04-02-references-and-borrowing.html#mutable-references>.
+At... see ownership -> main.rs
 
 ---
 
