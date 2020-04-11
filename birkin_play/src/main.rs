@@ -10,15 +10,46 @@ use std::ffi;  // `Foreign Function Interface`
 use std::option;
 
 
-// NEXT: logging!
+//
 
+/*
+
+NEXT: logging!
+
+    if RUST_LOG is not set, output is:
+    [2020-04-11T08:56:48Z ERROR birkin_play] logger error test
+
+    for ```export RUST_LOG="info"```, output is:
+    [2020-04-11T08:52:27Z INFO  birkin_play] logger info test
+    [2020-04-11T08:52:27Z ERROR birkin_play] logger error test
+
+    for ```export RUST_LOG="debug"```, output is:
+    [2020-04-11T08:54:28Z DEBUG birkin_play] logger debug test
+    [2020-04-11T08:54:28Z INFO  birkin_play] logger info test
+    [2020-04-11T08:54:28Z ERROR birkin_play] logger error test
+
+    ok, I'm setting RUST_LOG because of the instructions at <https://docs.rs/env_logger/0.7.1/env_logger/>...
+    ...but why does the current github example at <https://github.com/sebasmagri/env_logger/blob/master/examples/default.rs>...
+    ...show the env-var 'MY_LOG_LEVEL'?
+
+    interesting -- the above date-stamps are UTC. The info at:
+    - <https://docs.rs/env_logger/0.7.1/env_logger/#tweaking-the-default-format> and...
+    - <https://docs.rs/env_logger/0.7.1/env_logger/fmt/index.html> are worth investigating.
+
+    Ok, also see:
+    - <https://github.com/rust-lang/log/pull/48>
+    - but really, specifically: <https://github.com/rust-lang/log/pull/48#issuecomment-152821764>
+
+*/
 
 fn main() {
 
     let start = Instant::now();
 
-    env_logger::init();
-    error!("logger test");
+    env_logger::init();  // assume ```export RUST_LOG="info"```
+    debug!("logger debug test");
+    info!("logger info test");
+    error!("logger error test");
 
     // get envar
     let some_var: option::Option<ffi::OsString> = env::var_os("SOME_ENVAR");  // see <https://doc.rust-lang.org/std/ffi/index.html> -- I should handle Result( value, error) here.
