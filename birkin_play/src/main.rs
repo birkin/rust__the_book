@@ -10,8 +10,6 @@ use std::ffi;  // `Foreign Function Interface`
 use std::option;
 
 
-//
-
 /*
 
 NEXT: logging!
@@ -47,15 +45,20 @@ fn main() {
     let start = Instant::now();
 
     env_logger::init();  // assume ```export RUST_LOG="info"```
+
+    // env_logger::builder()
+    //     .format_timestamp(None)  // this seems to allow precision-only formatting; investigate whether I can force localtime display.
+    //     .init();
+
     debug!("logger debug test");
     info!("logger info test");
     error!("logger error test");
 
     // get envar
-    let some_var: option::Option<ffi::OsString> = env::var_os("SOME_ENVAR");  // see <https://doc.rust-lang.org/std/ffi/index.html> -- I should handle Result( value, error) here.
+    let some_var: option::Option<ffi::OsString> = env::var_os("RUST_PLAY__SOME_VAR");  // see <https://doc.rust-lang.org/std/ffi/index.html> -- I should handle Result( value, error) here.
     println!("some_var, `{:?}`", some_var);
     if some_var == None {
-        println!("some_var not found; quitting");
+        println!("some_var not initialized; quitting");
         quit( start );
     } else {
         println!("Something found");
