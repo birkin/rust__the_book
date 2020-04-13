@@ -110,34 +110,75 @@ fn main() {
     // println!("something, `{:?}`", something);
 
 
-    let mut s = String::from("hello world");
 
-    let word = first_word(&s); // word will get the value 5
+    /* Works, unless we try to re-use `word` */
+    // let mut s = String::from("hello world");
+
+    // let word = first_word(&s); // word will get the value 5
+    // println!("word, `{:?}`", word);
+
+    // println!("s before clear, `{:?}`", s);
+    // s.clear(); // this empties the String, making it equal to ""
+    // println!("s after clear, `{:?}`", s);
+
+    // println!("word is now, `{:?}`", word);  // if we add this line, the s.clear() line fails with """cannot borrow `s` as mutable because it is also borrowed as immutable"""
+
+
+
+    /* Based on above, this allows us to re-use `word`
+       -- in this case, `my_string` */
+    let my_string = String::from("hello world");
+
+    // first_word works on slices of `String`s
+    let word = first_word( &my_string[..] );
     println!("word, `{:?}`", word);
 
-    println!("s before clear, `{:?}`", s);
-    s.clear(); // this empties the String, making it equal to ""
-    println!("s after clear, `{:?}`", s);
+    let my_string_literal = "hello world";
 
+    // Because string literals *are* string slices already,
+    // this works too, without the slice syntax!
+    let word = first_word( &my_string_literal[..] );  // works on slices of string-literals
+    println!("word2, `{:?}`", word);
+    let word = first_word( my_string_literal );
+    println!("word3, `{:?}`", word);
 
+    // let zz: () = s;  // (odd) way of determining a variable type; will throw a "mismatched types" error, and, for `s`, show: """expected `()`, found struct `std::string::String`"""
 
-    At: <https://doc.rust-lang.org/stable/book/ch04-03-slices.html>
-    ```With all this information in mind, let’s rewrite first_word```
+    // At:
+    // <https://doc.rust-lang.org/stable/book/ch05-00-structs.html>
+    // at beginning
 
 }
 
 
-fn first_word(s: &String) -> usize {
+// fn first_word( s: &String) -> &str {
+fn first_word( s: &str) -> &str {
     let bytes = s.as_bytes();
 
     for (i, &item) in bytes.iter().enumerate() {
         if item == b' ' {
-            return i;
+            println!("found space; returning slice to i, which is, {}", i);
+            return &s[0..i]
         }
     }
-
-    s.len()
+    println!("no spaces, returning slice of the whole string");
+    &s[..]
 }
+
+
+
+// fn first_word(s: &String) -> usize {
+//     let bytes = s.as_bytes();
+//     for (i, &item) in bytes.iter().enumerate() {
+//         if item == b' ' {
+//             println!("found space; returning i");
+//             return i;
+//         }
+//     }
+//     println!("no spaces, returning full len");
+//     s.len()
+// }
+
 
 
 // fn no_dangle() -> String {
