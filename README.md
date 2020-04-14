@@ -64,6 +64,23 @@
 
 - borrowing -- re-read this in 2 days, then 4 days, then a week apart to burn it in: <https://doc.rust-lang.org/stable/book/ch04-01-what-is-ownership.html>
 
+- printing types...
+
+    - hack; where `x` is the variable whose type you want to check:
+
+            let zz: () = x;  // (odd) way of determining a variable type; will throw a "mismatched types" error, and show the expected type of `x` """
+
+    - why this hack? from [this post](https://users.rust-lang.org/t/how-can-i-print-the-type-of-a-variable/4183/6)...
+
+            ...Printing the name of a type at runtime is complicated in Rust, largely
+            because types don't really exist at runtime. In a language like Java, objects
+            contain class pointers that indicate their type, and you can often reach the
+            type's name through them (o.getClass().getName() if I remember my Java
+            correctly). Rust doesn't include type information in every value, so that
+            approach is right out.
+
+            There are some alternatives, but none is perfect...
+
 - concurrency
 
     - <https://stjepang.github.io/2019/01/29/lock-free-rust-crossbeam-in-2019.html>
@@ -122,7 +139,11 @@
 ---
 
 
-At... see ownership -> main.rs
+At:
+
+- <https://doc.rust-lang.org/stable/book/ch05-02-example-structs.html>
+
+- "Even though Listing 5-8 works"
 
 ---
 

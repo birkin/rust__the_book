@@ -144,10 +144,6 @@ fn main() {
 
     // let zz: () = s;  // (odd) way of determining a variable type; will throw a "mismatched types" error, and, for `s`, show: """expected `()`, found struct `std::string::String`"""
 
-    // At:
-    // <https://doc.rust-lang.org/stable/book/ch05-00-structs.html>
-    // at beginning
-
 }
 
 
