@@ -32,6 +32,12 @@
 
 - next... <https://stevedonovan.github.io/rust-gentle-intro/>
 
+- resources...
+
+    - <https://www.tutorialspoint.com/rust/index.htm>
+
+    - <https://cheats.rs/>
+
 ---
 
 
@@ -81,6 +87,10 @@
 
             There are some alternatives, but none is perfect...
 
+- from the struct chapter... _"...Let’s look at how we can continue to refactor this code by turning the area function into an area method defined on our Rectangle type."_
+
+    - the import, if I can generalize from this: mentions of "Type" can be thought of (like Structs) as classes (though a Struct doesn't directly contain implementation-methods).
+
 - concurrency
 
     - <https://stjepang.github.io/2019/01/29/lock-free-rust-crossbeam-in-2019.html>
@@ -90,10 +100,6 @@
     - <https://blog.yoshuawuyts.com/async-http/>
 
     - <https://blog.yoshuawuyts.com/streams-concurrency/>
-
-- resources...
-
-    - <https://www.tutorialspoint.com/rust/index.htm>
 
 ---
 
@@ -141,9 +147,9 @@
 
 At:
 
-- <https://doc.rust-lang.org/stable/book/ch05-02-example-structs.html>
+- <https://doc.rust-lang.org/stable/book/ch05-03-method-syntax.html>
 
-- "Even though Listing 5-8 works"
+- at beginning
 
 ---
 

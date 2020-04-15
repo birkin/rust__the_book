@@ -22,9 +22,12 @@ fn main() {
     println!(
         "The area of the rectangle is {:?} square pixels.",
         area(&rect1) );
+    println!("rect1 instance, ```{:#?}```", rect1 );  // initially fails, yielding "`Rectangle` doesn't implement `std::fmt::Debug`"
+    // println!("rect1, `{}`", rect1 );  // initially fails, yielding "`Rectangle` doesn't implement `std::fmt::Display`"
 
 }
 
+#[derive(Debug)]
 struct Rectangle {
     width: u32,
     height: u32,
