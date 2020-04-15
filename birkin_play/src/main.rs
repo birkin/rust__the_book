@@ -13,26 +13,28 @@ use std::option;
 /*
 
 NEXT:
-- load settings
+- review <https://doc.rust-lang.org/std/env/index.html> to see if I can get a String back from the env-var load
+- see lines 54-55 to see if I can get back a String directly.
 
 */
 
 
-struct Settings {
-    log_level: String,
-    initial_data: String,
-    something_fixed: String,
-}
+// struct Settings {
+//     log_level: String,
+//     initial_data: String,
+//     something_fixed: String,
+// }
 
-impl Settings {
-    fn load_fixed(&self) {
-        something_fixed = "foo";
-    }
-
-    fn load_from_envars(&self) {
-        self.width * self.height
-    }
-}
+// impl Settings {
+//     pub fn new() -> Settings {
+//         let env_log_level = env::var_os("RUST_PLAY__SOME_VAR");
+//         Settings {
+//             log_level: env_log_level.into_string(),
+//             initial_data: "coming",
+//             something_fixed: "foo",
+//         }
+//     }
+// }
 
 
 fn main() {
@@ -44,9 +46,18 @@ fn main() {
     info!("logger info test");
     error!("logger error test");
 
+
+    // settings
+    // let settings = Settings::new();
+
     // get envar
-    let some_var: option::Option<ffi::OsString> = env::var_os("RUST_PLAY__SOME_VAR");  // see <https://doc.rust-lang.org/std/ffi/index.html> -- I should handle Result( value, error) here.
+    // let some_var: option::Option<ffi::OsString> = env::var_os("RUST_PLAY__SOME_VAR");  // see <https://doc.rust-lang.org/std/ffi/index.html> -- I should handle Result( value, error) here.
+    let some_var: option::Option<ffi::OsString> = env::var("RUST_PLAY__SOME_VAR");  // see <https://doc.rust-lang.org/std/ffi/index.html> -- I should handle Result( value, error) here.
+
     println!("some_var, `{:?}`", some_var);
+
+    assert_eq!( some_var, String::from("foo") );
+
     if some_var == None {
         println!("some_var not initialized; quitting");
         quit( start );
