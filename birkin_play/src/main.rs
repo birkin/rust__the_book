@@ -6,24 +6,22 @@ use std::thread::sleep;
 use std::time::{Duration, Instant};
 
 use std::env;
-use std::ffi;  // `Foreign Function Interface`
-use std::option;
+// use std::ffi;  // `Foreign Function Interface`
+// use std::option;
 
 
 /*
 
 NEXT:
-- review <https://doc.rust-lang.org/std/env/index.html> to see if I can get a String back from the env-var load
-- see lines 54-55 to see if I can get back a String directly.
-
+- Doesn't compile, because I have to handle the Result return for the `some_var` definition
 */
 
 
-// struct Settings {
-//     log_level: String,
-//     initial_data: String,
-//     something_fixed: String,
-// }
+struct Settings {
+    // log_level: String,
+    something_from_envvar: String,
+    // something_fixed: String,
+}
 
 // impl Settings {
 //     pub fn new() -> Settings {
@@ -37,6 +35,7 @@ NEXT:
 // }
 
 
+
 fn main() {
 
     let start = Instant::now();
@@ -47,16 +46,12 @@ fn main() {
     error!("logger error test");
 
 
-    // settings
-    // let settings = Settings::new();
+    /* settings */
 
     // get envar
-    // let some_var: option::Option<ffi::OsString> = env::var_os("RUST_PLAY__SOME_VAR");  // see <https://doc.rust-lang.org/std/ffi/index.html> -- I should handle Result( value, error) here.
-    let some_var: option::Option<ffi::OsString> = env::var("RUST_PLAY__SOME_VAR");  // see <https://doc.rust-lang.org/std/ffi/index.html> -- I should handle Result( value, error) here.
+    let some_var: std::result::Result<std::string::String, std::env::VarError> = env::var("RUST_PLAY__SOME_VAR");  // see <https://doc.rust-lang.org/std/ffi/index.html> -- I should handle Result( value, error) here.
 
     println!("some_var, `{:?}`", some_var);
-
-    assert_eq!( some_var, String::from("foo") );
 
     if some_var == None {
         println!("some_var not initialized; quitting");
@@ -64,6 +59,24 @@ fn main() {
     } else {
         println!("Something found");
     }
+
+
+    // /* settings -- works
+    //     ...but env::var_os() yields an OsString type that I'm having trouble turning into a String for the setting
+    // */
+
+    // // get envar
+    // let some_var: option::Option<ffi::OsString> = env::var_os("RUST_PLAY__SOME_VAR");  // see <https://doc.rust-lang.org/std/ffi/index.html> -- I should handle Result( value, error) here.
+
+    // println!("some_var, `{:?}`", some_var);
+
+    // if some_var == None {
+    //     println!("some_var not initialized; quitting");
+    //     quit( start );
+    // } else {
+    //     println!("Something found");
+    // }
+
 
     // do work
     expensive_function();
