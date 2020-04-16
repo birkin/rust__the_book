@@ -149,7 +149,7 @@
 
 At:
 
-- <https://doc.rust-lang.org/stable/book/ch05-03-method-syntax.html>
+- <https://doc.rust-lang.org/stable/book/ch06-00-enums.html>
 
 - at beginning
 
