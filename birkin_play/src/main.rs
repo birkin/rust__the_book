@@ -13,11 +13,12 @@ use std::env;
 /*
 
 NEXT:
-- Continue to work on loading-settings.
+- Continue to work on loading-settings. At point where I've gotten the Result back -- now handle it.
     - most simply: fail with a helpful message if an env-var setting can't be loaded.
     - ideally, try all settings, and, if there are any failures, fail showing the list of settings that couldn't be loaded.
 - Resources...
     - <https://doc.rust-lang.org/book/ch12-05-working-with-environment-variables.html>
+    - <https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html?highlight=result#recoverable-errors-with-result>
 */
 
 
@@ -86,8 +87,11 @@ fn main() {
 
 fn load_setting( start_time: Instant ) -> String {
 
-    // let some_var_try: std::result::Result<std::string::String, std::env::VarError> = env::var("RUST_PLAY__SOME_VAR")?;  // see <https://doc.rust-lang.org/std/ffi/index.html> -- I should handle Result( value, error) here.
-    let some_var_try = env::var( "RUST_PLAY__SOME_VAR" ).is_err();
+    let some_var_try: std::result::Result<std::string::String, std::env::VarError> = env::var("RUST_PLAY__SOME_VAR");
+    // let some_var_try = env::var( "RUST_PLAY__SOME_VAR" ).is_err();
+
+
+
     println!("some_var_try, `{:?}`", some_var_try);
 
     // if some_var_try == None {
