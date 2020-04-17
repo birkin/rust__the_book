@@ -49,7 +49,11 @@
 
 - variable mutability must be explicitly set on initialization
 
-- is the integer-overflow wrapping for safety?
+- is the integer-overflow wrapping for safety? (Weeks later, don't remember what this refers to!  :/)
+
+- [enums](https://doc.rust-lang.org/stable/book/ch06-01-defining-an-enum.html) -- cool -- I can see how the "invitation" to easily embed different data-types in a fundamental structure could lead to better/safer code.
+
+    - yup, later in this page (`Option` is an enum)... """The Option type is used in many places because it encodes the very common scenario in which a value could be something or it could be nothing. Expressing this concept in terms of the type system means the compiler can check whether you’ve handled all the cases you should be handling; this functionality can prevent bugs that are extremely common in other programming languages."""
 
 ---
 
@@ -149,9 +153,9 @@
 
 At:
 
-- <https://doc.rust-lang.org/stable/book/ch06-00-enums.html>
+- <https://doc.rust-lang.org/stable/book/ch06-02-match.html#patterns-that-bind-to-values>
 
-- at beginning
+- just reading this for now; will go through it again and code to play with examples (i.e. none of the examples have `main()`)
 
 ---
 
