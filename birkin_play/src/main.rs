@@ -13,12 +13,12 @@ use std::env;
 /*
 
 NEXT:
-- Continue to work on loading-settings. At point where I've gotten the Result back -- now handle it.
+- Continue to work on loading-settings. At point where I've gotten the Result back -- am now beginning to handle it.
     - most simply: fail with a helpful message if an env-var setting can't be loaded.
     - ideally, try all settings, and, if there are any failures, fail showing the list of settings that couldn't be loaded.
 - Resources...
     - <https://doc.rust-lang.org/book/ch12-05-working-with-environment-variables.html>
-    - <https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html?highlight=result#recoverable-errors-with-result>
+    - Result: <https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html>
 */
 
 
@@ -48,7 +48,7 @@ fn main() {
     env_logger::init();  // assumes ```export RUST_LOG="info"```
     debug!("logger debug test");
     info!("logger info test");
-    error!("logger error test");
+    error!("logger error test");  // only this will print if RUST_LOG is not set
 
 
     /* settings */
@@ -85,14 +85,27 @@ fn main() {
     println!("Time elapsed in expensive_function() is, `{:?}`", duration);
 }
 
-fn load_setting( start_time: Instant ) -> String {
+fn load_setting( start_time: Instant ) -> Option<String> {
+
+    println!("start_time, `{:?}`", start_time);
 
     let some_var_try: std::result::Result<std::string::String, std::env::VarError> = env::var("RUST_PLAY__SOME_VAR");
     // let some_var_try = env::var( "RUST_PLAY__SOME_VAR" ).is_err();
 
-
-
     println!("some_var_try, `{:?}`", some_var_try);
+    // let zz: () = some_var_try;  // will not compile and show type of some_var_try. Ok, "found enum `std::result::Result`"
+
+    match some_var_try {
+        Ok(the_string) => the_string,
+        // Err(the_error) => String::from( "foo" ),
+        Err(the_error) => {
+            panic!("Problem accessing the envar: {:?}", the_error)
+        },
+    };
+
+
+
+
 
     // if some_var_try == None {
     //     println!("some_var not initialized; quitting");
@@ -100,14 +113,15 @@ fn load_setting( start_time: Instant ) -> String {
     // } else {
     //     println!("Something found");
     // }
-    return "foo".to_string()
+
+    return Some( "foo".to_string() )
 }
 
-fn quit(start_time: Instant) {
-    let duration = start_time.elapsed();
-    println!("Time elapsed, `{:?}`", duration);
-    std::process::exit(0);
-}
+// fn quit(start_time: Instant) {
+//     let duration = start_time.elapsed();
+//     println!("Time elapsed, `{:?}`", duration);
+//     std::process::exit(0);
+// }
 
 fn expensive_function() {
     sleep(Duration::new(0, 1)); // (seconds, nanoseconds)
