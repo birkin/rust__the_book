@@ -153,9 +153,9 @@
 
 At:
 
-- <https://doc.rust-lang.org/stable/book/ch06-02-match.html#patterns-that-bind-to-values>
+- <https://doc.rust-lang.org/stable/book/ch06-01-defining-an-enum.html>
 
-- just reading this for now; will go through it again and code to play with examples (i.e. none of the examples have `main()`)
+- at ```Here, we’ve defined a struct IpAddr``` -- going through chapter 2nd time, now playing with code.
 
 ---
 
