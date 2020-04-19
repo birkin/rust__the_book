@@ -153,9 +153,9 @@
 
 At:
 
-- <https://doc.rust-lang.org/stable/book/ch06-01-defining-an-enum.html>
+- <https://doc.rust-lang.org/stable/book/ch06-02-match.html>
 
-- at ```Here, we’ve defined a struct IpAddr``` -- going through chapter 2nd time, now playing with code.
+- at beginning
 
 ---
 
