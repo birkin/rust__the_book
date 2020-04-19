@@ -6,6 +6,8 @@ use std::thread::sleep;
 use std::time::{Duration, Instant};
 
 use std::env;
+use std::env::VarError;
+
 // use std::ffi;  // `Foreign Function Interface`
 // use std::option;
 
@@ -13,8 +15,8 @@ use std::env;
 /*
 
 NEXT:
-- Continue to work on loading-settings. At point where I've gotten the Result back -- am now beginning to handle it.
-    - most simply: fail with a helpful message if an env-var setting can't be loaded.
+- Continue to work on loading-settings. Can now detect an envar-load-failure.
+    - next, run through a list of envar-settings and fail with nice message if any don't load.
     - ideally, try all settings, and, if there are any failures, fail showing the list of settings that couldn't be loaded.
 - Resources...
     - <https://doc.rust-lang.org/book/ch12-05-working-with-environment-variables.html>
@@ -44,6 +46,7 @@ NEXT:
 fn main() {
 
     let start_time = Instant::now();
+    println!("start_time, `{:?}`", start_time);
 
     env_logger::init();  // assumes ```export RUST_LOG="info"```
     debug!("logger debug test");
@@ -55,9 +58,10 @@ fn main() {
 
     // get envar
     let some_var = load_setting( start_time );
-
     println!("some_var, `{:?}`", some_var);
-
+    if some_var == None {
+        quit( start_time );
+    }
 
 
     // /* settings -- works
@@ -87,22 +91,27 @@ fn main() {
 
 fn load_setting( start_time: Instant ) -> Option<String> {
 
-    println!("start_time, `{:?}`", start_time);
+    // println!("start_time, `{:?}`", start_time);
 
-    let some_var_try: std::result::Result<std::string::String, std::env::VarError> = env::var("RUST_PLAY__SOME_VAR");
-    // let some_var_try = env::var( "RUST_PLAY__SOME_VAR" ).is_err();
+    let some_var_try: Result<String, VarError> = env::var("RUST_PLAY__SOME_VAR");
 
-    println!("some_var_try, `{:?}`", some_var_try);
-    // let zz: () = some_var_try;  // will not compile and show type of some_var_try. Ok, "found enum `std::result::Result`"
+    println!("some_var_try initially, `{:?}`", some_var_try);
+    // let zz: () = some_var_try;  // will not compile; shows type of some_var_try. Ok, "found enum `std::result::Result`"
 
     match some_var_try {
         Ok(the_string) => the_string,
-        // Err(the_error) => String::from( "foo" ),
+        // Err(the_error) => {
+        //     panic!("Problem accessing the envar: {:?}", the_error)
+        // },  // works, but I want to handle this
+        // Err(the_error) => "problem".to_string(),  // works, but why can't I can't return None?
         Err(the_error) => {
-            panic!("Problem accessing the envar: {:?}", the_error)
+            let message = "error, ```".to_string() + &the_error.to_string() + "```";  // hmm... figured out string-substitution, like in println()
+            println!("message, {:?}", message);
+            quit( start_time );
+            message
+
         },
     };
-
 
 
 
@@ -114,14 +123,15 @@ fn load_setting( start_time: Instant ) -> Option<String> {
     //     println!("Something found");
     // }
 
-    return Some( "foo".to_string() )
+    // return Some( "foo".to_string() )
+    return None
 }
 
-// fn quit(start_time: Instant) {
-//     let duration = start_time.elapsed();
-//     println!("Time elapsed, `{:?}`", duration);
-//     std::process::exit(0);
-// }
+fn quit(start_time: Instant) {
+    let duration = start_time.elapsed();
+    println!(" in quit(); duration, `{:?}`", duration);
+    std::process::exit(0);
+}
 
 fn expensive_function() {
     sleep(Duration::new(0, 1)); // (seconds, nanoseconds)
