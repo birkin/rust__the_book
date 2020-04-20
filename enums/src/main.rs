@@ -45,15 +45,61 @@ fn main() {
 
 
 
-    let x: i8 = 5;
-    let y: Option<i8> = Some(5);
+    // let x: i8 = 5;
+    // let y: Option<i8> = Some(5);
 
-    // let zz: () = y;
+    // // let zz: () = y;
 
-    println!("x, `{:?}`; y, `{:?}`", x , y);
-    // works; yields: """x, `5`; y, `Some(5)`""" -- but can't add x y
+    // println!("x, `{:?}`; y, `{:?}`", x , y);
+    // // works; yields: """x, `5`; y, `Some(5)`""" -- but can't add x y
+
+
+
+    // let nckl = Coin::Nickel;  // works
+    // let value = value_in_cents( nckl );
+    // println!("value, `{:?}`", value);
+
+    let value = value_in_cents( Coin::Quarter(UsState::Alaska) );  // works
+    println!("value, `{:?}`", value);
+
+    // assert_eq!( nckl, Coin::Nickel );  // hmm... fails with "error[E0369]: binary operation `==` cannot be applied to type `Coin`" -- and -- "note: an implementation of `std::cmp::PartialEq` might be missing for `Coin`"
+    // let zz: () = nckl; // "found enum `Coin`"
+    // let zz: () = Coin::Nickel; // "found enum `Coin`"
 
 }
+
+#[derive(Debug)]
+enum UsState {
+    Alabama,
+    Alaska,
+    Delaware,
+}
+
+#[derive(Debug)]
+enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter(UsState),
+}
+
+fn value_in_cents(coin: Coin) -> u8 {
+    match coin {
+        Coin::Penny => 1,
+        Coin::Nickel => {
+            println!("found a nickle");
+            5
+        },
+        Coin::Dime => 10,
+        Coin::Quarter(state) => {
+            println!("Has state, `{:?}`", state);
+           25
+        },
+    }
+}
+
+
+
 
 // enum Message {
 //     Quit,

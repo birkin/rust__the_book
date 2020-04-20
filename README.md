@@ -153,9 +153,9 @@
 
 At:
 
-- <https://doc.rust-lang.org/stable/book/ch06-02-match.html>
+- <https://doc.rust-lang.org/stable/book/ch06-02-match.html#matching-with-optiont>
 
-- at beginning
+- at """Matching with Option<T>"""
 
 ---
 
