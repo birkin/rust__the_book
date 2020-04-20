@@ -10,4 +10,5 @@ edition = "2018"
 [dependencies]
 env_logger = "0.7.1"
 log = "0.4.8"
+dotenv = "0.15.0"
 #time = "0.1"

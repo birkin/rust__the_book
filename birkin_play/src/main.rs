@@ -16,11 +16,12 @@ use std::env::VarError;
 
 NEXT:
 - Continue to work on loading-settings. Can now detect an envar-load-failure.
-    - next, run through a list of envar-settings and fail with nice message if any don't load.
-    - ideally, try all settings, and, if there are any failures, fail showing the list of settings that couldn't be loaded.
+    - next, switching gears -- just installed dotenv crate, so next, read docs & try using it...
 - Resources...
     - <https://doc.rust-lang.org/book/ch12-05-working-with-environment-variables.html>
     - Result: <https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html>
+    - rust settings approaches: <https://users.rust-lang.org/t/how-do-rustaceans-handle-configuration-values/14003/4>
+        - <https://crates.io/crates/dotenv>
 */
 
 
