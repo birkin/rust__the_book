@@ -1,12 +1,17 @@
+extern crate dotenv;
+
 #[macro_use]
 extern crate log;
+
 extern crate env_logger;
 
+
+use std::env;
+// use std::env::VarError;
 use std::thread::sleep;
 use std::time::{Duration, Instant};
 
-use std::env;
-use std::env::VarError;
+use dotenv::dotenv;
 
 // use std::ffi;  // `Foreign Function Interface`
 // use std::option;
@@ -16,7 +21,8 @@ use std::env::VarError;
 
 NEXT:
 - Continue to work on loading-settings. Can now detect an envar-load-failure.
-    - next, switching gears -- just installed dotenv crate, so next, read docs & try using it...
+    - next, got dotenv working in a very basic way. now have load_settings() load up _expected_ settings and error out if one is not set.
+    - (again, ideal: the error message would show all that are not set)
 - Resources...
     - <https://doc.rust-lang.org/book/ch12-05-working-with-environment-variables.html>
     - Result: <https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html>
@@ -55,14 +61,35 @@ fn main() {
     error!("logger error test");  // only this will print if RUST_LOG is not set
 
 
-    /* settings */
+    // settings
+    load_settings();
 
-    // get envar
-    let some_var = load_setting( start_time );
-    println!("some_var, `{:?}`", some_var);
-    if some_var == None {
-        quit( start_time );
+
+    // do work
+    expensive_function();
+
+
+    // print duration
+    let duration = start_time.elapsed();
+    println!("Time elapsed in expensive_function() is, `{:?}`", duration);
+
+}
+
+
+fn load_settings() {
+
+    dotenv().ok();
+    for (key, value) in env::vars() {
+        println!("``{}``: ``{}``", key, value);
     }
+
+
+    // // get envar
+    // let some_var = load_setting( start_time );
+    // println!("some_var, `{:?}`", some_var);
+    // if some_var == None {
+    //     quit( start_time );
+
 
 
     // /* settings -- works
@@ -81,58 +108,55 @@ fn main() {
     //     println!("Something found");
     // }
 
-
-    // do work
-    expensive_function();
-
-    // print duration
-    let duration = start_time.elapsed();
-    println!("Time elapsed in expensive_function() is, `{:?}`", duration);
 }
 
-fn load_setting( start_time: Instant ) -> Option<String> {
-
-    // println!("start_time, `{:?}`", start_time);
-
-    let some_var_try: Result<String, VarError> = env::var("RUST_PLAY__SOME_VAR");
-
-    println!("some_var_try initially, `{:?}`", some_var_try);
-    // let zz: () = some_var_try;  // will not compile; shows type of some_var_try. Ok, "found enum `std::result::Result`"
-
-    match some_var_try {
-        Ok(the_string) => the_string,
-        // Err(the_error) => {
-        //     panic!("Problem accessing the envar: {:?}", the_error)
-        // },  // works, but I want to handle this
-        // Err(the_error) => "problem".to_string(),  // works, but why can't I can't return None?
-        Err(the_error) => {
-            let message = "error, ```".to_string() + &the_error.to_string() + "```";  // hmm... figured out string-substitution, like in println()
-            println!("message, {:?}", message);
-            quit( start_time );
-            message
-
-        },
-    };
 
 
 
+// fn load_setting( start_time: Instant ) -> Option<String> {
 
-    // if some_var_try == None {
-    //     println!("some_var not initialized; quitting");
-    //     quit( start_time );
-    // } else {
-    //     println!("Something found");
-    // }
+//     // println!("start_time, `{:?}`", start_time);
 
-    // return Some( "foo".to_string() )
-    return None
-}
+//     let some_var_try: Result<String, VarError> = env::var("RUST_PLAY__SOME_VAR");
 
-fn quit(start_time: Instant) {
-    let duration = start_time.elapsed();
-    println!(" in quit(); duration, `{:?}`", duration);
-    std::process::exit(0);
-}
+//     println!("some_var_try initially, `{:?}`", some_var_try);
+//     // let zz: () = some_var_try;  // will not compile; shows type of some_var_try. Ok, "found enum `std::result::Result`"
+
+//     match some_var_try {
+//         Ok(the_string) => the_string,
+//         // Err(the_error) => {
+//         //     panic!("Problem accessing the envar: {:?}", the_error)
+//         // },  // works, but I want to handle this
+//         // Err(the_error) => "problem".to_string(),  // works, but why can't I can't return None?
+//         Err(the_error) => {
+//             let message = "error, ```".to_string() + &the_error.to_string() + "```";  // hmm... figured out string-substitution, like in println()
+//             println!("message, {:?}", message);
+//             quit( start_time );
+//             message
+
+//         },
+//     };
+
+//     // if some_var_try == None {
+//     //     println!("some_var not initialized; quitting");
+//     //     quit( start_time );
+//     // } else {
+//     //     println!("Something found");
+//     // }
+
+//     // return Some( "foo".to_string() )
+//     return None
+// }
+
+
+
+// fn quit(start_time: Instant) {
+//     let duration = start_time.elapsed();
+//     println!(" in quit(); duration, `{:?}`", duration);
+//     std::process::exit(0);
+// }
+
+
 
 fn expensive_function() {
     sleep(Duration::new(0, 1)); // (seconds, nanoseconds)
