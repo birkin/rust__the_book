@@ -59,45 +59,79 @@ fn main() {
     // let value = value_in_cents( nckl );
     // println!("value, `{:?}`", value);
 
-    let value = value_in_cents( Coin::Quarter(UsState::Alaska) );  // works
-    println!("value, `{:?}`", value);
+    // let value = value_in_cents( Coin::Quarter(UsState::Alaska) );  // works
+    // println!("value, `{:?}`", value);
 
     // assert_eq!( nckl, Coin::Nickel );  // hmm... fails with "error[E0369]: binary operation `==` cannot be applied to type `Coin`" -- and -- "note: an implementation of `std::cmp::PartialEq` might be missing for `Coin`"
     // let zz: () = nckl; // "found enum `Coin`"
     // let zz: () = Coin::Nickel; // "found enum `Coin`"
 
-}
 
-#[derive(Debug)]
-enum UsState {
-    Alabama,
-    Alaska,
-    Delaware,
-}
 
-#[derive(Debug)]
-enum Coin {
-    Penny,
-    Nickel,
-    Dime,
-    Quarter(UsState),
-}
+    // let five = Some(5);
+    // let six = plus_one(five);
+    // println!("six, ``{:?}``", six);
 
-fn value_in_cents(coin: Coin) -> u8 {
-    match coin {
-        Coin::Penny => 1,
-        Coin::Nickel => {
-            println!("found a nickle");
-            5
-        },
-        Coin::Dime => 10,
-        Coin::Quarter(state) => {
-            println!("Has state, `{:?}`", state);
-           25
-        },
+    // let none = plus_one(None);
+    // println!("none, ``{:?}``", none);
+
+
+
+    let some_u8_value = 0u8;
+    println!("some_u8_value, ``{:?}``", some_u8_value);
+
+    match some_u8_value {
+        1 => println!("one"),
+        3 => println!("three" ),
+        _ => (),
     }
+
 }
 
+
+
+// fn plus_one(x: Option<i32>) -> Option<i32> {
+//     println!("x, ```{:?}```", x);
+//     match x {
+//         None => None,
+//         Some(i) => {
+//             println!("i, ``{:?}``", i);
+//             Some( i + 1)
+//         }
+//     }
+// }
+
+
+
+// #[derive(Debug)]
+// enum UsState {
+//     Alabama,
+//     Alaska,
+//     Delaware,
+// }
+
+// #[derive(Debug)]
+// enum Coin {
+//     Penny,
+//     Nickel,
+//     Dime,
+//     Quarter(UsState),
+// }
+
+// fn value_in_cents(coin: Coin) -> u8 {
+//     match coin {
+//         Coin::Penny => 1,
+//         Coin::Nickel => {
+//             println!("found a nickle");
+//             5
+//         },
+//         Coin::Dime => 10,
+//         Coin::Quarter(state) => {
+//             println!("Has state, `{:?}`", state);
+//            25
+//         },
+//     }
+// }
 
 
 
