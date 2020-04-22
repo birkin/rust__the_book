@@ -77,16 +77,36 @@ fn main() {
 
 
 
-    let some_u8_value = 0u8;
-    println!("some_u8_value, ``{:?}``", some_u8_value);
+    // let some_u8_value = 0u8;
+    // println!("some_u8_value, ``{:?}``", some_u8_value);
+    // check_value( some_u8_value );
 
-    match some_u8_value {
-        1 => println!("one"),
-        3 => println!("three" ),
-        _ => (),
-    }
+
+    let some_u8_value = Some( 0u8 );
+    println!("some_u8_value, ``{:?}``", some_u8_value);
+    check_value( some_u8_value );
+    let some_u8_value = Some( 3u8 );
+    check_value( some_u8_value );
 
 }
+
+fn check_value( x: Option<u8> ) {
+    println!("x, ``{:?}``", x);
+    if let Some(3) = x {
+        println!("three" );
+    }
+}
+
+
+
+// fn check_value( x: u8 ) {
+//     println!("x, ``{:?}``", x);
+//     match x {
+//         1 => println!("one"),
+//         3 => println!("three" ),
+//         _ => (),
+//     }
+// }
 
 
 
