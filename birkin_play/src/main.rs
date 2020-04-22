@@ -6,7 +6,9 @@ extern crate log;
 extern crate env_logger;
 
 
-use std::env;
+use serde::Deserialize;
+
+// use std::env;
 // use std::env::VarError;
 use std::thread::sleep;
 use std::time::{Duration, Instant};
@@ -21,7 +23,8 @@ use dotenv::dotenv;
 
 NEXT:
 - Continue to work on loading-settings. Can now detect an envar-load-failure.
-    - next, got dotenv working in a very basic way. now have load_settings() load up _expected_ settings and error out if one is not set.
+    - next, envy seems to be loading the envars, but how to access a property now? Existing attempts aren't working.
+        - hmm... <https://github.com/softprops/envy>
     - (again, ideal: the error message would show all that are not set)
 - Resources...
     - <https://doc.rust-lang.org/book/ch12-05-working-with-environment-variables.html>
@@ -49,6 +52,13 @@ NEXT:
 // }
 
 
+#[derive(Deserialize)]
+#[derive(Debug)]
+struct Config {
+    log_level: String,
+    logger_json_file_path: String
+}
+
 
 fn main() {
 
@@ -63,6 +73,12 @@ fn main() {
 
     // settings
     load_settings();
+    // println!("Config::log_level, ``{:?}``", Config::log_level);  // doesn't work
+    // println!("Config.log_level, ``{:?}``", Config.log_level);  // doesn't work
+
+    // let cnfg = Config {};  // doesn't work
+    // println!("cnfg, ``{:?}``", cnfg);
+
 
 
     // do work
@@ -75,40 +91,48 @@ fn main() {
 
 }
 
-
 fn load_settings() {
-
     dotenv().ok();
-    for (key, value) in env::vars() {
-        println!("``{}``: ``{}``", key, value);
+    match envy::prefixed("LOG_ROTATOR__").from_env::<Config>() {
+        // Ok(config) => println!("provided config.bar {:?}", config.bar),
+        Ok(config) => println!("updated config"),
+        Err(err) => println!("error parsing config from env: {}", err),
     }
-
-
-    // // get envar
-    // let some_var = load_setting( start_time );
-    // println!("some_var, `{:?}`", some_var);
-    // if some_var == None {
-    //     quit( start_time );
-
-
-
-    // /* settings -- works
-    //     ...but env::var_os() yields an OsString type that I'm having trouble turning into a String for the setting
-    // */
-
-    // // get envar
-    // let some_var: option::Option<ffi::OsString> = env::var_os("RUST_PLAY__SOME_VAR");  // see <https://doc.rust-lang.org/std/ffi/index.html> -- I should handle Result( value, error) here.
-
-    // println!("some_var, `{:?}`", some_var);
-
-    // if some_var == None {
-    //     println!("some_var not initialized; quitting");
-    //     quit( start );
-    // } else {
-    //     println!("Something found");
-    // }
-
 }
+
+// fn load_settings() {
+
+//     dotenv().ok();
+//     for (key, value) in env::vars() {
+//         println!("``{}``: ``{}``", key, value);
+//     }
+
+
+//     // // get envar
+//     // let some_var = load_setting( start_time );
+//     // println!("some_var, `{:?}`", some_var);
+//     // if some_var == None {
+//     //     quit( start_time );
+
+
+
+//     // /* settings -- works
+//     //     ...but env::var_os() yields an OsString type that I'm having trouble turning into a String for the setting
+//     // */
+
+//     // // get envar
+//     // let some_var: option::Option<ffi::OsString> = env::var_os("RUST_PLAY__SOME_VAR");  // see <https://doc.rust-lang.org/std/ffi/index.html> -- I should handle Result( value, error) here.
+
+//     // println!("some_var, `{:?}`", some_var);
+
+//     // if some_var == None {
+//     //     println!("some_var not initialized; quitting");
+//     //     quit( start );
+//     // } else {
+//     //     println!("Something found");
+//     // }
+
+// }
 
 
 
