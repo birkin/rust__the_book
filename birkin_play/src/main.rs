@@ -22,8 +22,9 @@ use dotenv::dotenv;
 /*
 
 NEXT:
-- Continue to work on loading-settings. Can now detect an envar-load-failure.
-    - next, envy seems to be loading the envars, but how to access a property now? Existing attempts aren't working.
+- Continue to work on loading-settings.
+    - next, envy seems to be loading the envars, but how to access a Config property now? Existing attempts aren't working.
+        - thought: build into load settings the return of a config-instance
         - hmm... <https://github.com/softprops/envy>
     - (again, ideal: the error message would show all that are not set)
 - Resources...
@@ -59,6 +60,11 @@ struct Config {
     logger_json_file_path: String
 }
 
+// impl Config {
+//     fn get_log_level() -> String {
+//         log_level
+//     }
+// }
 
 fn main() {
 
@@ -78,6 +84,8 @@ fn main() {
 
     // let cnfg = Config {};  // doesn't work
     // println!("cnfg, ``{:?}``", cnfg);
+
+    // println!("log_level, {:?}", Config::get_log_level() );
 
 
 
