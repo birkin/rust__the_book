@@ -15,6 +15,8 @@ use std::time::{Duration, Instant};
 
 use dotenv::dotenv;
 
+// use std::option::Option;
+
 // use std::ffi;  // `Foreign Function Interface`
 // use std::option;
 
@@ -77,16 +79,10 @@ fn main() {
 
 
     // settings
-    load_settings();
-    // println!("Config::log_level, ``{:?}``", Config::log_level);  // doesn't work
-    // println!("Config.log_level, ``{:?}``", Config.log_level);  // doesn't work
-
-    // let cnfg = Config {};  // doesn't work
-    // println!("cnfg, ``{:?}``", cnfg);
-
-    // println!("log_level, {:?}", Config::get_log_level() );
-
-
+    // load_settings( start_time );
+    let config = load_settings( start_time );
+    // println!("config.log_level in main(), ``{:?}``", config.log_level);
+    println!("config in main(), ``{:?}``", config);
 
     // do work
     expensive_function();
@@ -98,12 +94,27 @@ fn main() {
 
 }
 
-fn load_settings() {
+
+fn load_settings( start_time: Instant ) -> String  {
     dotenv().ok();
     match envy::prefixed("LOG_ROTATOR__").from_env::<Config>() {
-        Ok(config) => println!("{:#?}", config),
-        // Ok(config) => println!("updated config"),
-        Err(err) => println!("error parsing config from env: {}", err),
+        Ok(config) => {
+            println!("config.log_level, ``{:?}``", config.log_level);
+            println!("{:#?}", config);
+            // config
+            "foo".to_string()
+        },
+        Err(the_error) => {
+            // println!("error parsing config from env: {}", err);
+            // err.to_string()
+            // let zz: () = err;
+            let message = "error, ```".to_string() + &the_error.to_string() + "```; quitting";
+            // println!( message );
+            println!("{:?}", message);
+            // "bar".to_string()
+            quit( start_time );
+            message
+        },
     }
 }
 
@@ -181,11 +192,11 @@ fn load_settings() {
 
 
 
-// fn quit(start_time: Instant) {
-//     let duration = start_time.elapsed();
-//     println!(" in quit(); duration, `{:?}`", duration);
-//     std::process::exit(0);
-// }
+fn quit(start_time: Instant) {
+    let duration = start_time.elapsed();
+    println!(" in quit(); duration, `{:?}`", duration);
+    std::process::exit(0);
+}
 
 
 
