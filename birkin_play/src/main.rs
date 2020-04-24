@@ -53,8 +53,7 @@ NEXT:
 // }
 
 
-#[derive(Deserialize)]
-#[derive(Debug)]
+#[derive(Deserialize, Debug)]
 struct Config {
     log_level: String,
     logger_json_file_path: String
@@ -102,8 +101,8 @@ fn main() {
 fn load_settings() {
     dotenv().ok();
     match envy::prefixed("LOG_ROTATOR__").from_env::<Config>() {
-        // Ok(config) => println!("provided config.bar {:?}", config.bar),
-        Ok(config) => println!("updated config"),
+        Ok(config) => println!("{:#?}", config),
+        // Ok(config) => println!("updated config"),
         Err(err) => println!("error parsing config from env: {}", err),
     }
 }
