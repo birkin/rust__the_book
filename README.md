@@ -107,6 +107,8 @@
 
     - <https://blog.yoshuawuyts.com/streams-concurrency/>
 
+- struct fields are private by default; enum variants are public by default.
+
 ---
 
 #### logging...
@@ -151,11 +153,11 @@
 ---
 
 
-At:
+Next...
 
-- <https://doc.rust-lang.org/stable/book/ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html#starting-relative-paths-with-super>
+- <https://doc.rust-lang.org/stable/book/ch07-04-bringing-paths-into-scope-with-the-use-keyword.html>
 
-- at "Starting Relative Paths with super".
+- at "Bringing Paths into Scope with the use Keyword".
 
 ---
 
