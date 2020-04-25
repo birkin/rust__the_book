@@ -1,19 +1,14 @@
-extern crate dotenv;
-
 #[macro_use]
 extern crate log;
 
 extern crate env_logger;
 
+// use serde::Deserialize;
 
-use serde::Deserialize;
-
-// use std::env;
-// use std::env::VarError;
+use std::env;
+use std::env::VarError;
 use std::thread::sleep;
 use std::time::{Duration, Instant};
-
-use dotenv::dotenv;
 
 // use std::option::Option;
 
@@ -25,11 +20,12 @@ use dotenv::dotenv;
 
 NEXT:
 - Continue to work on loading-settings.
-    - next, envy seems to be loading the envars, but how to access a Config property now? Existing attempts aren't working.
-        - thought: build into load settings the return of a config-instance
+    - i have a populated config-instance in main; now populate those values from envars
         - hmm... <https://github.com/softprops/envy>
+    - then consider error-checking.
     - (again, ideal: the error message would show all that are not set)
 - Resources...
+    - good config info: <https://doc.rust-lang.org/stable/book/ch12-03-improving-error-handling-and-modularity.html?highlight=constructor#the-trade-offs-of-using-clone>
     - <https://doc.rust-lang.org/book/ch12-05-working-with-environment-variables.html>
     - Result: <https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html>
     - rust settings approaches: <https://users.rust-lang.org/t/how-do-rustaceans-handle-configuration-values/14003/4>
@@ -37,52 +33,48 @@ NEXT:
 */
 
 
-// struct Settings {
-//     // log_level: String,
-//     something_from_envvar: String,
-//     // something_fixed: String,
-// }
-
-// impl Settings {
-//     pub fn new() -> Settings {
-//         let env_log_level = env::var_os("RUST_PLAY__SOME_VAR");
-//         Settings {
-//             log_level: env_log_level.into_string(),
-//             initial_data: "coming",
-//             something_fixed: "foo",
-//         }
-//     }
-// }
-
-
-#[derive(Deserialize, Debug)]
+#[derive(Debug)]
 struct Config {
     log_level: String,
     logger_json_file_path: String
 }
 
-// impl Config {
-//     fn get_log_level() -> String {
-//         log_level
-//     }
-// }
+impl Config {
+    fn new() -> Config {
+        let log_level = "foo".to_string();
+        let logger_json_file_path = "bar".to_string();
+        Config { log_level, logger_json_file_path }
+    }
+}
+
 
 fn main() {
 
     let start_time = Instant::now();
     println!("start_time, `{:?}`", start_time);
 
+    /* logging */
     env_logger::init();  // assumes ```export RUST_LOG="info"```
     debug!("logger debug test");
     info!("logger info test");
     error!("logger error test");  // only this will print if RUST_LOG is not set
 
 
-    // settings
+    /* settings */
+
     // load_settings( start_time );
-    let config = load_settings( start_time );
+    // let config = load_settings( start_time );
     // println!("config.log_level in main(), ``{:?}``", config.log_level);
-    println!("config in main(), ``{:?}``", config);
+    // println!("config in main(), ``{:?}``", config);
+
+    // let config = Config{ log_level: "foo".to_string(), logger_json_file_path: "bar".to_string() };  // works
+    // println!("config, ``{:?}``", config);
+
+    let config = Config::new();
+    println!("config, ``{:?}``", config);
+
+
+    /* work */
 
     // do work
     expensive_function();
@@ -95,28 +87,28 @@ fn main() {
 }
 
 
-fn load_settings( start_time: Instant ) -> String  {
-    dotenv().ok();
-    match envy::prefixed("LOG_ROTATOR__").from_env::<Config>() {
-        Ok(config) => {
-            println!("config.log_level, ``{:?}``", config.log_level);
-            println!("{:#?}", config);
-            // config
-            "foo".to_string()
-        },
-        Err(the_error) => {
-            // println!("error parsing config from env: {}", err);
-            // err.to_string()
-            // let zz: () = err;
-            let message = "error, ```".to_string() + &the_error.to_string() + "```; quitting";
-            // println!( message );
-            println!("{:?}", message);
-            // "bar".to_string()
-            quit( start_time );
-            message
-        },
-    }
-}
+// fn load_settings( start_time: Instant ) -> String  {
+//     dotenv().ok();
+//     match envy::prefixed("LOG_ROTATOR__").from_env::<Config>() {
+//         Ok(config) => {
+//             println!("config.log_level, ``{:?}``", config.log_level);
+//             println!("{:#?}", config);
+//             // config
+//             "foo".to_string()
+//         },
+//         Err(the_error) => {
+//             // println!("error parsing config from env: {}", err);
+//             // err.to_string()
+//             // let zz: () = err;
+//             let message = "error, ```".to_string() + &the_error.to_string() + "```; quitting";
+//             // println!( message );
+//             println!("{:?}", message);
+//             // "bar".to_string()
+//             quit( start_time );
+//             message
+//         },
+//     }
+// }
 
 // fn load_settings() {
 

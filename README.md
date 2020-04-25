@@ -109,6 +109,8 @@
 
 - struct fields are private by default; enum variants are public by default.
 
+- [good config info](https://doc.rust-lang.org/stable/book/ch12-03-improving-error-handling-and-modularity.html?highlight=constructor#the-trade-offs-of-using-clone)
+
 ---
 
 #### logging...
@@ -155,9 +157,9 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch07-04-bringing-paths-into-scope-with-the-use-keyword.html>
+- <https://doc.rust-lang.org/stable/book/ch07-05-separating-modules-into-different-files.html>
 
-- at "Bringing Paths into Scope with the use Keyword".
+- at beginning.
 
 ---
 
