@@ -157,7 +157,7 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch07-05-separating-modules-into-different-files.html>
+- <https://doc.rust-lang.org/stable/book/ch08-00-common-collections.html>
 
 - at beginning.
 
