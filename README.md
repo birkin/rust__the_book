@@ -111,6 +111,8 @@
 
 - [good config info](https://doc.rust-lang.org/stable/book/ch12-03-improving-error-handling-and-modularity.html?highlight=constructor#the-trade-offs-of-using-clone)
 
+- surprising... a non-mutable vector can be created, and the next line can attempt to access an out-of-bounds value, and the code will compile (and then fail at runtime). Why is that permitted? It seems that given all the safety features, getting a value from the index could yield a Result or Option.
+
 ---
 
 #### logging...
@@ -157,9 +159,9 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch08-00-common-collections.html>
+- <https://doc.rust-lang.org/stable/book/ch08-01-vectors.html>
 
-- at beginning.
+- at "Note two details here."
 
 ---
 
