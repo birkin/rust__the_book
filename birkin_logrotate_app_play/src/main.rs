@@ -36,14 +36,22 @@ NEXT:
 #[derive(Debug)]
 struct Config {
     log_level: String,
-    logger_json_file_path: String
+    // logger_json_file_path: String
 }
 
 impl Config {
-    fn new() -> Config {
-        let log_level = "foo".to_string();
-        let logger_json_file_path = "bar".to_string();
-        Config { log_level, logger_json_file_path }
+    fn new( start_time: Instant ) -> Config {
+        let log_level_try: Result<String, VarError> = env::var("LOG_ROTATOR__LOG_LEVEL");
+        match log_level_try {
+            Ok(_) => {},
+            Err(_err) => {
+                println!("log_level setting not found; quitting");
+                quit( start_time );
+                std::process::exit(-1);  // should never get here, but need for compiler.
+            }
+        };
+        let log_level = log_level_try.unwrap();
+        Config { log_level }
     }
 }
 
@@ -53,29 +61,17 @@ fn main() {
     let start_time = Instant::now();
     println!("start_time, `{:?}`", start_time);
 
+    /* settings */
+    let config = Config::new( start_time );
+    println!("config, ``{:?}``", config);
+
     /* logging */
     env_logger::init();  // assumes ```export RUST_LOG="info"```
     debug!("logger debug test");
     info!("logger info test");
     error!("logger error test");  // only this will print if RUST_LOG is not set
 
-
-    /* settings */
-
-    // load_settings( start_time );
-    // let config = load_settings( start_time );
-    // println!("config.log_level in main(), ``{:?}``", config.log_level);
-    // println!("config in main(), ``{:?}``", config);
-
-    // let config = Config{ log_level: "foo".to_string(), logger_json_file_path: "bar".to_string() };  // works
-    // println!("config, ``{:?}``", config);
-
-    let config = Config::new();
-    println!("config, ``{:?}``", config);
-
-
     /* work */
-
     // do work
     expensive_function();
 

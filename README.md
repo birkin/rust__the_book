@@ -159,9 +159,7 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch08-01-vectors.html>
-
-- at "Note two details here."
+- <https://doc.rust-lang.org/stable/book/ch08-01-vectors.html#iterating-over-the-values-in-a-vector>
 
 ---
 
