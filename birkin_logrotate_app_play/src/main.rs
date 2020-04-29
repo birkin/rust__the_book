@@ -21,9 +21,11 @@ use std::time::{Duration, Instant};
 NEXT:
 - Continue to work on loading-settings.
     - i have a populated config-instance in main; now populate those values from envars
-        - hmm... <https://github.com/softprops/envy>
-    - then consider error-checking.
-    - (again, ideal: the error message would show all that are not set)
+        - hmm... <https://github.com/softprops/envy> -- i abandoned this, can't remember why -- maybe look at it enough...
+            ...to jot down why i abandoned it.
+        - Q: is there a _simple_ way to pass to init the config log-level setting I've created?
+            - madness? but possible -- when the log-level setting is loaded in the config-code...
+                ...SET a "RUST_LOG" envar to that level! -- so that when the log is initialized, it "just reads it".
 - Resources...
     - good config info: <https://doc.rust-lang.org/stable/book/ch12-03-improving-error-handling-and-modularity.html?highlight=constructor#the-trade-offs-of-using-clone>
     - <https://doc.rust-lang.org/book/ch12-05-working-with-environment-variables.html>
@@ -41,6 +43,9 @@ struct Config {
 
 impl Config {
     fn new( start_time: Instant ) -> Config {
+        /* Returns config-instance with attributes populated from envars.
+           Quits on error loading envar.
+           TODO: simplify, and figure out way to iterate over the attributes.  */
         let log_level_try: Result<String, VarError> = env::var("LOG_ROTATOR__LOG_LEVEL");
         match log_level_try {
             Ok(_) => {},
