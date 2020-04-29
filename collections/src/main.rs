@@ -1,28 +1,59 @@
 fn main() {
 
     // misc1();
-
     // misc2();
-
-    misc3();
+    // misc3();
+    // misc4();
+    let x = misc5();
+    println!("x, ``{:?}``", x);
 }
 
-fn misc3() {
+fn misc5() {
+    let mut v = vec![100,32,57];
+    for i in &mut v {
+        *i += 50;
+    }
+    println!("v in misc5, ``{:?}``", v);
+    // v    // can't return v even with adding Vec<&i32> to the signature
+            // returns "missing lifetime specifier",
+            // which I don't know about yet
 
-    let mut v = vec![1, 2, 3, 4, 5];
+    // interesting... that "dereference operator" (*) -- maybe I could
+    // use that to simplify the Config struct
+}
 
-    let first = &v[0];
 
-    v.push(6);
 
-    println!("first, ``{:?}``", first);
+// fn misc4() {
+//     let v = vec![100, 32, 57];
+//     for i in &v {
+//         println!("i, ``{:?}``", i);
+//     }
+//     // Running `target/debug/collections`
+//     // i, ``100``
+//     // i, ``32``
+//     // i, ``57``
+// }
+
+
+
+// fn misc3() {
+
+//     let mut v = vec![1, 2, 3, 4, 5];
+
+//     let first = &v[0];
+
+//     v.push(6);
+
+//     println!("first, ``{:?}``", first);
 
     /*
     The above fails with an explanation at: "...why should a reference
     to the first element care about what changes at the end of the vector?"
     But I can't see how to change it to work. (Tried a few things.)
     */
-}
+// }
+
 
 
 // fn misc2() {
@@ -70,6 +101,7 @@ fn misc3() {
 
 
 // }
+
 
 
 // fn misc1() {

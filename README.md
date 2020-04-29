@@ -159,7 +159,7 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch08-01-vectors.html#iterating-over-the-values-in-a-vector>
+- <https://doc.rust-lang.org/stable/book/ch08-01-vectors.html#using-an-enum-to-store-multiple-types>
 
 ---
 
