@@ -158,7 +158,7 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch08-01-vectors.html#using-an-enum-to-store-multiple-types>
+- <https://doc.rust-lang.org/stable/book/ch08-02-strings.html>
 
 ---
 

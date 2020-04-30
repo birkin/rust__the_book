@@ -1,26 +1,46 @@
+#[derive(Debug)]
+enum SpreadsheetCell {
+    Int(i32),
+    Float(f64),
+    Text(String),
+}
+
 fn main() {
 
     // misc1();
     // misc2();
     // misc3();
     // misc4();
-    let x = misc5();
-    println!("x, ``{:?}``", x);
+    // let x = misc5();
+    // println!("x, ``{:?}``", x);
+
+    let x: Vec<SpreadsheetCell> = misc6();
+    println!("x, ``{:#?}``", x);
+
 }
 
-fn misc5() {
-    let mut v = vec![100,32,57];
-    for i in &mut v {
-        *i += 50;
-    }
-    println!("v in misc5, ``{:?}``", v);
-    // v    // can't return v even with adding Vec<&i32> to the signature
-            // returns "missing lifetime specifier",
-            // which I don't know about yet
-
-    // interesting... that "dereference operator" (*) -- maybe I could
-    // use that to simplify the Config struct
+fn misc6() -> Vec<SpreadsheetCell> {
+    let row = vec![
+        SpreadsheetCell::Int(3),
+        SpreadsheetCell::Text(String::from("blue")),
+        SpreadsheetCell::Float(10.12),
+    ];
+    row
 }
+
+// fn misc5() {
+//     let mut v = vec![100,32,57];
+//     for i in &mut v {
+//         *i += 50;
+//     }
+//     println!("v in misc5, ``{:?}``", v);
+//     // v    // can't return v even with adding Vec<&i32> to the signature
+//             // returns "missing lifetime specifier",
+//             // which I don't know about yet
+
+//     // interesting... that "dereference operator" (*) -- maybe I could
+//     // use that to simplify the Config struct
+// }
 
 
 
