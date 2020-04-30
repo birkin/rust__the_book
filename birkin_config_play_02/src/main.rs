@@ -1,5 +1,7 @@
 // https://github.com/softprops/envy
 
+// Q: why don't I have to `use envy`?
+
 use serde::Deserialize;
 
 #[derive(Deserialize, Debug)]
@@ -24,7 +26,6 @@ impl Config {
             },
             Err(error) => panic!("{:#?}", error)
         }
-
     }
 }
 

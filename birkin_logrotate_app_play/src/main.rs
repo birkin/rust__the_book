@@ -20,12 +20,10 @@ use std::time::{Duration, Instant};
 
 NEXT:
 - Continue to work on loading-settings.
-    - i have a populated config-instance in main; now populate those values from envars
-        - hmm... <https://github.com/softprops/envy> -- i abandoned this, can't remember why -- maybe look at it enough...
-            ...to jot down why i abandoned it.
-        - Q: is there a _simple_ way to pass to init the config log-level setting I've created?
-            - madness? but possible -- when the log-level setting is loaded in the config-code...
-                ...SET a "RUST_LOG" envar to that level! -- so that when the log is initialized, it "just reads it".
+    - incorporate the work i just did for config-play02
+    - Q: is there a _simple_ way to pass to init the config log-level setting I've created?
+        - madness? but possible -- when the log-level setting is loaded in the config-code...
+            ...SET a "RUST_LOG" envar to that level! -- so that when the log is initialized, it "just reads it".
 - Resources...
     - good config info: <https://doc.rust-lang.org/stable/book/ch12-03-improving-error-handling-and-modularity.html?highlight=constructor#the-trade-offs-of-using-clone>
     - <https://doc.rust-lang.org/book/ch12-05-working-with-environment-variables.html>
