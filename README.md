@@ -158,7 +158,7 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch08-02-strings.html>
+- <https://doc.rust-lang.org/stable/book/ch08-02-strings.html#concatenation-with-the--operator-or-the-format-macro>
 
 ---
 

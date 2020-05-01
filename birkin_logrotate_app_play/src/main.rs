@@ -3,10 +3,10 @@ extern crate log;
 
 extern crate env_logger;
 
-// use serde::Deserialize;
+use serde::Deserialize;
 
-use std::env;
-use std::env::VarError;
+// use std::env;
+// use std::env::VarError;
 use std::thread::sleep;
 use std::time::{Duration, Instant};
 
@@ -33,28 +33,22 @@ NEXT:
 */
 
 
-#[derive(Debug)]
+#[derive(Deserialize, Debug)]
 struct Config {
     log_level: String,
-    // logger_json_file_path: String
+    logger_json_file_path: String
 }
 
 impl Config {
-    fn new( start_time: Instant ) -> Config {
-        /* Returns config-instance with attributes populated from envars.
-           Quits on error loading envar.
-           TODO: simplify, and figure out way to iterate over the attributes.  */
-        let log_level_try: Result<String, VarError> = env::var("LOG_ROTATOR__LOG_LEVEL");
-        match log_level_try {
-            Ok(_) => {},
-            Err(_err) => {
-                println!("log_level setting not found; quitting");
-                quit( start_time );
-                std::process::exit(-1);  // should never get here, but need for compiler.
-            }
-        };
-        let log_level = log_level_try.unwrap();
-        Config { log_level }
+    fn new() -> Config {
+        match envy::prefixed("LOG_ROTATOR__").from_env::<Config>() {  // https://github.com/softprops/envy
+            Ok(config) => {
+                let log_level = config.log_level;
+                let logger_json_file_path = config.logger_json_file_path;
+                Config { log_level, logger_json_file_path }
+            },
+            Err(error) => panic!("{:#?}", error) // this shows the missing envar
+        }
     }
 }
 
@@ -65,7 +59,7 @@ fn main() {
     println!("start_time, `{:?}`", start_time);
 
     /* settings */
-    let config = Config::new( start_time );
+    let config = Config::new();
     println!("config, ``{:?}``", config);
 
     /* logging */
@@ -183,11 +177,11 @@ fn main() {
 
 
 
-fn quit(start_time: Instant) {
-    let duration = start_time.elapsed();
-    println!(" in quit(); duration, `{:?}`", duration);
-    std::process::exit(0);
-}
+// fn quit(start_time: Instant) {
+//     let duration = start_time.elapsed();
+//     println!(" in quit(); duration, `{:?}`", duration);
+//     std::process::exit(0);
+// }
 
 
 
