@@ -5,7 +5,7 @@ extern crate env_logger;
 
 use serde::Deserialize;
 
-// use std::env;
+use std::env;
 // use std::env::VarError;
 use std::thread::sleep;
 use std::time::{Duration, Instant};
@@ -40,10 +40,13 @@ struct Config {
 }
 
 impl Config {
+    /*  forgive the "RUST_LOG" hack; i really wanted to use the envar project-prefix to set the log-level,
+        ...and couldn't figure out how to specify an alternative prefix for env_logger::init() */
     fn new() -> Config {
         match envy::prefixed("LOG_ROTATOR__").from_env::<Config>() {  // https://github.com/softprops/envy
             Ok(config) => {
-                let log_level = config.log_level;
+                env::set_var( "RUST_LOG", &config.log_level);
+                let log_level = config.log_level;  // not used, but still useful to set, for panic-message if it's missing
                 let logger_json_file_path = config.logger_json_file_path;
                 Config { log_level, logger_json_file_path }
             },
@@ -78,6 +81,14 @@ fn main() {
     println!("Time elapsed in expensive_function() is, `{:?}`", duration);
 
 }
+
+
+
+// use std::env;
+
+// let key = "KEY";
+// env::set_var(key, "VALUE");
+
 
 
 // fn load_settings( start_time: Instant ) -> String  {
