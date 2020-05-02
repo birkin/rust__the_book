@@ -40,6 +40,10 @@
 
     - [rust-by-example](https://doc.rust-lang.org/stable/rust-by-example/error/result.html)
 
+    - <https://blog.usejournal.com/6-useful-rust-macros-that-you-might-not-have-seen-before-59d1386f7bc5>
+
+    - <https://www.snoyman.com/series/rust-crash-course>
+
 ---
 
 

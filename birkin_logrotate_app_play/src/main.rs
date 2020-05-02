@@ -19,17 +19,8 @@ use std::time::{Duration, Instant};
 /*
 
 NEXT:
-- Continue to work on loading-settings.
-    - incorporate the work i just did for config-play02
-    - Q: is there a _simple_ way to pass to init the config log-level setting I've created?
-        - madness? but possible -- when the log-level setting is loaded in the config-code...
-            ...SET a "RUST_LOG" envar to that level! -- so that when the log is initialized, it "just reads it".
-- Resources...
-    - good config info: <https://doc.rust-lang.org/stable/book/ch12-03-improving-error-handling-and-modularity.html?highlight=constructor#the-trade-offs-of-using-clone>
-    - <https://doc.rust-lang.org/book/ch12-05-working-with-environment-variables.html>
-    - Result: <https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html>
-    - rust settings approaches: <https://users.rust-lang.org/t/how-do-rustaceans-handle-configuration-values/14003/4>
-        - <https://crates.io/crates/dotenv>
+- How to get a string from a duration via 'format!', for the logging of elapsed-time?
+    - prolly answer not here, but checking out: <https://www.snoyman.com/series/rust-crash-course>
 */
 
 
@@ -77,7 +68,13 @@ fn main() {
 
 
     // print duration
-    let duration = start_time.elapsed();
+    let duration: Duration = start_time.elapsed();
+
+    // let elapsed_str = duration.to_string();  // HEREZZ
+    // println!("elapsed_str, ``{:?}``", elapsed_str);
+
+    // let zz: () = duration;
+    // debug!( "foo" );
     println!("Time elapsed in expensive_function() is, `{:?}`", duration);
 
 }
