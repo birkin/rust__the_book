@@ -113,6 +113,10 @@
 
 - surprising... a non-mutable vector can be created, and the next line can attempt to access an out-of-bounds value, and the code will compile (and then fail at runtime). Why is that permitted? It seems that given all the safety features, getting a value from the index could yield a Result or Option.
 
+- wow; the String info on [Internal Representation](https://doc.rust-lang.org/stable/book/ch08-02-strings.html#internal-representation) and on [Bytes and Scalar Values and Grapheme Clusters](https://doc.rust-lang.org/stable/book/ch08-02-strings.html#bytes-and-scalar-values-and-grapheme-clusters-oh-my) is fascinating.
+
+    - One question, though... the docs state that the Hindi word, when stored as "Unicode scalar values", would have 6 `char` values, 2 of which are diacritics. I assume that for the characters than can be encoded either as a single unicode element, or as two unicode elements -- that rust has a way of specifying that. (I think that's 'normalized' or 'denormalized'). After a lookup, yes -- [there are functions](https://doc.rust-lang.org/1.2.0/std/primitive.str.html) to handle this.
+
 ---
 
 #### logging...
@@ -158,7 +162,7 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch08-02-strings.html#concatenation-with-the--operator-or-the-format-macro>
+- <https://doc.rust-lang.org/stable/book/ch08-02-strings.html#slicing-strings>
 
 ---
 
