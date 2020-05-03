@@ -19,8 +19,12 @@ use std::time::{Duration, Instant};
 /*
 
 NEXT:
-- How to get a string from a duration via 'format!', for the logging of elapsed-time?
-    - prolly answer not here, but checking out: <https://www.snoyman.com/series/rust-crash-course>
+- read json file.
+- for each entry:
+    - make a reverse-time-sorted list of the existing log-files
+    - delete the oldest if there are more than MAX
+    - bump the name/number up by 1 (and re-save?)
+    - for the last in the list, save an empty file.
 */
 
 
@@ -71,7 +75,7 @@ fn main() {
 
     // print duration
     let duration: Duration = start_time.elapsed();
-    debug!( "{}", format!("elapsed-time, ``{:?}``", duration) );
+    info!( "{}", format!("elapsed-time, ``{:?}``", duration) );
 
     // println!("Time elapsed in expensive_function() is, `{:?}`", duration);
 
