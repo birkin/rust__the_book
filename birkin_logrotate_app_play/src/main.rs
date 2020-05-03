@@ -50,17 +50,19 @@ impl Config {
 fn main() {
 
     let start_time = Instant::now();
-    println!("start_time, `{:?}`", start_time);
+    // println!("start_time, `{:?}`", start_time);
 
     /* settings */
     let config = Config::new();
-    println!("config, ``{:?}``", config);
+    // println!("config, ``{:?}``", config);
 
     /* logging */
     env_logger::init();  // assumes ```export RUST_LOG="info"```
-    debug!("logger debug test");
-    info!("logger info test");
-    error!("logger error test");  // only this will print if RUST_LOG is not set
+    // debug!("logger debug test");
+    // info!("logger info test");
+    // error!("logger error test");  // only this will print if RUST_LOG is not set
+
+    debug!( "{}", format!("config, ``{:#?}``", config) );  // debug! needs a string literal
 
     /* work */
     // do work
@@ -69,13 +71,9 @@ fn main() {
 
     // print duration
     let duration: Duration = start_time.elapsed();
+    debug!( "{}", format!("elapsed-time, ``{:?}``", duration) );
 
-    // let elapsed_str = duration.to_string();  // HEREZZ
-    // println!("elapsed_str, ``{:?}``", elapsed_str);
-
-    // let zz: () = duration;
-    // debug!( "foo" );
-    println!("Time elapsed in expensive_function() is, `{:?}`", duration);
+    // println!("Time elapsed in expensive_function() is, `{:?}`", duration);
 
 }
 
