@@ -10,15 +10,59 @@ fn main() {
 
     // misc05();
 
-    misc06;
+    // misc06();
+
+    // misc07();
+
+    misc08();
 
 }
 
-fn misc06() {
-    // -- fails compilation --
-    let s1 = String::from("hello");
-    let h = s1[0];
+
+fn misc08() {
+    for c in "“iñtërnâtiønàlĭzætiФn”".chars() {
+        println!("c, ``{:?}``", c);
+    }
+    println!("---");
+
+    for c in "नमस्ते".chars() {
+        println!("c, ``{:?}``", c);
+    }
+    println!("---");
+
+    for c in r"स् ¯\_(ツ)_/¯ ते".chars() {  // note the need here for the 'r' preceeding the string, to define this as a 'raw' string. Otherwise, the backslash would be interpreted as an escape character.
+        println!("c, ``{:?}``", c);
+    }
+    println!("---");
+
+    for b in r"स् ¯\_(ツ)_/¯ ते".bytes() {
+        println!("b, ``{:?}``", b);
+    }
+
 }
+
+
+
+// fn misc07() {
+
+//     let s_full = "“iñtërnâtiønàlĭzætiФn”";
+
+//     let s = &s_full[0..4];  // works
+//     println!("s, ``{:?}``", s);
+
+//     // let s2 = &s_full[0..1];  // this would compile, but fail at runtime, with the message --> thread 'main' panicked at 'byte index 1 is not a char boundary; it is inside '“' (bytes 0..3) of `“iñtërnâtiønàlĭzætiФn”`' <--
+
+// }
+
+
+
+// fn misc06() {
+//     // -- fails compilation, because rust can't know if the return
+//     // ...should be a byte value, a character, a grapheme cluster,
+//     // ...or a string slice. --
+//     let s1 = String::from("hello");
+//     let h = s1[0];
+// }
 
 
 
