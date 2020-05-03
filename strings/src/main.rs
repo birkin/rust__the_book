@@ -39,6 +39,10 @@ fn misc08() {
         println!("b, ``{:?}``", b);
     }
 
+    for c in "こんにちは世界".chars() {  // hello world in japanese
+        println!("c, ``{:?}``", c);
+    }
+
 }
 
 
