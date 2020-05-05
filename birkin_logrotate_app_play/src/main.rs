@@ -4,7 +4,8 @@ extern crate log;
 extern crate env_logger;
 
 use serde::Deserialize;
-use serde_json::{json, Value};
+// use serde_json::{json, Value};
+use serde_json::{Value};
 
 use std::env;
 use std::fs;
@@ -62,12 +63,12 @@ fn main() {
     debug!( "{}", format!("config, ``{:#?}``", config) );  // debug! needs a string literal
 
     /* work */
-    // let paths = load_json();
-    // let path = concat!(env!("CARGO_MANIFEST_DIR"), "/config.json");
-    let s = fs::read_to_string( &config.logger_json_file_path ).unwrap();
-    let cfg: Value = serde_json::from_str(&s).unwrap();
-    println!("cfg, ``{:?}``", cfg);
-    println!("first-path, ``{:?}``", cfg[0]["path"]);
+    let s: String = fs::read_to_string( &config.logger_json_file_path ).unwrap();
+    let directory: Value = serde_json::from_str(&s).unwrap();  // serde_json::value::Value -- Array([Object({"path": String("/foo/bar.log")}),...
+    println!("directory, ``{:?}``", directory);
+    println!("first-path, ``{:?}``", directory[0]["path"]);
+
+    // load_directory();
 
 
     expensive_function();
@@ -77,6 +78,14 @@ fn main() {
     info!( "{}", format!("elapsed-time, ``{:?}``", duration) );
 
 }
+
+
+// fn load_directory( &config ) {
+//     let s = fs::read_to_string( &config.logger_json_file_path ).unwrap();
+//     let cfg: Value = serde_json::from_str(&s).unwrap();
+//     println!("cfg, ``{:?}``", cfg);
+//     println!("first-path, ``{:?}``", cfg[0]["path"]);
+// }
 
 
 fn expensive_function() {

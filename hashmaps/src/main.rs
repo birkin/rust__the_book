@@ -11,8 +11,6 @@ fn main() {
 
     // misc04();
 
-    //  --- doesn't work ---
-    //      not a book entry; but consider exploring getting it working
     let result: HashMap<String, i32> = misc05();
     println!("&result ``{:?}``", &result);
 
