@@ -63,13 +63,12 @@ fn main() {
     debug!( "{}", format!("config, ``{:#?}``", config) );  // debug! needs a string literal
 
     /* work */
-    let s: String = fs::read_to_string( &config.logger_json_file_path ).unwrap();
-    let directory: Value = serde_json::from_str(&s).unwrap();  // serde_json::value::Value -- Array([Object({"path": String("/foo/bar.log")}),...
-    println!("directory, ``{:?}``", directory);
-    println!("first-path, ``{:?}``", directory[0]["path"]);
 
-    // load_directory();
+    // load_directory( config );
 
+    let directory: Value = load_directory( &config );
+    debug!( "{}", format!("path, ``{:#?}``", directory[0]["path"]) );
+    // debug!( "{}", format!("config access check, ``{:#?}``", config) );  // just to make sure I still can access config
 
     expensive_function();
 
@@ -80,11 +79,19 @@ fn main() {
 }
 
 
-// fn load_directory( &config ) {
-//     let s = fs::read_to_string( &config.logger_json_file_path ).unwrap();
-//     let cfg: Value = serde_json::from_str(&s).unwrap();
-//     println!("cfg, ``{:?}``", cfg);
-//     println!("first-path, ``{:?}``", cfg[0]["path"]);
+fn load_directory( config: &Config ) -> Value {
+    let s: String = fs::read_to_string( &config.logger_json_file_path ).unwrap();
+    let directory: Value = serde_json::from_str(&s).unwrap();  // serde_json::value::Value -- Array([Object({"path": String("/foo/bar.log")}),...
+    debug!( "{}", format!("directory, ``{:#?}``", directory) );
+    return directory
+}
+
+
+// fn load_directory( config: Config ) {
+//     let s: String = fs::read_to_string( &config.logger_json_file_path ).unwrap();
+//     let directory: Value = serde_json::from_str(&s).unwrap();  // serde_json::value::Value -- Array([Object({"path": String("/foo/bar.log")}),...
+//     println!("directory, ``{:?}``", directory);
+//     println!("first-path, ``{:?}``", directory[0]["path"]);
 // }
 
 
