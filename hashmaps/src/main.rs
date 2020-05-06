@@ -11,26 +11,69 @@ fn main() {
 
     // misc04();
 
-    let result: HashMap<String, i32> = misc05();
-    println!("&result ``{:?}``", &result);
+    // let result: HashMap<String, i32> = misc05();
+    // println!("&result ``{:?}``", &result);
+    // for (key, value) in &result {
+    //     println!("{}: {}", key, value );
+    // }
 
-    for (key, value) in &result {
-        println!("{}: {}", key, value );
-    }
+    // -- straight overwriting of value --
+    // misc06();
 
+    // -- insert value if key does not exist --
+    // misc07();
+
+    // -- insert value if key does not exist, AND update value based on old value --
+    misc08();
+
+}
+
+fn misc08() {
+    let text = "hello world wonderful world";
+    let mut hmap = HashMap::new();
+
+    for word in text.split_whitespace() {
+        let count = hmap.entry(word).or_insert(0);
+        // let zz: () = count;  // yields: found `&mut {integer}`
+        *count += 1;  // book says count must be dereferenced because the "or_insert" method returns a mutable reference to the value for this key.
+    }  // book says that the "count" mutable reference goes out of scope at the end of the for-loop.
+    println!("hmap, ``{:?}``", hmap);
 }
 
 
-fn misc05() -> HashMap<String, i32> {
 
-    let mut scores = HashMap::new();
+// fn misc07() {
+//     let mut scores = HashMap::new();
+//     scores.insert( String::from("Blue"), 10 );
 
-    scores.insert( String::from("Blue"), 10 );
-    scores.insert( String::from("Yellow"), 50 );
+//     scores.entry( String::from("Yellow") ).or_insert(50);
+//     scores.entry( String::from("Blue") ).or_insert(50);
 
-    scores
+//     println!("scores, ``{:?}``", scores);
+// }
 
-}
+
+
+// fn misc06() {
+//     let mut scores = HashMap::new();
+//     scores.insert( String::from("Blue"), 10 );
+//     scores.insert( String::from("Blue"), 25 );
+//     println!("scores, ``{:?}``", scores);
+// }
+
+
+
+// fn misc05() -> HashMap<String, i32> {
+
+//     let mut scores = HashMap::new();
+
+//     scores.insert( String::from("Blue"), 10 );
+//     scores.insert( String::from("Yellow"), 50 );
+
+//     scores
+
+// }
+
 
 
 // fn misc04() {
