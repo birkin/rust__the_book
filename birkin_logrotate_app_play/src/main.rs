@@ -16,8 +16,7 @@ use std::time::{Duration, Instant};
 /*
 
 NEXT:
-- read json file. HERE
-    - I'm reading the json file, next... review the other may-3 evening emails I sent myself showing json-load options.
+- next: build a destination filepath where foo.log->foo_01.log, foo_01.log->foo_02.log, etc
 - for each entry:
     - make a reverse-time-sorted list of the existing log-files
     - delete the oldest if there are more than MAX
@@ -29,7 +28,8 @@ NEXT:
 #[derive(Deserialize, Debug)]
 struct Config {
     log_level: String,
-    logger_json_file_path: String
+    logger_json_file_path: String,
+    max_entries: i8  // this could be added to the json-file instead
 }
 
 impl Config {
@@ -41,7 +41,8 @@ impl Config {
                 env::set_var( "RUST_LOG", &config.log_level);
                 let log_level = config.log_level;  // not used, but still useful to set, for panic-message if it's missing
                 let logger_json_file_path = config.logger_json_file_path;
-                Config { log_level, logger_json_file_path }
+                let max_entries = config.max_entries;
+                Config { log_level, logger_json_file_path, max_entries }
             },
             Err(error) => panic!("{:#?}", error) // this shows the missing envar
         }
@@ -64,13 +65,10 @@ fn main() {
 
     /* work */
 
-    // load_directory( config );
-
-    let directory: Value = load_directory( &config );
-    debug!( "{}", format!("path, ``{:#?}``", directory[0]["path"]) );
+    let log_directory: Value = load_log_directory( &config );
     // debug!( "{}", format!("config access check, ``{:#?}``", config) );  // just to make sure I still can access config
 
-    expensive_function();
+    backup_files( &log_directory );
 
     /* output */
     let duration: Duration = start_time.elapsed();
@@ -79,24 +77,26 @@ fn main() {
 }
 
 
-fn load_directory( config: &Config ) -> Value {
+fn load_log_directory( config: &Config ) -> Value {
     let s: String = fs::read_to_string( &config.logger_json_file_path ).unwrap();
-    let directory: Value = serde_json::from_str(&s).unwrap();  // serde_json::value::Value -- Array([Object({"path": String("/foo/bar.log")}),...
-    debug!( "{}", format!("directory, ``{:#?}``", directory) );
-    return directory
+    let log_directory: Value = serde_json::from_str(&s).unwrap();  // serde_json::value::Value -- Array([Object({"path": String("/foo/bar.log")}),...
+    debug!( "{}", format!("log_directory, ``{:#?}``", log_directory) );  // println!("first-path, ``{:?}``", directory[0]["path"]);
+    return log_directory
 }
 
 
-// fn load_directory( config: Config ) {
-//     let s: String = fs::read_to_string( &config.logger_json_file_path ).unwrap();
-//     let directory: Value = serde_json::from_str(&s).unwrap();  // serde_json::value::Value -- Array([Object({"path": String("/foo/bar.log")}),...
-//     println!("directory, ``{:?}``", directory);
-//     println!("first-path, ``{:?}``", directory[0]["path"]);
-// }
+fn backup_files( log_directory: &serde_json::value::Value ) {
+    // let zz: () = log_directory;
+    let first_filepath = &log_directory[0]["path"];
+    debug!( "{}", format!("first_filepath, ``{:#?}``", first_filepath) );
 
+    let destination_filepath = first_filepath.to_string() + "_02";
+    println!("destination_filepath, ``{:?}``", destination_filepath);
 
-fn expensive_function() {
+    // fs::copy("foo.txt", "bar.txt")?;
+
     sleep(Duration::new(0, 1)); // (seconds, nanoseconds)
+    debug!( "end of backup_files()" )
 }
 
 
