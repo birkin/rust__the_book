@@ -9,15 +9,17 @@ use serde_json::{Value};
 
 use std::env;
 use std::fs;
-use std::thread::sleep;
+// use std::thread::sleep;
 use std::time::{Duration, Instant};
 
 
 /*
 
 NEXT:
-- next: build a destination filepath where foo.log->foo_01.log, foo_01.log->foo_02.log, etc
-- for each entry:
+- next:
+    - hmm... Question: is filepath returning a String object of a string, instead of a String? Play in the sandbox with loading json.
+    - build a destination filepath where foo.log->foo_01.log, foo_01.log->foo_02.log, etc
+- flow: for each entry:
     - make a reverse-time-sorted list of the existing log-files
     - delete the oldest if there are more than MAX
     - bump the name/number up by 1 (and re-save?)
@@ -67,8 +69,9 @@ fn main() {
 
     let log_directory: Value = load_log_directory( &config );
     // debug!( "{}", format!("config access check, ``{:#?}``", config) );  // just to make sure I still can access config
+    debug!( "{}", format!("log_directory, ``{:#?}``", log_directory) );
 
-    backup_files( &log_directory );
+    // backup_files( &log_directory );
 
     /* output */
     let duration: Duration = start_time.elapsed();
@@ -80,24 +83,29 @@ fn main() {
 fn load_log_directory( config: &Config ) -> Value {
     let s: String = fs::read_to_string( &config.logger_json_file_path ).unwrap();
     let log_directory: Value = serde_json::from_str(&s).unwrap();  // serde_json::value::Value -- Array([Object({"path": String("/foo/bar.log")}),...
-    debug!( "{}", format!("log_directory, ``{:#?}``", log_directory) );  // println!("first-path, ``{:?}``", directory[0]["path"]);
+    // debug!( "{}", format!("log_directory, ``{:#?}``", log_directory) );  // println!("first-path, ``{:?}``", directory[0]["path"]);
     return log_directory
 }
 
 
-fn backup_files( log_directory: &serde_json::value::Value ) {
-    // let zz: () = log_directory;
-    let first_filepath = &log_directory[0]["path"];
-    debug!( "{}", format!("first_filepath, ``{:#?}``", first_filepath) );
+// fn backup_files( log_directory: &serde_json::value::Value ) {
 
-    let destination_filepath = first_filepath.to_string() + "_02";
-    println!("destination_filepath, ``{:?}``", destination_filepath);
+//     // -- get a filepath
+//     // let first_filepath: &serde_json::value::Value = &log_directory[0]["path"];
+//     let first_filepath = &log_directory[0]["path"];
+//     // let zz: () = first_filepath;  // yields: found `&serde_json::value::Value`
+//     debug!( "{}", format!("first_filepath, ``{:#?}``", first_filepath) );
+//     // assert_eq!( first_filepath, String::from("/Users/birkin/Documents/Brown_Library/logs/addto_refworks_logs/addto_refworks.log") );
 
-    // fs::copy("foo.txt", "bar.txt")?;
+//     // let destination_filepath = first_filepath.to_string() + "_02";
+//     // let destination_filepath = get_destination_filepath( first_filepath )
+//     // println!("destination_filepath, ``{:?}``", destination_filepath);
 
-    sleep(Duration::new(0, 1)); // (seconds, nanoseconds)
-    debug!( "end of backup_files()" )
-}
+//     // fs::copy("foo.txt", "bar.txt")?;
+
+//     sleep(Duration::new(0, 1)); // (seconds, nanoseconds)
+//     debug!( "end of backup_files()" )
+// }
 
 
 // fn quit(start_time: Instant) {

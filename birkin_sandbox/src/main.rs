@@ -11,52 +11,57 @@ fn main() {
     // misc03();
 
     // -- last three characters as string --
-    misc04();
+    // misc04();
 
-}
+    // -- load json-file
+    misc05() {
 
-fn misc04() {
-
-    // let text = String::from( "hello_world" );
-    // let zz: () = text;  // found struct `std::string::String`
-
-    let text = "hello_world".to_string();
-    // let zz: () = text;  // found struct `std::string::String`
-
-    let end = text.len();
-    let start = end - 3;
-
-    let slice = &text[ start..end ];
-
-    // let mut new_text = "init".to_string();
-    let mut new_text = String::new();
-    println!("new_text, ``{:?}``", new_text);
-
-    // if slice == "foo" {
-    //     new_text = "bar".to_string();
-    // } else if slice == "rld" {
-    //     new_text = format!( "{}_02", text );
-    // } else {
-    //     println!("what happened?");
-    // }
-
-    match slice {
-        "_01" => {
-            new_text = "_02".to_string();
-        },
-        "_02" => {
-            new_text = "_03".to_string();
-        },
-        _ => {
-            println!("HERE!!");
-            new_text = format!( "{}_02", text );
-        }
     }
 
-    println!("slice, ``{}``", slice);
-    println!("new_text, ``{}``", new_text);
-
 }
+
+// fn misc04() {
+
+//     // let text = String::from( "hello_world" );
+//     // let zz: () = text;  // found struct `std::string::String`
+
+//     let text = "hello_world".to_string();
+//     // let zz: () = text;  // found struct `std::string::String`
+
+//     let end = text.len();
+//     let start = end - 3;
+
+//     let slice = &text[ start..end ];
+
+//     // let mut new_text = "init".to_string();
+//     let mut new_text = String::new();
+//     println!("new_text, ``{:?}``", new_text);
+
+//     // if slice == "foo" {
+//     //     new_text = "bar".to_string();
+//     // } else if slice == "rld" {
+//     //     new_text = format!( "{}_02", text );
+//     // } else {
+//     //     println!("what happened?");
+//     // }
+
+//     match slice {
+//         "_01" => {
+//             new_text = "_02".to_string();
+//         },
+//         "_02" => {
+//             new_text = "_03".to_string();
+//         },
+//         _ => {
+//             println!("HERE!!");
+//             new_text = format!( "{}_02", text );
+//         }
+//     }
+
+//     println!("slice, ``{}``", slice);
+//     println!("new_text, ``{}``", new_text);
+
+// }
 
 
 
