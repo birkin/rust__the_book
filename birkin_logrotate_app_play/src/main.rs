@@ -17,7 +17,13 @@ use std::time::{Duration, Instant};
 
 NEXT:
 - next:
-    - hmm... Question: is filepath returning a String object of a string, instead of a String? Play in the sandbox with loading json.
+    - in the sandbox...
+        - finish making the path to the json file
+        - turn that into a string-reference
+            - consider getting that string-reference explicitly, rather than via unwrap()
+        - load the file
+        - get the first path in the json-object
+        - turn that into a string reference
     - build a destination filepath where foo.log->foo_01.log, foo_01.log->foo_02.log, etc
 - flow: for each entry:
     - make a reverse-time-sorted list of the existing log-files

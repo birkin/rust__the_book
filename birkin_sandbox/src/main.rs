@@ -20,21 +20,26 @@ fn main() {
 fn misc05() {
     use std::env;
 
-    let mut cwd_path = String::new();
+    // let mut cwd_path = String::new();
 
+    // -- get the current working directory as a PathBuf struct
     let cwd = env::current_dir();
-    let cwd = match cwd {
+    let cwd: std::path::PathBuf = match cwd {
         Ok( the_cwd ) => the_cwd,
         Err( the_err ) => panic!( "problem perceiving the cwd: ``{:?}``", the_err ),
     };
     println!("cwd, ``{:?}``", cwd);  // yields: cwd, ``"/Users/birkin/Library/Mobile Documents/com~apple~CloudDocs/docs/learning_rust/the_book_stuff/code/birkin_sandbox"``
     // let zz: () = cwd;  // yields: found struct `std::path::PathBuf`
 
-    let x = match cwd.to_str() {
-        None => (),
-        Some( the_x ) => the_x,
-    };
-    println!("x, ``{:?}``", x);
+
+    // -- update the path to the json file
+
+
+
+    // // -- get the cwd as a string-reference
+    // let cwd_str = cwd.to_str().unwrap();
+    // println!("cwd_str, ``{:?}``", cwd_str);  // yields: cwd_str, ``"/Users/birkin/Library/Mobile Documents/com~apple~CloudDocs/docs/learning_rust/the_book_stuff/code/birkin_sandbox"``
+    // // let zz: () = cwd_str;  // yields:  expected `()`, found `&str`
 
 
 
