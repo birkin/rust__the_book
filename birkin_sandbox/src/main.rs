@@ -1,4 +1,3 @@
-
 fn main() {
 
     // -- duration --
@@ -14,11 +13,52 @@ fn main() {
     // misc04();
 
     // -- load json-file
-    misc05() {
-
-    }
+    misc05();
 
 }
+
+fn misc05() {
+    use std::env;
+
+    let mut cwd_path = String::new();
+
+    let cwd = env::current_dir();
+    let cwd = match cwd {
+        Ok( the_cwd ) => the_cwd,
+        Err( the_err ) => panic!( "problem perceiving the cwd: ``{:?}``", the_err ),
+    };
+    println!("cwd, ``{:?}``", cwd);  // yields: cwd, ``"/Users/birkin/Library/Mobile Documents/com~apple~CloudDocs/docs/learning_rust/the_book_stuff/code/birkin_sandbox"``
+    // let zz: () = cwd;  // yields: found struct `std::path::PathBuf`
+
+    let x = match cwd.to_str() {
+        None => (),
+        Some( the_x ) => the_x,
+    };
+    println!("x, ``{:?}``", x);
+
+
+
+    // use std::fs;
+    // use serde::Deserialize;
+    // use serde_json::{Value};
+
+    // let s = fs::read_to_string( "../../log_file_list/log_list.json " );
+    // let s = fs::read_to_string( "../log_list.json " );
+
+    // let s = match s {
+    //     Ok( the_string ) => the_string,
+    //     Err( the_err ) => panic!( "problem loading json-file: ``{:?}``", the_err ),
+    // };
+
+    // println!( "s, ``{:?}``", s );
+    // println!( "the_string, ``{:?}``", the_string );
+
+
+    // let log_directory: Value = serde_json::from_str(&s).unwrap();  // serde_json::value::Value -- Array([Object({"path": String("/foo/bar.log")}),...
+
+}
+
+
 
 // fn misc04() {
 
