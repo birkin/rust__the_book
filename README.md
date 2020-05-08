@@ -166,7 +166,7 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch09-02-recoverable-errors-with-result.html#recoverable-errors-with-result>
+- <https://doc.rust-lang.org/stable/book/ch09-02-recoverable-errors-with-result.html#matching-on-different-errors>
 
 ---
 
