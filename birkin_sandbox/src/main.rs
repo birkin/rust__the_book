@@ -13,6 +13,8 @@ fn main() {
     // misc04();
 
     // -- load json-file --
+    //    In hindsight, I coud have just created a json string and passed it to fs::read_to_string()...
+    //    ...instead of actually loading a file
     misc05();
 
 }
@@ -28,19 +30,19 @@ fn misc05() {
         Ok( the_cwd ) => the_cwd,
         Err( the_err ) => panic!( "problem perceiving the cwd: ``{:?}``", the_err ),
     };
-    println!("cwd, ``{:?}``", cwd);  // yields: cwd, ``"/the/cwd/path"``
+    println!("\ncwd, ``{:?}``", cwd);  // yields: cwd, ``"/the/cwd/path"``
     // let zz: () = cwd;  // yields: found struct `std::path::PathBuf`
 
     /* -- update the path-var to the json file to an &str -- */
     let cwd_str = cwd.to_str().unwrap();
-    println!("cwd_str, ``{:?}``", cwd_str);  // yields: cwd_str, ``"/the/cwd/path"``
+    println!("\ncwd_str, ``{:?}``", cwd_str);  // yields: cwd_str, ``"/the/cwd/path"``
     // let zz: () = cwd_str;  // yields:  expected `()`, found `&str`
 
     /* -- create the full-path to the json-directory-list file -- */
     let full_path = cwd_str.to_owned() + "/../../log_file_list/log_list.json";
-    println!("full_path, ``{:?}`", full_path);
+    println!("\nfull_path, ``{:?}`", full_path);
     let full_path_str = full_path.as_str();
-    println!("full_path_str, ``{:?}``", full_path_str);
+    println!("\nfull_path_str, ``{:?}``", full_path_str);
     // let zz: () = full_path_str;  // yields: found `&str` -- good!
 
     /* -- read json file into String -- */
@@ -52,7 +54,7 @@ fn misc05() {
         Ok( the_json_string ) => the_json_string,
         Err( the_err ) => panic!( "problem loading json-file: ``{:?}``", the_err ),
     };
-    println!( "jsn, ``{:?}``", jsn );
+    println!( "\njsn, ``{:?}``", jsn );
     // let zz: () = jsn;  // yields: found struct `std::string::String`
 
     /* -- read json String into json Object -- */
@@ -62,13 +64,18 @@ fn misc05() {
     let directory_lst: Value = serde_json::from_str( &jsn ).unwrap_or_else(|error| {
         panic!("Problem reading the jsn string -- perhaps invalid json? -- ``{:?}``", error);
     });
-    println!("directory_lst, ``{:?}``", directory_lst);
+    println!("\ndirectory_lst, ``{:?}``", directory_lst);
     // let zz: () = directory_lst;  // yields: found enum `serde_json::value::Value`
 
-    /* -- get the first path-element as a String or &str -- */
+    /* -- get the first path-element -- */
     let path01 = &directory_lst[0]["path"];
-    println!("path01, ``{:?}`", path01);
+    println!("\npath01, ``{:?}`", path01);  // yields: path01, ``String("/foo/the.log")`
     // let zz: () = path01;  yields: found `&serde_json::value::Value`
+
+    /* -- get the first path-element as a String or &str -- */
+    let path01_str = path01.as_str().unwrap_or_default();
+    println!("\npath01_str, ``{:?}``", path01_str); // yields: path01_str, ``"/foo/the.log"``
+    // let zz: () = path01_str;  // yields: expected `()`, found `&str`  👍
 
 }
 
