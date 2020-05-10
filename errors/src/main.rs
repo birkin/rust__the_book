@@ -14,27 +14,41 @@ fn main() {
     // println!("fl, ``{:?}``", fl);
 
     // -- the above handled the way an experienced developer --
-    let fl: std::fs::File = misc05();
-    println!("fl, ``{:?}``", fl);
+    // let fl: std::fs::File = misc05();
+    // println!("fl, ``{:?}``", fl);
+
+    // -- unwrap-or-else experimentation --
+    misc06();
 
 }
 
-fn misc05() -> std::fs::File {
+fn misc06() {
     use std::fs::File;
-    use std::io::ErrorKind;
-
-    let f = File::open("hello.txt").unwrap_or_else(|error| {
-        if error.kind() == ErrorKind::NotFound {
-            File::create("hello.txt").unwrap_or_else(|error| {
-                panic!("Problem creating the file: ``{:?}``", error);
-            })
-        } else {
+    let f = File::open("helloZZ.txt").unwrap_or_else(
+        |error| {
             panic!("Problem opening the file: ``{:?}``", error);
         }
-    });
-
-    return f;
+    );
 }
+
+
+
+// fn misc05() -> std::fs::File {
+//     use std::fs::File;
+//     use std::io::ErrorKind;
+
+//     let f = File::open("hello.txt").unwrap_or_else(|error| {
+//         if error.kind() == ErrorKind::NotFound {
+//             File::create("hello.txt").unwrap_or_else(|error| {
+//                 panic!("Problem creating the file: ``{:?}``", error);
+//             })
+//         } else {
+//             panic!("Problem opening the file: ``{:?}``", error);
+//         }
+//     });
+
+//     return f;
+// }
 
 
 

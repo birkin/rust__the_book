@@ -65,10 +65,10 @@ fn misc05() {
     println!("directory_lst, ``{:?}``", directory_lst);
     // let zz: () = directory_lst;  // yields: found enum `serde_json::value::Value`
 
-    /* -- get the first path-element as a String or &str */
+    /* -- get the first path-element as a String or &str -- */
     let path01 = &directory_lst[0]["path"];
     println!("path01, ``{:?}`", path01);
-    let zz: () = path01;
+    // let zz: () = path01;  yields: found `&serde_json::value::Value`
 
 }
 
