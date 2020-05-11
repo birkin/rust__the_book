@@ -1,3 +1,6 @@
+use std::io;
+
+
 fn main() {
 
     // -- straight panic --
@@ -18,18 +21,42 @@ fn main() {
     // println!("fl, ``{:?}``", fl);
 
     // -- unwrap-or-else experimentation --
-    misc06();
+    // misc06();
 
+    // -- propogating errors: verbose & explicit --
+    let x: Result<String, io::Error> = misc07();
+    println!("x, ``{:?}``", x);  // yields: x, ``Err(Os { code: 2, kind: NotFound, message: "No such file or directory" })``
+    // let zz: () = x;  // yields: found enum `std::result::Result<std::string::String, std::io::Error>`
 }
 
-fn misc06() {
+fn misc07() -> Result<String, io::Error> {
     use std::fs::File;
-    let f = File::open("helloZZ.txt").unwrap_or_else(
-        |error| {
-            panic!("Problem opening the file: ``{:?}``", error);
-        }
-    );
+    use std::io::Read;
+
+    let f = File::open("foo.txt");
+
+    let mut f = match f {
+        Ok(file) => file,
+        Err(e) => return Err(e),  // maybe file-not-found
+    };
+
+    let mut s = String::new();
+
+    match f.read_to_string(&mut s) {
+        Ok(_) => Ok(s),
+        Err(e) => Err(e),  // maybe no-read-permissions
+    }   // I think that because there is no semicolon here...
+        // ...that an Ok would return the string from the file-read
 }
+
+// fn misc06() {
+//     use std::fs::File;
+//     let f = File::open("helloZZ.txt").unwrap_or_else(
+//         |error| {
+//             panic!("Problem opening the file: ``{:?}``", error);
+//         }
+//     );
+// }
 
 
 

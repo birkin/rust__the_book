@@ -73,7 +73,7 @@ fn misc05() {
     // let zz: () = path01;  yields: found `&serde_json::value::Value`
 
     /* -- get the first path-element as a String or &str -- */
-    let path01_str = path01.as_str().unwrap_or_default();
+    let path01_str = path01.as_str().unwrap_or_default();  // 'as_str() returns an Option, so this returns the value, or nothing.
     println!("\npath01_str, ``{:?}``", path01_str); // yields: path01_str, ``"/foo/the.log"``
     // let zz: () = path01_str;  // yields: expected `()`, found `&str`  👍
 

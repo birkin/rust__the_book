@@ -166,7 +166,7 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch09-02-recoverable-errors-with-result.html#propagating-errors>
+- <https://doc.rust-lang.org/stable/book/ch09-02-recoverable-errors-with-result.html#a-shortcut-for-propagating-errors-the--operator>
 
 ---
 
