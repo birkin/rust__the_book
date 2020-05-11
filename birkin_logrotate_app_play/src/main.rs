@@ -17,14 +17,8 @@ use std::time::{Duration, Instant};
 
 NEXT:
 - next:
-    - in the sandbox...
-        - finish making the path to the json file
-        - turn that into a string-reference
-            - consider getting that string-reference explicitly, rather than via unwrap()
-        - load the file
-        - get the first path in the json-object
-        - turn that into a string reference
-    - build a destination filepath where foo.log->foo_01.log, foo_01.log->foo_02.log, etc
+    - call the function that will initiate the loop
+    - have that loop function call another function that will delineate each step of processing.
 - flow: for each entry:
     - make a reverse-time-sorted list of the existing log-files
     - delete the oldest if there are more than MAX
@@ -63,21 +57,20 @@ fn main() {
     let start_time = Instant::now();
     // println!("start_time, `{:?}`", start_time);
 
-    /* settings */
+    /* setup settings */
     let config = Config::new();
     // println!("config, ``{:?}``", config);
 
-    /* logging */
+    /* setup logging */
     env_logger::init();  // assumes ```export RUST_LOG="info"```; only error! will work if no RUST_LOG-level is set
-    debug!( "{}", format!("config, ``{:#?}``", config) );  // debug! needs a string literal
+    debug!( "{}", format!("config, ``{:#?}``", config) );  // debug! needs a string literal  :(
 
-    /* work */
+    /* load log-paths json-object */
+    let log_paths_obj: serde_json::value::Value = load_log_paths( &config.logger_json_file_path );
+    debug!( "{}", format!("log_paths_obj, ``{:#?}``", log_paths_obj) );
 
-    let log_directory: Value = load_log_directory( &config );
-    // debug!( "{}", format!("config access check, ``{:#?}``", config) );  // just to make sure I still can access config
-    debug!( "{}", format!("log_directory, ``{:#?}``", log_directory) );
-
-    // backup_files( &log_directory );
+    /* process files */
+    // this will pass the log_paths_obj to a function, that'll loop through each path and call another function that will handle each step.
 
     /* output */
     let duration: Duration = start_time.elapsed();
@@ -86,12 +79,16 @@ fn main() {
 }
 
 
-fn load_log_directory( config: &Config ) -> Value {
-    let s: String = fs::read_to_string( &config.logger_json_file_path ).unwrap();
-    let log_directory: Value = serde_json::from_str(&s).unwrap();  // serde_json::value::Value -- Array([Object({"path": String("/foo/bar.log")}),...
-    // debug!( "{}", format!("log_directory, ``{:#?}``", log_directory) );  // println!("first-path, ``{:?}``", directory[0]["path"]);
-    return log_directory
+fn load_log_paths( logger_json_file_path: &std::string::String ) -> Value {
+    let jsn: String = fs::read_to_string( &logger_json_file_path ).unwrap_or_else(|error| {
+        panic!("Problem reading the json-file -- ``{:?}``", error);
+    });
+    let paths_obj: Value = serde_json::from_str(&jsn).unwrap_or_else(|error| {
+        panic!("Problem converting the json-file to an object -- maybe invalid json? -- ``{:?}``", error);
+    });
+    return paths_obj;
 }
+
 
 
 // fn backup_files( log_directory: &serde_json::value::Value ) {
@@ -112,6 +109,7 @@ fn load_log_directory( config: &Config ) -> Value {
 //     sleep(Duration::new(0, 1)); // (seconds, nanoseconds)
 //     debug!( "end of backup_files()" )
 // }
+
 
 
 // fn quit(start_time: Instant) {
