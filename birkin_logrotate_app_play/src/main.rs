@@ -70,7 +70,7 @@ fn main() {
     debug!( "{}", format!("log_paths_obj, ``{:#?}``", log_paths_obj) );
 
     /* process files */
-    // process_logs( &log_paths_obj );   HEREZZ
+    process_logs( &log_paths_obj );
 
     /* output */
     let duration: Duration = start_time.elapsed();
@@ -79,17 +79,15 @@ fn main() {
 }
 
 
-// fn process_logs( log_paths_obj: &serde_json::value::Value ) {
-//     // this will pass the log_paths_obj to a function...
-//     // ...that'll loop through each path and call another function that will handle each step.
+fn process_logs( log_paths_obj: &serde_json::value::Value ) {
+    // this will pass the log_paths_obj to a function...
+    // ...that'll loop through each path and call another function that will handle each step.
 
+    for item in log_paths_obj {
+        println!("\nitem, ``{:?}``", item);
+    }
 
-//     for item in log_paths_obj {
-//         println!("\nitem, ``{:?}``", item);
-//     }
-
-
-// }
+}
 
 
 fn load_log_paths( logger_json_file_path: &std::string::String ) -> Value {

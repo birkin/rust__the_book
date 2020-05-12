@@ -12,72 +12,106 @@ fn main() {
     // -- last three characters as string --
     // misc04();
 
-    // -- load json-file --
+    // -- load json-file & reading an element from it --
     //    In hindsight, I coud have just created a json string and passed it to fs::read_to_string()...
     //    ...instead of actually loading a file
-    misc05();
+    // misc05();
+
+    // -- looping through a json-object array --
+    misc06();
 
 }
 
-fn misc05() {
-    use std::env;
-
-    // let mut cwd_path = String::new();
-
-    /* -- get the current working directory as a PathBuf struct -- */
-    let cwd = env::current_dir();
-    let cwd: std::path::PathBuf = match cwd {
-        Ok( the_cwd ) => the_cwd,
-        Err( the_err ) => panic!( "problem perceiving the cwd: ``{:?}``", the_err ),
-    };
-    println!("\ncwd, ``{:?}``", cwd);  // yields: cwd, ``"/the/cwd/path"``
-    // let zz: () = cwd;  // yields: found struct `std::path::PathBuf`
-
-    /* -- update the path-var to the json file to an &str -- */
-    let cwd_str = cwd.to_str().unwrap();
-    println!("\ncwd_str, ``{:?}``", cwd_str);  // yields: cwd_str, ``"/the/cwd/path"``
-    // let zz: () = cwd_str;  // yields:  expected `()`, found `&str`
-
-    /* -- create the full-path to the json-directory-list file -- */
-    let full_path = cwd_str.to_owned() + "/../../log_file_list/log_list.json";
-    println!("\nfull_path, ``{:?}`", full_path);
-    let full_path_str = full_path.as_str();
-    println!("\nfull_path_str, ``{:?}``", full_path_str);
-    // let zz: () = full_path_str;  // yields: found `&str` -- good!
-
-    /* -- read json file into String -- */
-    use std::fs;
-
-    let jsn = fs::read_to_string( full_path_str );
-
-    let jsn = match jsn {
-        Ok( the_json_string ) => the_json_string,
-        Err( the_err ) => panic!( "problem loading json-file: ``{:?}``", the_err ),
-    };
-    println!( "\njsn, ``{:?}``", jsn );
-    // let zz: () = jsn;  // yields: found struct `std::string::String`
-
-    /* -- read json String into json Object -- */
+fn misc06() {
     use serde_json::{Value};
 
-    // let directory_lst: Value = serde_json::from_str( &jsn ).unwrap();  // serde_json::value::Value -- Array([Object({"path": String("/foo/bar.log")}),...
-    let directory_lst: Value = serde_json::from_str( &jsn ).unwrap_or_else(|error| {
-        panic!("Problem reading the jsn string -- perhaps invalid json? -- ``{:?}``", error);
+    // -- create the object --
+    let jsn = r#"[{"aa": "11"}, {"bb": "22"}]"#;
+    println!("jsn, ``{:?}``", jsn);  // yields: jsn, ``"[{\"aa\": \"11\"}, {\"bb\": \"22\"}]"`` -- looks good.
+    // let zz: () = jsn;  // yields: found `&str`
+    let json_obj: Value = serde_json::from_str( &jsn ).unwrap_or_else(|error| {
+        panic!("Problem reading the jsn string -- ``{:?}``", error);
     });
-    println!("\ndirectory_lst, ``{:?}``", directory_lst);
-    // let zz: () = directory_lst;  // yields: found enum `serde_json::value::Value`
+    println!("\njson_obj, ``{:?}``", json_obj);  // yields: json_obj, ``Array([Object({"aa": String("11")}), Object({"bb": String("22")})])`` -- good!
+    // let zz: () = json_obj;  // yields: found enum `serde_json::value::Value`
 
-    /* -- get the first path-element -- */
-    let path01 = &directory_lst[0]["path"];
-    println!("\npath01, ``{:?}`", path01);  // yields: path01, ``String("/foo/the.log")`
-    // let zz: () = path01;  yields: found `&serde_json::value::Value`
-
-    /* -- get the first path-element as a String or &str -- */
-    let path01_str = path01.as_str().unwrap_or_default();  // 'as_str() returns an Option, so this returns the value, or nothing.
-    println!("\npath01_str, ``{:?}``", path01_str); // yields: path01_str, ``"/foo/the.log"``
-    // let zz: () = path01_str;  // yields: expected `()`, found `&str`  👍
+    // -- process the object --
+    let v = json_obj.as_array().unwrap_or_else(|| {  // as_array() returns Option -- <https://docs.serde.rs/serde_json/value/enum.Value.html#method.as_array>
+        panic!("Problem handling json_obj");
+    });
+    println!("\nv, ``{:?}``", v);  // yields: v, ``[Object({"aa": String("11")}), Object({"bb": String("22")})]``
+    /*  This is good. Before the unwrape, I was getting the 'v' contents wrapped in a Some(),
+        ... so when I tried iterating through, there was only one item which was the whole thing. */
+    for item in v {
+        println!("item, ``{:?}``", item);
+    }
+    /*  good! yields...
+        item, ``Object({"aa": String("11")})``
+        item, ``Object({"bb": String("22")})`` */
 
 }
+
+
+
+// fn misc05() {
+//     use std::env;
+
+//     // let mut cwd_path = String::new();
+
+//     /* -- get the current working directory as a PathBuf struct -- */
+//     let cwd = env::current_dir();
+//     let cwd: std::path::PathBuf = match cwd {
+//         Ok( the_cwd ) => the_cwd,
+//         Err( the_err ) => panic!( "problem perceiving the cwd: ``{:?}``", the_err ),
+//     };
+//     println!("\ncwd, ``{:?}``", cwd);  // yields: cwd, ``"/the/cwd/path"``
+//     // let zz: () = cwd;  // yields: found struct `std::path::PathBuf`
+
+//     /* -- update the path-var to the json file to an &str -- */
+//     let cwd_str = cwd.to_str().unwrap();
+//     println!("\ncwd_str, ``{:?}``", cwd_str);  // yields: cwd_str, ``"/the/cwd/path"``
+//     // let zz: () = cwd_str;  // yields:  expected `()`, found `&str`
+
+//     /* -- create the full-path to the json-directory-list file -- */
+//     let full_path = cwd_str.to_owned() + "/../../log_file_list/log_list.json";
+//     println!("\nfull_path, ``{:?}`", full_path);
+//     let full_path_str = full_path.as_str();
+//     println!("\nfull_path_str, ``{:?}``", full_path_str);
+//     // let zz: () = full_path_str;  // yields: found `&str` -- good!
+
+//     /* -- read json file into String -- */
+//     use std::fs;
+
+//     let jsn = fs::read_to_string( full_path_str );
+
+//     let jsn = match jsn {
+//         Ok( the_json_string ) => the_json_string,
+//         Err( the_err ) => panic!( "problem loading json-file: ``{:?}``", the_err ),
+//     };
+//     println!( "\njsn, ``{:?}``", jsn );
+//     // let zz: () = jsn;  // yields: found struct `std::string::String`
+
+//     /* -- read json String into json Object -- */
+//     use serde_json::{Value};
+
+//     // let directory_lst: Value = serde_json::from_str( &jsn ).unwrap();  // serde_json::value::Value -- Array([Object({"path": String("/foo/bar.log")}),...
+//     let directory_lst: Value = serde_json::from_str( &jsn ).unwrap_or_else(|error| {
+//         panic!("Problem reading the jsn string -- perhaps invalid json? -- ``{:?}``", error);
+//     });
+//     println!("\ndirectory_lst, ``{:?}``", directory_lst);
+//     // let zz: () = directory_lst;  // yields: found enum `serde_json::value::Value`
+
+//     /* -- get the first path-element -- */
+//     let path01 = &directory_lst[0]["path"];
+//     println!("\npath01, ``{:?}`", path01);  // yields: path01, ``String("/foo/the.log")`
+//     // let zz: () = path01;  yields: found `&serde_json::value::Value`
+
+//     /* -- get the first path-element as a String or &str -- */
+//     let path01_str = path01.as_str().unwrap_or_default();  // 'as_str() returns an Option, so this returns the value, or nothing.
+//     println!("\npath01_str, ``{:?}``", path01_str); // yields: path01_str, ``"/foo/the.log"``
+//     // let zz: () = path01_str;  // yields: expected `()`, found `&str`  👍
+
+// }
 
 
 
