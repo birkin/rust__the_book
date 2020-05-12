@@ -88,11 +88,7 @@
 
     - why this hack? from [this post](https://users.rust-lang.org/t/how-can-i-print-the-type-of-a-variable/4183/6)...
 
-            ...Printing the name of a type at runtime is complicated in Rust, largely
-            because types don't really exist at runtime. In a language like Java, objects
-            contain class pointers that indicate their type, and you can often reach the
-            type's name through them (o.getClass().getName() if I remember my Java
-            correctly). Rust doesn't include type information in every value, so that
+            ...Printing the name of a type at runtime is complicated in Rust, largely because types don't really exist at runtime. In a language like Java, objects contain class pointers that indicate their type, and you can often reach the type's name through them (o.getClass().getName() if I remember my Java correctly). Rust doesn't include type information in every value, so that
             approach is right out.
 
             There are some alternatives, but none is perfect...
@@ -120,6 +116,14 @@
 - wow; the String info on [Internal Representation](https://doc.rust-lang.org/stable/book/ch08-02-strings.html#internal-representation) and on [Bytes and Scalar Values and Grapheme Clusters](https://doc.rust-lang.org/stable/book/ch08-02-strings.html#bytes-and-scalar-values-and-grapheme-clusters-oh-my) is fascinating.
 
     - One question, though... the docs state that the Hindi word, when stored as "Unicode scalar values", would have 6 `char` values, 2 of which are diacritics. I assume that for the characters than can be encoded either as a single unicode element, or as two unicode elements -- that rust has a way of specifying that. (I think that's 'normalized' or 'denormalized'). After a lookup, yes -- [there are functions](https://doc.rust-lang.org/1.2.0/std/primitive.str.html) to handle this.
+
+- error-handling -- [good example](https://doc.rust-lang.org/stable/book/ch09-02-recoverable-errors-with-result.html#a-shortcut-for-propagating-errors-the--operator) of using the `?` operator... Note that in this example, there is no panic. If the function is called like:
+
+        let x: Result<String, io::Error> = read_username_from_file();
+
+    ...and if the initial File::open() fails, there will be no panic. Rather, `println!("x, {:?}", x);` will yield:
+
+        x, Err(Os { code: 2, kind: NotFound, message: "No such file or directory" })
 
 ---
 
@@ -167,7 +171,7 @@
 Next...
 
 - <https://doc.rust-lang.org/stable/book/ch09-02-recoverable-errors-with-result.html#a-shortcut-for-propagating-errors-the--operator>
-
+    - At... "Speaking of different ways to write this function..." -- Play with that example. It doesn't seem it would allow a differentiation of a file-not-found error, vs a file-cannot-be-opened error.
 ---
 
 

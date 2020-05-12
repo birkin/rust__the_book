@@ -24,30 +24,66 @@ fn main() {
     // misc06();
 
     // -- propogating errors: verbose & explicit --
-    let x: Result<String, io::Error> = misc07();
+    // let x: Result<String, io::Error> = misc07();
+    // println!("x, ``{:?}``", x);  // yields: x, ``Err(Os { code: 2, kind: NotFound, message: "No such file or directory" })``
+    // // let zz: () = x;  // yields: found enum `std::result::Result<std::string::String, std::io::Error>`
+
+    // -- propogating errors: the `?` operator --
+    // let x: Result<String, io::Error> = misc08();
+    // println!("x, ``{:?}``", x);  // yields: x, ``Err(Os { code: 2, kind: NotFound, message: "No such file or directory" })``
+    // let zz: () = x;  // yields: found enum `std::result::Result<std::string::String, std::io::Error>`
+
+    // -- propogating errors: chaining method calls with the `?` operator --
+    let x: Result<String, io::Error> = misc09();
     println!("x, ``{:?}``", x);  // yields: x, ``Err(Os { code: 2, kind: NotFound, message: "No such file or directory" })``
     // let zz: () = x;  // yields: found enum `std::result::Result<std::string::String, std::io::Error>`
+
 }
 
-fn misc07() -> Result<String, io::Error> {
+
+fn misc09() -> Result<String, io::Error> {
     use std::fs::File;
     use std::io::Read;
 
-    let f = File::open("foo.txt");
-
-    let mut f = match f {
-        Ok(file) => file,
-        Err(e) => return Err(e),  // maybe file-not-found
-    };
-
     let mut s = String::new();
-
-    match f.read_to_string(&mut s) {
-        Ok(_) => Ok(s),
-        Err(e) => Err(e),  // maybe no-read-permissions
-    }   // I think that because there is no semicolon here...
-        // ...that an Ok would return the string from the file-read
+    File::open("foo.txt")?.read_to_string(&mut s)?;
+    Ok(s)
 }
+
+
+// fn misc08() -> Result<String, io::Error> {
+//     use std::fs::File;
+//     use std::io::Read;
+
+//     let mut f = File::open("foo.txt")?;
+//     let mut s = String::new();
+//     f.read_to_string(&mut s)?;
+//     Ok(s)
+// }
+
+
+
+// fn misc07() -> Result<String, io::Error> {
+//     use std::fs::File;
+//     use std::io::Read;
+
+//     let f = File::open("foo.txt");
+
+//     let mut f = match f {
+//         Ok(file) => file,
+//         Err(e) => return Err(e),  // maybe file-not-found
+//     };
+
+//     let mut s = String::new();
+
+//     match f.read_to_string(&mut s) {
+//         Ok(_) => Ok(s),
+//         Err(e) => Err(e),  // maybe no-read-permissions
+//     }   // I think that because there is no semicolon here...
+//         // ...that an Ok would return the string from the file-read
+// }
+
+
 
 // fn misc06() {
 //     use std::fs::File;
