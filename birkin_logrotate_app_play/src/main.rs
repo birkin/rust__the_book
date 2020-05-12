@@ -17,8 +17,9 @@ use std::time::{Duration, Instant};
 
 NEXT:
 - next:
-    - call the function that will initiate the loop
-    - have that loop function call another function that will delineate each step of processing.
+    √ call the function that will initiate the loop
+    - document what I think is happening in load_log_paths()
+    - have that loop function pass each item to another function that will manage each step of processing.
 - flow: for each entry:
     - make a reverse-time-sorted list of the existing log-files
     - delete the oldest if there are more than MAX
@@ -66,7 +67,7 @@ fn main() {
     debug!( "{}", format!("config, ``{:#?}``", config) );  // debug! needs a string literal  :(
 
     /* load log-paths json-object */
-    let log_paths_obj: serde_json::value::Value = load_log_paths( &config.logger_json_file_path );
+    let log_paths_obj: std::vec::Vec<serde_json::value::Value> = load_log_paths( &config.logger_json_file_path );
     debug!( "{}", format!("log_paths_obj, ``{:#?}``", log_paths_obj) );
 
     /* process files */
@@ -79,25 +80,40 @@ fn main() {
 }
 
 
-fn process_logs( log_paths_obj: &serde_json::value::Value ) {
-    // this will pass the log_paths_obj to a function...
-    // ...that'll loop through each path and call another function that will handle each step.
-
+fn process_logs( log_paths_obj: &std::vec::Vec<serde_json::value::Value> ) {
+    /*  this will pass the log_paths_obj to a function...
+        ...that'll loop through each path and call another function that will handle each step. */
     for item in log_paths_obj {
-        println!("\nitem, ``{:?}``", item);
+        println!("\nitem, ``{:?}``", item);  // yields (EG): item, ``Object({"path": String("/foo/the.log")})``
+        // let z: () = item;  // yields: found `&serde_json::value::Value`
     }
-
 }
 
 
-fn load_log_paths( logger_json_file_path: &std::string::String ) -> Value {
+fn load_log_paths( logger_json_file_path: &std::string::String ) -> std::vec::Vec<serde_json::value::Value> {
     let jsn: String = fs::read_to_string( &logger_json_file_path ).unwrap_or_else(|error| {
         panic!("Problem reading the json-file -- ``{:?}``", error);
     });
+    println!("\njsn, ``{:?}``", jsn);  // yields: jsn, ``"[\n  {\n    \"path\": \"/foo/the.log\"\n  },\n  {\n    \"path\": \"/path/to/logs/addto_refworks_logs/addto_refworks.log\"\n  },\n  {\n    \"path\": \"/path/to/logs/annex_counts_logs/annex_counts.log\"\n  }\n]\n"``
+    // let zz: () = jsn;  // yields: found struct `std::string::String`
+
     let paths_obj: Value = serde_json::from_str(&jsn).unwrap_or_else(|error| {
         panic!("Problem converting the json-file to an object -- maybe invalid json? -- ``{:?}``", error);
     });
-    return paths_obj;
+    println!("\npaths_obj, ``{:?}``", paths_obj); // yields: paths_obj, ``Array([Object({"path": String("/foo/the.log")}), Object({"path": String("/path/to/logs/addto_refworks_logs/addto_refworks.log")}), Object({"path": String("/path/to/logs/annex_counts_logs/annex_counts.log")})])``
+    // let zz: () = paths_obj;  // yields: found enum `serde_json::value::Value`
+
+    let paths_obj_array = paths_obj.as_array().unwrap_or_else(|| {  // as_array() returns Option -- <https://docs.serde.rs/serde_json/value/enum.Value.html#method.as_array>
+        panic!("Problem handling paths_obj");
+    });
+    println!("\npaths_obj_array, ``{:?}``", paths_obj_array);  // yields: paths_obj_array, ``[Object({"path": String("/foo/the.log")}), Object({"path": String("/path/to/logs/addto_refworks_logs/addto_refworks.log")}), Object({"path": String("/path/to/logs/annex_counts_logs/annex_counts.log")})]``
+    // let zz: () = paths_obj_array;  // yields found reference `&std::vec::Vec<serde_json::value::Value>`
+
+    let real_array = paths_obj_array.to_vec();
+    println!("\nreal_array, ``{:?}``", real_array);  // yields: real_array, ``[Object({"path": String("/foo/the.log")}), Object({"path": String("/path/to/logs/addto_refworks_logs/addto_refworks.log")}), Object({"path": String("/path/to/logs/annex_counts_logs/annex_counts.log")})]``
+    // let zz: () = real_array;  // yields: found struct `std::vec::Vec<serde_json::value::Value>`
+
+    return real_array;
 }
 
 
@@ -109,7 +125,7 @@ fn load_log_paths( logger_json_file_path: &std::string::String ) -> Value {
 //     let first_filepath = &log_directory[0]["path"];
 //     // let zz: () = first_filepath;  // yields: found `&serde_json::value::Value`
 //     debug!( "{}", format!("first_filepath, ``{:#?}``", first_filepath) );
-//     // assert_eq!( first_filepath, String::from("/Users/birkin/Documents/Brown_Library/logs/addto_refworks_logs/addto_refworks.log") );
+//     // assert_eq!( first_filepath, String::from("/path/to/logs/addto_refworks_logs/addto_refworks.log") );
 
 //     // let destination_filepath = first_filepath.to_string() + "_02";
 //     // let destination_filepath = get_destination_filepath( first_filepath )

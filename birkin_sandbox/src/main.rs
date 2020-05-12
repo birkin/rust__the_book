@@ -42,6 +42,7 @@ fn misc06() {
     println!("\nv, ``{:?}``", v);  // yields: v, ``[Object({"aa": String("11")}), Object({"bb": String("22")})]``
     /*  This is good. Before the unwrape, I was getting the 'v' contents wrapped in a Some(),
         ... so when I tried iterating through, there was only one item which was the whole thing. */
+    // let zz: () = v;  // yields: found reference `&std::vec::Vec<serde_json::value::Value>`
     for item in v {
         println!("item, ``{:?}``", item);
     }
