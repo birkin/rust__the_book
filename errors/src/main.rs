@@ -23,32 +23,46 @@ fn main() {
     // -- unwrap-or-else experimentation --
     // misc06();
 
-    // -- propogating errors: verbose & explicit --
+    // -- propagating errors: verbose & explicit --
     // let x: Result<String, io::Error> = misc07();
     // println!("x, ``{:?}``", x);  // yields: x, ``Err(Os { code: 2, kind: NotFound, message: "No such file or directory" })``
     // // let zz: () = x;  // yields: found enum `std::result::Result<std::string::String, std::io::Error>`
 
-    // -- propogating errors: the `?` operator --
+    // -- propagating errors: the `?` operator --
     // let x: Result<String, io::Error> = misc08();
     // println!("x, ``{:?}``", x);  // yields: x, ``Err(Os { code: 2, kind: NotFound, message: "No such file or directory" })``
     // let zz: () = x;  // yields: found enum `std::result::Result<std::string::String, std::io::Error>`
 
-    // -- propogating errors: chaining method calls with the `?` operator --
-    let x: Result<String, io::Error> = misc09();
-    println!("x, ``{:?}``", x);  // yields: x, ``Err(Os { code: 2, kind: NotFound, message: "No such file or directory" })``
+    // -- propagating errors: chaining method calls with the `?` operator --
+    // let x: Result<String, io::Error> = misc09();
+    // println!("x, ``{:?}``", x);  // yields: x, ``Err(Os { code: 2, kind: NotFound, message: "No such file or directory" })``
     // let zz: () = x;  // yields: found enum `std::result::Result<std::string::String, std::io::Error>`
 
+    // -- propagating errors: above even shorter, and showing the propagated error being handled
+    let x = misc10();
+    println!("x, ``{:?}``", x); // yields, as above: x, ``Err(Os { code: 2, kind: NotFound, message: "No such file or directory" })``
+                                //            ...or: x, ``Err(Os { code: 13, kind: PermissionDenied, message: "Permission denied" })``
+                                //            ...or: x, ``Ok("Hello world!\n")``
+    match x {
+        Ok(good_value) => println!("got, ``{:?}``", good_value),
+        Err(err) => panic!("Problem opening the file: ``{:?}``", err)
+    };
+}
+
+fn misc10() -> Result<String, io::Error> {
+    use std::fs;
+    fs::read_to_string("./hi.txt")
 }
 
 
-fn misc09() -> Result<String, io::Error> {
-    use std::fs::File;
-    use std::io::Read;
+// fn misc09() -> Result<String, io::Error> {
+//     use std::fs::File;
+//     use std::io::Read;
 
-    let mut s = String::new();
-    File::open("foo.txt")?.read_to_string(&mut s)?;
-    Ok(s)
-}
+//     let mut s = String::new();
+//     File::open("foo.txt")?.read_to_string(&mut s)?;
+//     Ok(s)
+// }
 
 
 // fn misc08() -> Result<String, io::Error> {

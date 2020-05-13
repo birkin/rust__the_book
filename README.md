@@ -170,8 +170,8 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch09-02-recoverable-errors-with-result.html#a-shortcut-for-propagating-errors-the--operator>
-    - At... "Speaking of different ways to write this function..." -- Play with that example. It doesn't seem it would allow a differentiation of a file-not-found error, vs a file-cannot-be-opened error.
+- <https://doc.rust-lang.org/stable/book/ch09-02-recoverable-errors-with-result.html#the--operator-can-be-used-in-functions-that-return-result>
+
 ---
 
 
