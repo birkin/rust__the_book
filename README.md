@@ -125,6 +125,8 @@
 
         x, Err(Os { code: 2, kind: NotFound, message: "No such file or directory" })
 
+- iteration: iter() vs into_iter() interesting post: <https://hermanradtke.com/2015/06/22/effectively-using-iterators-in-rust.html>
+
 ---
 
 #### logging...
