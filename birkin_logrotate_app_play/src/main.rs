@@ -81,24 +81,29 @@ fn main() {
 
 
 fn process_logs( log_paths_obj: &std::vec::Vec<serde_json::value::Value> ) {
-    /*  this will pass the log_paths_obj to a function...
-        ...that'll loop through each path and call another function that will handle each step. */
+    /*  Iterates through the log_paths_obj, sending each item to a function...
+        ...which will manage the steps of processing the item.
+        Called by: main() */
     for item in log_paths_obj {
         // println!("\nitem, ``{:?}``", item);  // yields (EG): item, ``Object({"path": String("/foo/the.log")})``
         // let z: () = item;  // yields: found `&serde_json::value::Value`
-        process_path( item );
+        manage_item( item );
     }
 }
 
 
-fn process_path( item: &serde_json::value::Value ) {
-    println!("\nitem from within process_path(), ``{:?}``", item);  // yields (EG): item, ``Object({"path": String("/foo/the.log")})``
+fn manage_item( item: &serde_json::value::Value ) {
+    /*  Manages the steps to process the log entry.
+        Called by: process_logs() */
+    println!("\nitem from within manage_item(), ``{:?}``", item);  // yields (EG): item, ``Object({"path": String("/foo/the.log")})``
 
 }
 
 
 
 fn load_log_paths( logger_json_file_path: &std::string::String ) -> std::vec::Vec<serde_json::value::Value> {
+    /*  Loads json list of paths into an iterable json-object.
+        Called by: main()  */
 
     // --- read file ---
     let jsn: String = fs::read_to_string( &logger_json_file_path ).unwrap_or_else(|error| {
