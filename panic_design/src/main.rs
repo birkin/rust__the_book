@@ -32,6 +32,11 @@ fn main() {
     let g = Guess::new( 50 );
     misc02( g.value() );  // odd -- I can also call g.value here and get the struct property directly, even though the book says...
                           // ..."This public method is necessary because the value field of the Guess struct is private."
+                          // Possible answer, from <https://doc.rust-lang.org/stable/rust-by-example/mod/struct_visibility.html>:
+                          //    "Structs... ...visibility defaults to private... ...This visibility only matters when
+                          //    a struct is accessed from outside the module where it is defined...
+
+"
 }
 
 
