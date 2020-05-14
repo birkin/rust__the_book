@@ -59,6 +59,11 @@
 
     - yup, later in this page (`Option` is an enum)... """The Option type is used in many places because it encodes the very common scenario in which a value could be something or it could be nothing. Expressing this concept in terms of the type system means the compiler can check whether you’ve handled all the cases you should be handling; this functionality can prevent bugs that are extremely common in other programming languages."""
 
+- part practice and part language: [using types for validation](https://doc.rust-lang.org/stable/book/ch09-03-to-panic-or-not-to-panic.html#creating-custom-types-for-validation)...
+
+    - blurb: """However, having lots of error checks in all of your functions would be verbose and annoying. Fortunately, you can use Rust’s type system (and thus the type checking the compiler does) to do many of the checks for you. If your function has a particular type as a parameter, you can proceed with your code’s logic knowing that the compiler has already ensured you have a valid value. For example, if you have a type rather than an Option, your program expects to have something rather than nothing. Your code then doesn’t have to handle two cases for the Some and None variants: it will only have one case for definitely having a value. Code trying to pass nothing to your function won’t even compile, so your function doesn’t have to check for that case at runtime. Another example is using an unsigned integer type such as u32, which ensures the parameter is never negative."""
+
+
 ---
 
 
@@ -172,7 +177,7 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch09-02-recoverable-errors-with-result.html#the--operator-can-be-used-in-functions-that-return-result>
+- <https://doc.rust-lang.org/stable/book/ch10-00-generics.html>
 
 ---
 
