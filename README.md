@@ -177,7 +177,7 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch10-00-generics.html>
+- <https://doc.rust-lang.org/stable/book/ch10-01-syntax.html#generic-data-types>
 
 ---
 
