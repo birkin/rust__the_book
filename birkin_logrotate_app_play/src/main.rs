@@ -4,13 +4,15 @@ extern crate log;
 extern crate env_logger;
 
 use serde::Deserialize;
-// use serde_json::{json, Value};
 use serde_json::{Value};
 
 use std::env;
 use std::fs;
-// use std::thread::sleep;
+use std::path::Path;
 use std::time::{Duration, Instant};
+
+// use serde_json::{json, Value};
+// use std::thread::sleep;
 
 
 /*
@@ -95,13 +97,34 @@ fn process_logs( log_paths_obj: &std::vec::Vec<serde_json::value::Value> ) {
 fn manage_item( item: &serde_json::value::Value ) {
     /*  Manages the steps to process the log entry.
         Steps...
+        - check file size and bail if it's not big enough.
         - determine parent-directory from path.
         - read all the files in the directory.
-        - in reverse-alphabetical-order, rename
+        - in reverse-alphabetical-order, rename 09 through 01.
+        - rename the original file.
+        - create a new empty file.
         Called by: process_logs() */
-    debug!( "{}", format!("item from within manage_item, ``{:?}``", item) );  // yields (EG): item, ``Object({"path": String("/foo/the.log")})``
+    // debug!( "{}", format!("item from within manage_item, ``{:?}``", item) );  // yields (EG): item, ``Object({"path": String("/foo/the.log")})``
     let path = &item["path"].as_str().unwrap_or_else( || {panic!("problem reading path from json-obj -- ``{:?}``");} );
-    debug!( "{}", format!("path, ``{}``", path) );
+    // debug!( "{}", format!("path, ``{}``", path) );
+
+    if Path::new(path).exists() == false {
+        error!( "{}", format!("path, ``{}`` does not exist", path) );
+        return;
+    } else {
+        debug!( "{}", format!("path, ``{}`` exists", path) );
+    }
+
+    println!("PROCESSING CONTINUES");
+
+    // println!("re path, ``{}``; existence, ``{}``", path,  Path::new(path).exists() );
+
+    // let metadata = fs::metadata( &path ).unwrap_or_else(|error| {
+    //     // panic!("Problem reading the json-file -- ``{:?}``", error);
+    //     error!( "{}", format!("Problem accessing path, ``{}``; error, ``{}``", path, error) );
+    //     error
+    // });
+    // println!("metadata, ``{:?}``", metadata);
 }
 
 
