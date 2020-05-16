@@ -108,25 +108,61 @@ fn manage_item( item: &serde_json::value::Value ) {
     let path = &item["path"].as_str().unwrap_or_else( || {panic!("problem reading path from json-obj -- ``{:?}``");} );
     // debug!( "{}", format!("path, ``{}``", path) );
 
-    if Path::new(path).exists() == false {
-        error!( "{}", format!("path, ``{}`` does not exist", path) );
+    if check_existence( path ) == false {
         return;
-    } else {
-        debug!( "{}", format!("path, ``{}`` exists", path) );
     }
 
-    println!("PROCESSING CONTINUES");
+    if check_big_enough( path ) == false {
+        return;
+    }
 
-    // println!("re path, ``{}``; existence, ``{}``", path,  Path::new(path).exists() );
-
-    // let metadata = fs::metadata( &path ).unwrap_or_else(|error| {
-    //     // panic!("Problem reading the json-file -- ``{:?}``", error);
-    //     error!( "{}", format!("Problem accessing path, ``{}``; error, ``{}``", path, error) );
-    //     error
-    // });
-    // println!("metadata, ``{:?}``", metadata);
+    println!("PROCEEDING to process path, ``{:?}``", path);
 }
 
+
+fn check_big_enough( path: &&str ) -> bool {
+    /*  Checks that file is big enough.
+        Called by manage_item().
+        TODO: check agains config setting */
+
+    const THRESHOLD: u64 = 1000;
+    let mut result = false;
+
+    let metadata = fs::metadata(path);
+    // println!("metadata, ``{:?}``", metadata);
+
+    match metadata {
+        Ok(metadata) => {
+            let file_size: u64 = metadata.len() / 1000;
+            debug!( "{}", format!("file_size in Kb, ``{}``", file_size) );
+            // let zz: () = file_size;  // yields: found `u64`
+            if file_size > THRESHOLD {
+                debug!( "file_size big enough to process" );
+                result = true;
+            } else {
+                debug!( "file_size not big enough to process" );
+            }
+        },
+        Err(err) => {
+            error!( "{}", format!("could not get metadata for path, ``{}``; error, ``{}``", path, err) );
+        }
+    };
+
+    return result;
+}
+
+
+fn check_existence( path: &&str ) -> bool {
+    /*  Checks that file exists.
+        Called by manage_item() */
+    if Path::new(path).exists() == false {
+        error!( "{}", format!("path, ``{}`` does not exist", path) );
+        false
+    } else {
+        debug!( "{}", format!("path, ``{}`` exists", path) );
+        true
+    }
+}
 
 
 fn load_log_paths( logger_json_file_path: &std::string::String ) -> std::vec::Vec<serde_json::value::Value> {
