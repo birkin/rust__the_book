@@ -94,9 +94,14 @@ fn process_logs( log_paths_obj: &std::vec::Vec<serde_json::value::Value> ) {
 
 fn manage_item( item: &serde_json::value::Value ) {
     /*  Manages the steps to process the log entry.
+        Steps...
+        - determine parent-directory from path.
+        - read all the files in the directory.
+        - in reverse-alphabetical-order, rename
         Called by: process_logs() */
-    println!("\nitem from within manage_item(), ``{:?}``", item);  // yields (EG): item, ``Object({"path": String("/foo/the.log")})``
-
+    debug!( "{}", format!("item from within manage_item, ``{:?}``", item) );  // yields (EG): item, ``Object({"path": String("/foo/the.log")})``
+    let path = &item["path"].as_str().unwrap_or_else( || {panic!("problem reading path from json-obj -- ``{:?}``");} );
+    debug!( "{}", format!("path, ``{}``", path) );
 }
 
 

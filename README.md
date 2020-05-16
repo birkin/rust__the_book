@@ -179,6 +179,8 @@ Next...
 
 - <https://doc.rust-lang.org/stable/book/ch10-01-syntax.html#generic-data-types>
 
+- At: "Two functions that differ only..."
+
 ---
 
 
