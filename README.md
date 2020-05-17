@@ -132,6 +132,8 @@
 
 - iteration: iter() vs into_iter() interesting post: <https://hermanradtke.com/2015/06/22/effectively-using-iterators-in-rust.html>
 
+- lifetimes: re-read this a few times and play with it: <https://hellocode.dev/rust-lifetimes>
+
 ---
 
 #### logging...

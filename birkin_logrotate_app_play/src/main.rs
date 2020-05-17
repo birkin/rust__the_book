@@ -22,7 +22,8 @@ NEXT:
     √ call the function that will initiate the loop
     √ document what I think is happening in load_log_paths()
     √ have that loop function pass each item to another function that will manage each step of processing.
-    - at: determine parent directory
+    - at: determine parent directory -- consider trying to go back and make the path an `&str` instead of an `&&str`...
+                                        ...and see if that addresses the issue.
 */
 
 
@@ -102,7 +103,7 @@ fn manage_item( item: &serde_json::value::Value ) {
         Called by: process_logs() */
     // debug!( "{}", format!("item from within manage_item, ``{:?}``", item) );  // yields (EG): item, ``Object({"path": String("/foo/the.log")})``
     let path = &item["path"].as_str().unwrap_or_else( || {panic!("problem reading path from json-obj -- ``{:?}``");} );
-    // debug!( "{}", format!("path, ``{}``", path) );
+    // let zz: () = path;  // yields: expected `()`, found `&&str`
 
     if check_existence( path ) == false {
         return;
@@ -112,8 +113,22 @@ fn manage_item( item: &serde_json::value::Value ) {
         return;
     }
 
+    // let parent = determine_directory( path );  <-- does not work.
+
+
     println!("PROCEEDING to process path, ``{:?}``", path);
 }
+
+
+// fn determine_directory(  path: &&str ) -> &std::path::Path {
+//     let parent = Path::new(path).parent().unwrap_or_else(|| {
+//         panic!("no parent found");
+//     });
+//     // let zz: () = parent;  // yields: found `&std::path::Path`
+//     debug!( "{}", format!("parent, ``{:?}``", parent) );
+
+//     parent
+// }
 
 
 fn check_big_enough( path: &&str ) -> bool {
