@@ -21,12 +21,8 @@ NEXT:
 - next:
     √ call the function that will initiate the loop
     √ document what I think is happening in load_log_paths()
-    - have that loop function pass each item to another function that will manage each step of processing.
-- flow: for each entry:
-    - make a reverse-time-sorted list of the existing log-files
-    - delete the oldest if there are more than MAX
-    - bump the name/number up by 1 (and re-save?)
-    - for the last in the list, save an empty file.
+    √ have that loop function pass each item to another function that will manage each step of processing.
+    - at: determine parent directory
 */
 
 
@@ -123,7 +119,7 @@ fn manage_item( item: &serde_json::value::Value ) {
 fn check_big_enough( path: &&str ) -> bool {
     /*  Checks that file is big enough.
         Called by manage_item().
-        TODO: check agains config setting */
+        TODO: check against config setting */
 
     const THRESHOLD: u64 = 1000;
     let mut result = false;
