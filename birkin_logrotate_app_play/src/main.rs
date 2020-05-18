@@ -22,8 +22,8 @@ NEXT:
     √ call the function that will initiate the loop
     √ document what I think is happening in load_log_paths()
     √ have that loop function pass each item to another function that will manage each step of processing.
-    - at: determine parent directory -- consider trying to go back and make the path an `&str` instead of an `&&str`...
-                                        ...and see if that addresses the issue.
+    - at: determine parent directory -- now that I have path as a String, see if I can get determine-parent-directory()
+          ...to work (maybe I'll have to return back a full string instead of a reference)
 */
 
 
@@ -101,22 +101,30 @@ fn manage_item( item: &serde_json::value::Value ) {
         - rename the original file.
         - create a new empty file.
         Called by: process_logs() */
-    // debug!( "{}", format!("item from within manage_item, ``{:?}``", item) );  // yields (EG): item, ``Object({"path": String("/foo/the.log")})``
-    let path = &item["path"].as_str().unwrap_or_else( || {panic!("problem reading path from json-obj -- ``{:?}``");} );
-    // let zz: () = path;  // yields: expected `()`, found `&&str`
 
-    if check_existence( path ) == false {
+    // debug!( "{}", format!("item from within manage_item, ``{:?}``", item) );  // yields (EG): item, ``Object({"path": String("/foo/the.log")})``
+
+    let path_rfrnc = item["path"].as_str().unwrap_or_else( || {panic!("problem reading path from json-obj -- ``{:?}``");} );
+    // println!("path_rfrnc, ``{:?}``", path_rfrnc);
+    // let zz: () = path_rfrnc;  // yields: found `&str`
+
+    let path: String = path_rfrnc.into();
+    // println!("path, ``{:?}``", path);
+    // let zz: () = path;  // yields: found struct `std::string::String`
+
+    if check_existence( &path ) == false {
         return;
     }
+    // println!("checking I can still reference path, ``{:?}``", path);
 
-    if check_big_enough( path ) == false {
+    if check_big_enough( &path ) == false {
         return;
     }
 
     // let parent = determine_directory( path );  <-- does not work.
 
 
-    println!("PROCEEDING to process path, ``{:?}``", path);
+    // println!("PROCEEDING to process path, ``{:?}``", path);
 }
 
 
@@ -131,7 +139,7 @@ fn manage_item( item: &serde_json::value::Value ) {
 // }
 
 
-fn check_big_enough( path: &&str ) -> bool {
+fn check_big_enough( path: &str ) -> bool {
     /*  Checks that file is big enough.
         Called by manage_item().
         TODO: check against config setting */
@@ -163,7 +171,39 @@ fn check_big_enough( path: &&str ) -> bool {
 }
 
 
-fn check_existence( path: &&str ) -> bool {
+// fn check_big_enough( path: &&str ) -> bool {
+//     /*  Checks that file is big enough.
+//         Called by manage_item().
+//         TODO: check against config setting */
+
+//     const THRESHOLD: u64 = 1000;
+//     let mut result = false;
+
+//     let metadata = fs::metadata(path);
+//     // println!("metadata, ``{:?}``", metadata);
+
+//     match metadata {
+//         Ok(metadata) => {
+//             let file_size: u64 = metadata.len() / 1000;
+//             debug!( "{}", format!("file_size in Kb, ``{}``", file_size) );
+//             // let zz: () = file_size;  // yields: found `u64`
+//             if file_size > THRESHOLD {
+//                 debug!( "file_size big enough to process" );
+//                 result = true;
+//             } else {
+//                 debug!( "file_size not big enough to process" );
+//             }
+//         },
+//         Err(err) => {
+//             error!( "{}", format!("could not get metadata for path, ``{}``; error, ``{}``", path, err) );
+//         }
+//     };
+
+//     return result;
+// }
+
+
+fn check_existence( path: &str ) -> bool {
     /*  Checks that file exists.
         Called by manage_item() */
     if Path::new(path).exists() == false {

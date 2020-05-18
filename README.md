@@ -179,7 +179,7 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch10-01-syntax.html#in-enum-definitions>
+- <https://doc.rust-lang.org/stable/book/ch10-02-traits.html>
 
 ---
 
