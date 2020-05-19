@@ -121,22 +121,27 @@ fn manage_item( item: &serde_json::value::Value ) {
         return;
     }
 
-    // let parent = determine_directory( path );  <-- does not work.
-
-
     // println!("PROCEEDING to process path, ``{:?}``", path);
+
+    let parent = determine_directory( &path );
+    // println!("i can access ``{:?}`` here, right?", parent);  // 👍
+    // Note: the fact that this path-obj is a reference could be a problem, triggering that lifetime issue.
+    //       ...if that happens, a low-tech solution would be to return a string for the path.
+
+    // let file_list = prep_file_list( parent_path );  <-- HERE
+
 }
 
 
-// fn determine_directory(  path: &&str ) -> &std::path::Path {
-//     let parent = Path::new(path).parent().unwrap_or_else(|| {
-//         panic!("no parent found");
-//     });
-//     // let zz: () = parent;  // yields: found `&std::path::Path`
-//     debug!( "{}", format!("parent, ``{:?}``", parent) );
+fn determine_directory(  path: &str ) -> &std::path::Path {
+    let parent = Path::new(path).parent().unwrap_or_else(|| {
+        panic!("no parent found");
+    });
+    // let zz: () = parent;  // yields: found `&std::path::Path`
+    debug!( "{}", format!("parent, ``{:?}``", parent) );
 
-//     parent
-// }
+    parent
+}
 
 
 fn check_big_enough( path: &str ) -> bool {
