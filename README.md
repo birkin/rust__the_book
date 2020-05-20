@@ -181,6 +181,8 @@ Next...
 
 - <https://doc.rust-lang.org/stable/book/ch10-02-traits.html#default-implementations>
 
+- At "Default implementations can call other methods..."
+
 ---
 
 
