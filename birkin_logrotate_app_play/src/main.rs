@@ -22,8 +22,11 @@ NEXT:
     √ call the function that will initiate the loop
     √ document what I think is happening in load_log_paths()
     √ have that loop function pass each item to another function that will manage each step of processing.
-    - at: determine parent directory -- now that I have path as a String, see if I can get determine-parent-directory()
+    √ at: determine parent directory -- now that I have path as a String, see if I can get determine-parent-directory()
           ...to work (maybe I'll have to return back a full string instead of a reference)
+    -> get sorted list of files from directory
+        - <https://rust-lang-nursery.github.io/rust-cookbook/file/dir.html>
+        - <https://stackoverflow.com/questions/26076005/how-can-i-list-files-of-a-directory-in-rust>
 */
 
 
@@ -121,27 +124,50 @@ fn manage_item( item: &serde_json::value::Value ) {
         return;
     }
 
-    // println!("PROCEEDING to process path, ``{:?}``", path);
+    info!( "{}", format!("PROCEEDING to process path, ``{:?}``", path) );
 
-    let parent = determine_directory( &path );
-    // println!("i can access ``{:?}`` here, right?", parent);  // 👍
-    // Note: the fact that this path-obj is a reference could be a problem, triggering that lifetime issue.
-    //       ...if that happens, a low-tech solution would be to return a string for the path.
+    // -- TODO...
+    //    Try something like: let mut parent_path = std::Path;
+    //    Then maybe sending the empty parent_path to the prep-function and returning it won't cause lifetime errors.
+    //    ...but getting a String works for now; so this try will be a refactor.
+    let parent_path = determine_directory( &path );
+
 
     // let file_list = prep_file_list( parent_path );  <-- HERE
 
 }
 
 
-fn determine_directory(  path: &str ) -> &std::path::Path {
-    let parent = Path::new(path).parent().unwrap_or_else(|| {
+fn determine_directory(  path: &str ) -> String {
+    let parent = Path::new(path).parent().unwrap_or_else( || {
         panic!("no parent found");
     });
     // let zz: () = parent;  // yields: found `&std::path::Path`
-    debug!( "{}", format!("parent, ``{:?}``", parent) );
+    // debug!( "{}", format!("parent, ``{:?}``", parent) );
 
-    parent
+    let parent_str = parent.to_str().unwrap_or_else( || {
+        panic!("could not get &str from parent-Path");
+    });
+    // let zz: () = parent_str;  // yields: found `&str`
+    // debug!( "{}", format!("parent_str, ``{:?}``", parent_str) );
+
+    let parent_string = parent_str.to_string();
+    // let zz: () = parent_string;  // yields: found struct `std::string::String`  👍
+    debug!( "{}", format!("parent_string, ``{:?}``", parent_string) );
+
+    parent_string
 }
+
+
+// fn determine_directory(  path: &str ) -> &std::path::Path {
+//     let parent = Path::new(path).parent().unwrap_or_else(|| {
+//         panic!("no parent found");
+//     });
+//     // let zz: () = parent;  // yields: found `&std::path::Path`
+//     debug!( "{}", format!("parent, ``{:?}``", parent) );
+
+//     parent
+// }
 
 
 fn check_big_enough( path: &str ) -> bool {
@@ -174,38 +200,6 @@ fn check_big_enough( path: &str ) -> bool {
 
     return result;
 }
-
-
-// fn check_big_enough( path: &&str ) -> bool {
-//     /*  Checks that file is big enough.
-//         Called by manage_item().
-//         TODO: check against config setting */
-
-//     const THRESHOLD: u64 = 1000;
-//     let mut result = false;
-
-//     let metadata = fs::metadata(path);
-//     // println!("metadata, ``{:?}``", metadata);
-
-//     match metadata {
-//         Ok(metadata) => {
-//             let file_size: u64 = metadata.len() / 1000;
-//             debug!( "{}", format!("file_size in Kb, ``{}``", file_size) );
-//             // let zz: () = file_size;  // yields: found `u64`
-//             if file_size > THRESHOLD {
-//                 debug!( "file_size big enough to process" );
-//                 result = true;
-//             } else {
-//                 debug!( "file_size not big enough to process" );
-//             }
-//         },
-//         Err(err) => {
-//             error!( "{}", format!("could not get metadata for path, ``{}``; error, ``{}``", path, err) );
-//         }
-//     };
-
-//     return result;
-// }
 
 
 fn check_existence( path: &str ) -> bool {
