@@ -2,6 +2,7 @@
 extern crate log;
 
 extern crate env_logger;
+extern crate glob;
 
 use serde::Deserialize;
 use serde_json::{Value};
@@ -11,8 +12,14 @@ use std::fs;
 use std::path::Path;
 use std::time::{Duration, Instant};
 
+use glob::glob;  // <https://docs.rs/glob/0.3.0/glob/>
+
 // use serde_json::{json, Value};
 // use std::thread::sleep;
+
+
+
+
 
 
 /*
@@ -25,6 +32,10 @@ NEXT:
     √ at: determine parent directory -- now that I have path as a String, see if I can get determine-parent-directory()
           ...to work (maybe I'll have to return back a full string instead of a reference)
     -> get sorted list of files from directory
+        - i'm getting there; next...
+            - convert the path &str into a String
+            - append that to a mutable Vector
+            - return the Vector of Strings
         - <https://rust-lang-nursery.github.io/rust-cookbook/file/dir.html>
         - <https://stackoverflow.com/questions/26076005/how-can-i-list-files-of-a-directory-in-rust>
 */
@@ -132,9 +143,51 @@ fn manage_item( item: &serde_json::value::Value ) {
     //    ...but getting a String works for now; so this try will be a refactor.
     let parent_path = determine_directory( &path );
 
+    let file_list = prep_file_list( parent_path );
 
-    // let file_list = prep_file_list( parent_path );  <-- HERE
+}
 
+
+fn prep_file_list( parent_path: String ) -> Vec<String> {
+
+    // let paths = fs::read_dir( parent_path ).unwrap_or_else( |err| {
+    //     panic!("could not read the parent_path; error, ``{}``", err);
+    // });
+    // println!("paths, ``{:?}``", paths);
+
+    let pattern = format!( "{}/*.log", parent_path );
+    debug!( "{}", format!("pattern, ``{:?}``", pattern) );
+
+    let paths = glob( &pattern ).unwrap_or_else( |err| {
+        panic!("could not glob the pattern; error, ``{}``", err);
+    });
+    // let zz: () = paths;  // yields (before unwrap): found enum `std::result::Result<glob::Paths, glob::PatternError>`
+
+    for entry in paths {
+        let path = entry.unwrap_or_else( |err| {  // path without unwrap is: enum `std::result::Result<std::path::PathBuf, glob::GlobError>`
+            panic!("could not access the path; error, ``{}``", err);
+        });
+        println!("path.display(), ``{:?}``", path.display());
+        // let zz: () = path;  // yields: found struct `std::path::PathBuf`
+        // let zz: () = path.display();  // yields: found struct `std::path::Display`
+
+        let path_string = path.to_str().unwrap_or_else( || {
+            panic!("could turn the path into a string");
+        });
+        println!("path_string, ``{:?}``", path_string);
+        let zz: () = path_string;  // yields: found `&str`
+    }
+
+
+    let v = vec!["aa".into(), "cc".into()];
+    println!("v, ``{:?}``", v);
+    v
+
+
+    // extern crate glob;
+    // use self::glob::glob;
+
+    // let files:Vec<Path> = glob("*").collect();
 }
 
 
