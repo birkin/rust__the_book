@@ -32,10 +32,10 @@ NEXT:
     √ at: determine parent directory -- now that I have path as a String, see if I can get determine-parent-directory()
           ...to work (maybe I'll have to return back a full string instead of a reference)
     -> get sorted list of files from directory
-        - i'm getting there; next...
-            - convert the path &str into a String
-            - append that to a mutable Vector
-            - return the Vector of Strings
+        - i got the list, but have to redo the function, to also pass in a filename.
+            - reason is because some directories have multiple sets of log-files -- and the way I'm doing this is based...
+              ... on the log-file-name-path, not the directory...
+              ... so I need to only return the files in a given directory that include the target filename.
         - <https://rust-lang-nursery.github.io/rust-cookbook/file/dir.html>
         - <https://stackoverflow.com/questions/26076005/how-can-i-list-files-of-a-directory-in-rust>
 */
@@ -129,7 +129,6 @@ fn manage_item( item: &serde_json::value::Value ) {
     if check_existence( &path ) == false {
         return;
     }
-    // println!("checking I can still reference path, ``{:?}``", path);
 
     if check_big_enough( &path ) == false {
         return;
@@ -137,23 +136,56 @@ fn manage_item( item: &serde_json::value::Value ) {
 
     info!( "{}", format!("PROCEEDING to process path, ``{:?}``", path) );
 
+    let file_name = make_file_name( &path );  // we need the filename to pass it to prep_file_list(), because some directories contain more than one set of log-files.
+    println!("returned file_name, ``{:?}``", file_name);
+
     // -- TODO...
     //    Try something like: let mut parent_path = std::Path;
     //    Then maybe sending the empty parent_path to the prep-function and returning it won't cause lifetime errors.
     //    ...but getting a String works for now; so this try will be a refactor.
     let parent_path = determine_directory( &path );
 
-    let file_list = prep_file_list( parent_path );
 
+
+
+    let file_list = prep_file_list( parent_path );
+    println!("file_list, ``{:?}``", file_list);
+
+    // TODO
+    // let file_list = prep_file_list( parent_path, file_name );
+    // println!("file_list, ``{:?}``", file_list);
+
+}
+
+
+fn make_file_name( path: &str) -> String {
+    /*  Extracts filename from path
+        Called by manage_item() */
+    let file_name_osstr = Path::new(path).file_name().unwrap_or_else( || {
+        panic!("could not determine filename");
+    });
+    // println!("file_name_osstr, ``{:?}``", file_name_osstr);
+    // let zz: () = file_name_osstr;  // yields: found `&std::ffi::OsStr`
+
+    let file_name_str = file_name_osstr.to_str().unwrap_or_else( || {
+        panic!("could not derive file_name_str fro file_name_osstr");
+    });
+    // println!("file_name_str, {:?}", file_name_str);
+    // let zz: () = file_name_str;  // yields: found `&str`
+
+    let file_name_string: String = file_name_str.into();
+    // println!("file_name_string, {:?}", file_name_string);
+    // let zz: () = file_name_string; // yields: found struct `std::string::String`
+
+    debug!( "{}", format!("file_name_string, ``{:?}``", file_name_string) );
+    file_name_string
 }
 
 
 fn prep_file_list( parent_path: String ) -> Vec<String> {
 
-    // let paths = fs::read_dir( parent_path ).unwrap_or_else( |err| {
-    //     panic!("could not read the parent_path; error, ``{}``", err);
-    // });
-    // println!("paths, ``{:?}``", paths);
+    let mut v: std::vec::Vec<String> = Vec::new();
+    println!("v, ``{:?}``", v);
 
     let pattern = format!( "{}/*.log", parent_path );
     debug!( "{}", format!("pattern, ``{:?}``", pattern) );
@@ -167,27 +199,26 @@ fn prep_file_list( parent_path: String ) -> Vec<String> {
         let path = entry.unwrap_or_else( |err| {  // path without unwrap is: enum `std::result::Result<std::path::PathBuf, glob::GlobError>`
             panic!("could not access the path; error, ``{}``", err);
         });
-        println!("path.display(), ``{:?}``", path.display());
+        // println!("path-buf obj, ``{:?}``", path);
         // let zz: () = path;  // yields: found struct `std::path::PathBuf`
-        // let zz: () = path.display();  // yields: found struct `std::path::Display`
 
-        let path_string = path.to_str().unwrap_or_else( || {
+        let path_str = path.to_str().unwrap_or_else( || {
             panic!("could turn the path into a string");
         });
-        println!("path_string, ``{:?}``", path_string);
-        let zz: () = path_string;  // yields: found `&str`
+        // println!("path_str, ``{:?}``", path_str);
+        // let zz: () = path_str;  // yields: found `&str`
+
+        let path_string: String = path_str.into();
+        debug!( "{}", format!("path_string, ``{:?}``", path_string) );
+        // let zz: () = path_string;  // yields: found struct `std::string::String`
+
+        v.push( path_string );
     }
 
-
-    let v = vec!["aa".into(), "cc".into()];
-    println!("v, ``{:?}``", v);
+    info!( "{}", format!("log-files, ``{:?}``", v) );
+    // let zz: () = v; // yields: found struct `std::vec::Vec<std::string::String>`
     v
 
-
-    // extern crate glob;
-    // use self::glob::glob;
-
-    // let files:Vec<Path> = glob("*").collect();
 }
 
 
@@ -210,17 +241,6 @@ fn determine_directory(  path: &str ) -> String {
 
     parent_string
 }
-
-
-// fn determine_directory(  path: &str ) -> &std::path::Path {
-//     let parent = Path::new(path).parent().unwrap_or_else(|| {
-//         panic!("no parent found");
-//     });
-//     // let zz: () = parent;  // yields: found `&std::path::Path`
-//     debug!( "{}", format!("parent, ``{:?}``", parent) );
-
-//     parent
-// }
 
 
 fn check_big_enough( path: &str ) -> bool {

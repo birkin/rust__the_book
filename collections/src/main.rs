@@ -7,7 +7,7 @@ enum SpreadsheetCell {
 
 fn main() {
 
-    // misc1();
+    misc1();
     // misc2();
     // misc3();
     // misc4();
@@ -124,17 +124,17 @@ fn misc6() -> Vec<SpreadsheetCell> {
 
 
 
-// fn misc1() {
+fn misc1() {
 
-//     let v: Vec<i32> = Vec::new();
-//     println!("v, ``{:?}``", v);
+    let v: Vec<i32> = Vec::new();
+    println!("v, ``{:?}``", v);
 
-//     let v2 = vec![1, 2, 3];
-//     println!("v2, ``{:?}``", v2);
+    let v2 = vec![1, 2, 3];
+    println!("v2, ``{:?}``", v2);
 
-//     let mut v3 = Vec::new();
-//     println!("v3, ``{:?}``", v3);
-//     v3.push(5);
-//     v3.push(6);
-//     println!("v3 now, ``{:?}``", v3);
-// }
+    let mut v3 = Vec::new();
+    println!("v3, ``{:?}``", v3);
+    v3.push(5);
+    v3.push(6);
+    println!("v3 now, ``{:?}``", v3);
+}
