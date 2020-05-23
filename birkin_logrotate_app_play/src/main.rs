@@ -144,13 +144,6 @@ fn manage_item( item: &serde_json::value::Value ) {
     //    ...but getting a String works for now; so this try will be a refactor.
     let parent_path = determine_directory( &path );
 
-
-
-
-    // let file_list = prep_file_list( parent_path );
-    // println!("file_list, ``{:?}``", file_list);
-
-    // TODO
     let file_list = prep_file_list( parent_path, file_name );
     println!("file_list, ``{:?}``", file_list);
 
@@ -160,7 +153,6 @@ fn manage_item( item: &serde_json::value::Value ) {
 fn prep_file_list( parent_path: String, file_name: String ) -> Vec<String> {
 
     let mut v: std::vec::Vec<String> = Vec::new();
-    println!("v, ``{:?}``", v);
 
     // let pattern = format!( "{}/*.log*", parent_path );
     let pattern = format!( "{}/*{}*", parent_path, file_name );
@@ -191,51 +183,11 @@ fn prep_file_list( parent_path: String, file_name: String ) -> Vec<String> {
         v.push( path_string );
     }
 
-    info!( "{}", format!("log-files, ``{:?}``", v) );
+    info!( "{}", format!("log-files, ``{:#?}``", v) );
     // let zz: () = v; // yields: found struct `std::vec::Vec<std::string::String>`
     v
 
 }
-
-
-// fn prep_file_list( parent_path: String ) -> Vec<String> {
-
-//     let mut v: std::vec::Vec<String> = Vec::new();
-//     println!("v, ``{:?}``", v);
-
-//     let pattern = format!( "{}/*.log*", parent_path );
-//     debug!( "{}", format!("pattern, ``{:?}``", pattern) );
-
-//     let paths = glob( &pattern ).unwrap_or_else( |err| {
-//         panic!("could not glob the pattern; error, ``{}``", err);
-//     });
-//     // let zz: () = paths;  // yields (before unwrap): found enum `std::result::Result<glob::Paths, glob::PatternError>`
-
-//     for entry in paths {
-//         let path = entry.unwrap_or_else( |err| {  // path without unwrap is: enum `std::result::Result<std::path::PathBuf, glob::GlobError>`
-//             panic!("could not access the path; error, ``{}``", err);
-//         });
-//         // println!("path-buf obj, ``{:?}``", path);
-//         // let zz: () = path;  // yields: found struct `std::path::PathBuf`
-
-//         let path_str = path.to_str().unwrap_or_else( || {
-//             panic!("could turn the path into a string");
-//         });
-//         // println!("path_str, ``{:?}``", path_str);
-//         // let zz: () = path_str;  // yields: found `&str`
-
-//         let path_string: String = path_str.into();
-//         debug!( "{}", format!("path_string, ``{:?}``", path_string) );
-//         // let zz: () = path_string;  // yields: found struct `std::string::String`
-
-//         v.push( path_string );
-//     }
-
-//     info!( "{}", format!("log-files, ``{:?}``", v) );
-//     // let zz: () = v; // yields: found struct `std::vec::Vec<std::string::String>`
-//     v
-
-// }
 
 
 fn determine_directory(  path: &str ) -> String {
