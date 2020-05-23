@@ -137,7 +137,6 @@ fn manage_item( item: &serde_json::value::Value ) {
     info!( "{}", format!("PROCEEDING to process path, ``{:?}``", path) );
 
     let file_name = make_file_name( &path );  // we need the filename to pass it to prep_file_list(), because some directories contain more than one set of log-files.
-    println!("returned file_name, ``{:?}``", file_name);
 
     // -- TODO...
     //    Try something like: let mut parent_path = std::Path;
@@ -148,46 +147,23 @@ fn manage_item( item: &serde_json::value::Value ) {
 
 
 
-    let file_list = prep_file_list( parent_path );
-    println!("file_list, ``{:?}``", file_list);
-
-    // TODO
-    // let file_list = prep_file_list( parent_path, file_name );
+    // let file_list = prep_file_list( parent_path );
     // println!("file_list, ``{:?}``", file_list);
 
+    // TODO
+    let file_list = prep_file_list( parent_path, file_name );
+    println!("file_list, ``{:?}``", file_list);
+
 }
 
 
-fn make_file_name( path: &str) -> String {
-    /*  Extracts filename from path
-        Called by manage_item() */
-    let file_name_osstr = Path::new(path).file_name().unwrap_or_else( || {
-        panic!("could not determine filename");
-    });
-    // println!("file_name_osstr, ``{:?}``", file_name_osstr);
-    // let zz: () = file_name_osstr;  // yields: found `&std::ffi::OsStr`
-
-    let file_name_str = file_name_osstr.to_str().unwrap_or_else( || {
-        panic!("could not derive file_name_str fro file_name_osstr");
-    });
-    // println!("file_name_str, {:?}", file_name_str);
-    // let zz: () = file_name_str;  // yields: found `&str`
-
-    let file_name_string: String = file_name_str.into();
-    // println!("file_name_string, {:?}", file_name_string);
-    // let zz: () = file_name_string; // yields: found struct `std::string::String`
-
-    debug!( "{}", format!("file_name_string, ``{:?}``", file_name_string) );
-    file_name_string
-}
-
-
-fn prep_file_list( parent_path: String ) -> Vec<String> {
+fn prep_file_list( parent_path: String, file_name: String ) -> Vec<String> {
 
     let mut v: std::vec::Vec<String> = Vec::new();
     println!("v, ``{:?}``", v);
 
-    let pattern = format!( "{}/*.log", parent_path );
+    // let pattern = format!( "{}/*.log*", parent_path );
+    let pattern = format!( "{}/*{}*", parent_path, file_name );
     debug!( "{}", format!("pattern, ``{:?}``", pattern) );
 
     let paths = glob( &pattern ).unwrap_or_else( |err| {
@@ -222,6 +198,46 @@ fn prep_file_list( parent_path: String ) -> Vec<String> {
 }
 
 
+// fn prep_file_list( parent_path: String ) -> Vec<String> {
+
+//     let mut v: std::vec::Vec<String> = Vec::new();
+//     println!("v, ``{:?}``", v);
+
+//     let pattern = format!( "{}/*.log*", parent_path );
+//     debug!( "{}", format!("pattern, ``{:?}``", pattern) );
+
+//     let paths = glob( &pattern ).unwrap_or_else( |err| {
+//         panic!("could not glob the pattern; error, ``{}``", err);
+//     });
+//     // let zz: () = paths;  // yields (before unwrap): found enum `std::result::Result<glob::Paths, glob::PatternError>`
+
+//     for entry in paths {
+//         let path = entry.unwrap_or_else( |err| {  // path without unwrap is: enum `std::result::Result<std::path::PathBuf, glob::GlobError>`
+//             panic!("could not access the path; error, ``{}``", err);
+//         });
+//         // println!("path-buf obj, ``{:?}``", path);
+//         // let zz: () = path;  // yields: found struct `std::path::PathBuf`
+
+//         let path_str = path.to_str().unwrap_or_else( || {
+//             panic!("could turn the path into a string");
+//         });
+//         // println!("path_str, ``{:?}``", path_str);
+//         // let zz: () = path_str;  // yields: found `&str`
+
+//         let path_string: String = path_str.into();
+//         debug!( "{}", format!("path_string, ``{:?}``", path_string) );
+//         // let zz: () = path_string;  // yields: found struct `std::string::String`
+
+//         v.push( path_string );
+//     }
+
+//     info!( "{}", format!("log-files, ``{:?}``", v) );
+//     // let zz: () = v; // yields: found struct `std::vec::Vec<std::string::String>`
+//     v
+
+// }
+
+
 fn determine_directory(  path: &str ) -> String {
     let parent = Path::new(path).parent().unwrap_or_else( || {
         panic!("no parent found");
@@ -240,6 +256,30 @@ fn determine_directory(  path: &str ) -> String {
     debug!( "{}", format!("parent_string, ``{:?}``", parent_string) );
 
     parent_string
+}
+
+
+fn make_file_name( path: &str) -> String {
+    /*  Extracts filename from path
+        Called by manage_item() */
+    let file_name_osstr = Path::new(path).file_name().unwrap_or_else( || {
+        panic!("could not determine filename");
+    });
+    // println!("file_name_osstr, ``{:?}``", file_name_osstr);
+    // let zz: () = file_name_osstr;  // yields: found `&std::ffi::OsStr`
+
+    let file_name_str = file_name_osstr.to_str().unwrap_or_else( || {
+        panic!("could not derive file_name_str fro file_name_osstr");
+    });
+    // println!("file_name_str, {:?}", file_name_str);
+    // let zz: () = file_name_str;  // yields: found `&str`
+
+    let file_name_string: String = file_name_str.into();
+    // println!("file_name_string, {:?}", file_name_string);
+    // let zz: () = file_name_string; // yields: found struct `std::string::String`
+
+    debug!( "{}", format!("file_name_string, ``{:?}``", file_name_string) );
+    file_name_string
 }
 
 
