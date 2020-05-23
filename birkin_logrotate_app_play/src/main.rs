@@ -8,6 +8,7 @@ use serde::Deserialize;
 use serde_json::{Value};
 
 use std::env;
+// use std::ffi::OsStr;
 use std::fs;
 use std::path::Path;
 use std::time::{Duration, Instant};
@@ -96,12 +97,12 @@ fn process_logs( log_paths_obj: &std::vec::Vec<serde_json::value::Value> ) {
     for item in log_paths_obj {
         // println!("\nitem, ``{:?}``", item);  // yields (EG): item, ``Object({"path": String("/foo/the.log")})``
         // let z: () = item;  // yields: found `&serde_json::value::Value`
-        manage_item( item );
+        manage_directory_entry( item );
     }
 }
 
 
-fn manage_item( item: &serde_json::value::Value ) {
+fn manage_directory_entry( item: &serde_json::value::Value ) {
     /*  Manages the steps to process the log entry.
         Steps...
         - check file size and bail if it's not big enough.
@@ -112,7 +113,7 @@ fn manage_item( item: &serde_json::value::Value ) {
         - create a new empty file.
         Called by: process_logs() */
 
-    // debug!( "{}", format!("item from within manage_item, ``{:?}``", item) );  // yields (EG): item, ``Object({"path": String("/foo/the.log")})``
+    // debug!( "{}", format!("item from within manage_directory_entry, ``{:?}``", item) );  // yields (EG): item, ``Object({"path": String("/foo/the.log")})``
 
     let path_rfrnc = item["path"].as_str().unwrap_or_else( || {panic!("problem reading path from json-obj -- ``{:?}``");} );
     // println!("path_rfrnc, ``{:?}``", path_rfrnc);
@@ -141,12 +142,50 @@ fn manage_item( item: &serde_json::value::Value ) {
     let parent_path = determine_directory( &path );
 
     let file_list = prep_file_list( parent_path, file_name );
-    println!("file_list, ``{:?}``", file_list);
+
+    for file in file_list {
+        process_file( &file )
+    }
+
+}  // end fn manage_directory_entry()
+
+
+fn process_file( file_path: &str ) {
+    /*  Examines given file and deletes it or backs it up.
+        Called by manage_directory_entry() */
+    debug!( "{}", format!("processing file_path, ``{:?}``", file_path) );
+
+    let path = Path::new( file_path );
+
+    let extension = path.extension().unwrap_or_else( || {
+        panic!("could not determine extension");
+    });
+    println!("extension, ``{:?}``", extension);
+    // let zz: () = extension;  // yields: found `&std::ffi::OsStr`
+
+    let extension_str = extension.to_str().unwrap_or_else( || {
+        panic!("could not convert to &str");
+    });
+    println!("extension_str, ``{:?}``", extension_str);
+    // let zz: () = extension_str;  // yields; found `&str`
+
+    let new_extension: String = match extension_str {
+        "log" => String::from("0"),
+        "0" => String::from("1"),
+        "1" => String::from("2"),
+        _ => panic!( "unexpected extension found" )
+    };
+    debug!( "{}", format!("new_extension, ``{:?}``", new_extension) );
+    // let zz: () = new_extension;  // yields: found struct `std::string::String`
+
+    // let copy_target_path = format!(  );
 
 }
 
 
 fn prep_file_list( parent_path: String, file_name: String ) -> Vec<String> {
+    /*  Examines the directory for the target file-path and returns a list of all the log-entries.
+        Called by manage_directory_entry() */
 
     let mut v: std::vec::Vec<String> = Vec::new();
 
@@ -214,7 +253,7 @@ fn determine_directory(  path: &str ) -> String {
 
 fn make_file_name( path: &str) -> String {
     /*  Extracts filename from path
-        Called by manage_item() */
+        Called by manage_directory_entry() */
     let file_name_osstr = Path::new(path).file_name().unwrap_or_else( || {
         panic!("could not determine filename");
     });
@@ -238,7 +277,7 @@ fn make_file_name( path: &str) -> String {
 
 fn check_big_enough( path: &str ) -> bool {
     /*  Checks that file is big enough.
-        Called by manage_item().
+        Called by manage_directory_entry().
         TODO: check against config setting */
 
     const THRESHOLD: u64 = 1000;
@@ -270,7 +309,7 @@ fn check_big_enough( path: &str ) -> bool {
 
 fn check_existence( path: &str ) -> bool {
     /*  Checks that file exists.
-        Called by manage_item() */
+        Called by manage_directory_entry() */
     if Path::new(path).exists() == false {
         error!( "{}", format!("path, ``{}`` does not exist", path) );
         false
