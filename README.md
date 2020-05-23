@@ -179,7 +179,7 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch10-02-traits.html#trait-bound-syntax>
+- <https://doc.rust-lang.org/stable/book/ch10-02-traits.html#fixing-the-largest-function-with-trait-bounds>
 
 ---
 
