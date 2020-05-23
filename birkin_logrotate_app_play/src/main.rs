@@ -18,10 +18,6 @@ use glob::glob;  // <https://docs.rs/glob/0.3.0/glob/>
 // use std::thread::sleep;
 
 
-
-
-
-
 /*
 
 NEXT:
@@ -183,8 +179,13 @@ fn prep_file_list( parent_path: String, file_name: String ) -> Vec<String> {
         v.push( path_string );
     }
 
-    info!( "{}", format!("log-files, ``{:#?}``", v) );
+    info!( "{}", format!("log-files before sort, ``{:#?}``", v) );
     // let zz: () = v; // yields: found struct `std::vec::Vec<std::string::String>`
+
+    v.sort();
+    v.reverse();
+    info!( "{}", format!("log-files after sort, ``{:#?}``", v) );
+
     v
 
 }
