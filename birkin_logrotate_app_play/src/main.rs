@@ -133,24 +133,25 @@ fn manage_directory_entry( item: &serde_json::value::Value ) {
 
     info!( "{}", format!("PROCEEDING to process path, ``{:?}``", path) );
 
-    let file_name = make_file_name( &path );  // we need the filename to pass it to prep_file_list(), because some directories contain more than one set of log-files.
+    let file_name: String = make_file_name( &path );  // we need the filename to pass it to prep_file_list(), because some directories contain more than one set of log-files.
 
     // -- TODO...
     //    Try something like: let mut parent_path = std::Path;
     //    Then maybe sending the empty parent_path to the prep-function and returning it won't cause lifetime errors.
     //    ...but getting a String works for now; so this try will be a refactor.
-    let parent_path = determine_directory( &path );
+    let parent_path: String = determine_directory( &path );
 
-    let file_list = prep_file_list( parent_path, file_name );
+    let file_list = prep_file_list( &parent_path, &file_name );
+    println!("file_list, ``{:?}``", file_list);
 
     for file in file_list {
-        process_file( &file )
+        process_file( &file, &file_name, &parent_path )
     }
 
 }  // end fn manage_directory_entry()
 
 
-fn process_file( file_path: &str ) {
+fn process_file( file_path: &str, file_name: &str, parent_path: &str ) {
     /*  Examines given file and deletes it or backs it up.
         Called by manage_directory_entry() */
     debug!( "{}", format!("processing file_path, ``{:?}``", file_path) );
@@ -169,21 +170,38 @@ fn process_file( file_path: &str ) {
     println!("extension_str, ``{:?}``", extension_str);
     // let zz: () = extension_str;  // yields; found `&str`
 
+    if extension_str == "9" {
+        debug!( "{}", format!("about to try deleting file") );
+        fs::remove_file( file_path ).unwrap_or_else( |err| {
+            panic!("could not delete old file; error, ``{}``", err);
+        });
+        info!( "{}", format!("file successfully deleted") );
+        return;
+    }
+
     let new_extension: String = match extension_str {
-        "log" => String::from("0"),
-        "0" => String::from("1"),
-        "1" => String::from("2"),
+        "log" => "0".to_string(),
+        "0" => "1".to_string(),
+        "1" => "2".to_string(),
+        "2" => "3".to_string(),
+        "3" => "4".to_string(),
+        "4" => "5".to_string(),
+        "5" => "6".to_string(),
+        "6" => "7".to_string(),
+        "7" => "8".to_string(),
+        "8" => "9".to_string(),
         _ => panic!( "unexpected extension found" )
     };
     debug!( "{}", format!("new_extension, ``{:?}``", new_extension) );
     // let zz: () = new_extension;  // yields: found struct `std::string::String`
 
-    // let copy_target_path = format!(  );
+    let copy_target_path = format!( "{}/{}.{}", parent_path, file_name, new_extension );
+    debug!( "{}", format!("copy_target_path, ``{:?}``", copy_target_path) );
 
 }
 
 
-fn prep_file_list( parent_path: String, file_name: String ) -> Vec<String> {
+fn prep_file_list( parent_path: &str, file_name: &str ) -> Vec<String> {
     /*  Examines the directory for the target file-path and returns a list of all the log-entries.
         Called by manage_directory_entry() */
 
