@@ -37,6 +37,14 @@ impl Summary for Tweet {
 
 fn main() {
 
+    // -- shows trait usage, and incorporating a trait into a function parameter.
+    main01();
+
+}
+
+
+fn main01() {
+
     let tweet = Tweet {
         username: String::from( "some_user" ),
         content: String::from( "some content"),
@@ -55,6 +63,7 @@ fn main() {
     println!( "1 new article: ``{:?}``", article.summarize() );
 
     notify( tweet );
+
 }
 
 
