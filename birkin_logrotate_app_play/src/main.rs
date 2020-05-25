@@ -23,17 +23,21 @@ use glob::glob;  // <https://docs.rs/glob/0.3.0/glob/>
 
 NEXT:
 - next:
-    √ call the function that will initiate the loop
-    √ document what I think is happening in load_log_paths()
-    √ have that loop function pass each item to another function that will manage each step of processing.
-    √ at: determine parent directory -- now that I have path as a String, see if I can get determine-parent-directory()
-          ...to work (maybe I'll have to return back a full string instead of a reference)
     √ get sorted list of files from directory
         x i got the list, but have to redo the function, to also pass in a filename.
             x reason is because some directories have multiple sets of log-files -- and the way I'm doing this is based...
               ... on the log-file-name-path, not the directory...
               ... so I need to only return the files in a given directory that include the target filename.
-    - copy files to destination file-names.
+    √ copy files to destination file-names.
+    √ create new empty log file
+    - update crontab so it doesn't create mail-entries.
+    - change size-check to 250K
+    - put in human readable 'now' time-stamp for log.
+
+- someday:
+    - pass in size-check as arg
+    - consider more capable logger
+    - or consider updating a hash or an array that writes to a log-file
 
 */
 
@@ -66,7 +70,7 @@ impl Config {
 fn main() {
 
     let start_time = Instant::now();
-    // println!("start_time, `{:?}`", start_time);
+    println!("starting rust-custom-logrotate code at, ``{:?}``", start_time);
 
     /* setup settings */
     let config = Config::new();
@@ -359,14 +363,14 @@ fn load_log_paths( logger_json_file_path: &std::string::String ) -> std::vec::Ve
     let jsn: String = fs::read_to_string( &logger_json_file_path ).unwrap_or_else(|error| {
         panic!("Problem reading the json-file -- ``{:?}``", error);
     });
-    println!("\njsn, ``{:?}``", jsn);  // yields: jsn, ``"[\n  {\n    \"path\": \"/foo/the.log\"\n  },\n  {\n    \"path\": \"/path/to/logs/addto_refworks_logs/addto_refworks.log\"\n  },\n  {\n    \"path\": \"/path/to/logs/annex_counts_logs/annex_counts.log\"\n  }\n]\n"``
+    // println!("\njsn, ``{:?}``", jsn);  // yields: jsn, ``"[\n  {\n    \"path\": \"/foo/the.log\"\n  },\n  {\n    \"path\": \"/path/to/logs/addto_refworks_logs/addto_refworks.log\"\n  },\n  {\n    \"path\": \"/path/to/logs/annex_counts_logs/annex_counts.log\"\n  }\n]\n"``
     // let zz: () = jsn;  // yields: found struct `std::string::String`
 
     // --- turn String into json-object ---
     let paths_obj: Value = serde_json::from_str(&jsn).unwrap_or_else(|error| {
         panic!("Problem converting the json-file to an object -- maybe invalid json? -- ``{:?}``", error);
     });
-    println!("\npaths_obj, ``{:?}``", paths_obj); // yields: paths_obj, ``Array([Object({"path": String("/foo/the.log")}), Object({"path": String("/path/to/logs/addto_refworks_logs/addto_refworks.log")}), Object({"path": String("/path/to/logs/annex_counts_logs/annex_counts.log")})])``
+    // println!("\npaths_obj, ``{:?}``", paths_obj); // yields: paths_obj, ``Array([Object({"path": String("/foo/the.log")}), Object({"path": String("/path/to/logs/addto_refworks_logs/addto_refworks.log")}), Object({"path": String("/path/to/logs/annex_counts_logs/annex_counts.log")})])``
     // let zz: () = paths_obj;  // yields: found enum `serde_json::value::Value`
 
     // --- turns the json-object in to a Vector(reference) ---
@@ -374,14 +378,14 @@ fn load_log_paths( logger_json_file_path: &std::string::String ) -> std::vec::Ve
     let paths_obj_array = paths_obj.as_array().unwrap_or_else(|| {  // as_array() returns Option -- <https://docs.serde.rs/serde_json/value/enum.Value.html#method.as_array>
         panic!("Problem handling paths_obj");
     });
-    println!("\npaths_obj_array, ``{:?}``", paths_obj_array);  // yields: paths_obj_array, ``[Object({"path": String("/foo/the.log")}), Object({"path": String("/path/to/logs/addto_refworks_logs/addto_refworks.log")}), Object({"path": String("/path/to/logs/annex_counts_logs/annex_counts.log")})]``
+    // println!("\npaths_obj_array, ``{:?}``", paths_obj_array);  // yields: paths_obj_array, ``[Object({"path": String("/foo/the.log")}), Object({"path": String("/path/to/logs/addto_refworks_logs/addto_refworks.log")}), Object({"path": String("/path/to/logs/annex_counts_logs/annex_counts.log")})]``
     // let zz: () = paths_obj_array;  // yields found reference `&std::vec::Vec<serde_json::value::Value>`
 
     // -- turns the Vector-reference into a Vector-Struct
     // Only this allowed me to pass the returned-result to another function: process_logs()
     // Just skimmed a _great_ post that I should re-read to refactor this function: <https://hermanradtke.com/2015/06/22/effectively-using-iterators-in-rust.html>
     let real_array = paths_obj_array.to_vec();
-    println!("\nreal_array, ``{:?}``", real_array);  // yields: real_array, ``[Object({"path": String("/foo/the.log")}), Object({"path": String("/path/to/logs/addto_refworks_logs/addto_refworks.log")}), Object({"path": String("/path/to/logs/annex_counts_logs/annex_counts.log")})]``
+    // println!("\nreal_array, ``{:?}``", real_array);  // yields: real_array, ``[Object({"path": String("/foo/the.log")}), Object({"path": String("/path/to/logs/addto_refworks_logs/addto_refworks.log")}), Object({"path": String("/path/to/logs/annex_counts_logs/annex_counts.log")})]``
     // let zz: () = real_array;  // yields: found struct `std::vec::Vec<serde_json::value::Value>`
 
     return real_array;
