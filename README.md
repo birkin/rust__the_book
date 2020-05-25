@@ -179,7 +179,7 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch10-03-lifetime-syntax.html>
+- <https://doc.rust-lang.org/stable/book/ch10-03-lifetime-syntax.html#thinking-in-terms-of-lifetimes>
 
 ---
 

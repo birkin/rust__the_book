@@ -8,8 +8,8 @@ use serde::Deserialize;
 use serde_json::{Value};
 
 use std::env;
-// use std::ffi::OsStr;
 use std::fs;
+use std::fs::File;
 use std::path::Path;
 use std::time::{Duration, Instant};
 
@@ -28,13 +28,13 @@ NEXT:
     √ have that loop function pass each item to another function that will manage each step of processing.
     √ at: determine parent directory -- now that I have path as a String, see if I can get determine-parent-directory()
           ...to work (maybe I'll have to return back a full string instead of a reference)
-    -> get sorted list of files from directory
-        - i got the list, but have to redo the function, to also pass in a filename.
-            - reason is because some directories have multiple sets of log-files -- and the way I'm doing this is based...
+    √ get sorted list of files from directory
+        x i got the list, but have to redo the function, to also pass in a filename.
+            x reason is because some directories have multiple sets of log-files -- and the way I'm doing this is based...
               ... on the log-file-name-path, not the directory...
               ... so I need to only return the files in a given directory that include the target filename.
-        - <https://rust-lang-nursery.github.io/rust-cookbook/file/dir.html>
-        - <https://stackoverflow.com/questions/26076005/how-can-i-list-files-of-a-directory-in-rust>
+    - copy files to destination file-names.
+
 */
 
 
@@ -156,20 +156,20 @@ fn process_file( file_path: &str, file_name: &str, parent_path: &str ) {
         Called by manage_directory_entry() */
     debug!( "{}", format!("processing file_path, ``{:?}``", file_path) );
 
+    // -- determine the extension
     let path = Path::new( file_path );
-
     let extension = path.extension().unwrap_or_else( || {
         panic!("could not determine extension");
     });
     println!("extension, ``{:?}``", extension);
     // let zz: () = extension;  // yields: found `&std::ffi::OsStr`
-
     let extension_str = extension.to_str().unwrap_or_else( || {
         panic!("could not convert to &str");
     });
     println!("extension_str, ``{:?}``", extension_str);
     // let zz: () = extension_str;  // yields; found `&str`
 
+    // -- delete the oldest file if necessary
     if extension_str == "9" {
         debug!( "{}", format!("about to try deleting file") );
         fs::remove_file( file_path ).unwrap_or_else( |err| {
@@ -179,6 +179,7 @@ fn process_file( file_path: &str, file_name: &str, parent_path: &str ) {
         return;
     }
 
+    // -- determine new extension
     let new_extension: String = match extension_str {
         "log" => "0".to_string(),
         "0" => "1".to_string(),
@@ -195,9 +196,21 @@ fn process_file( file_path: &str, file_name: &str, parent_path: &str ) {
     debug!( "{}", format!("new_extension, ``{:?}``", new_extension) );
     // let zz: () = new_extension;  // yields: found struct `std::string::String`
 
-    let copy_target_path = format!( "{}/{}.{}", parent_path, file_name, new_extension );
-    debug!( "{}", format!("copy_target_path, ``{:?}``", copy_target_path) );
+    // -- now that we have the new extension, create the destination path
+    let destination_path = format!( "{}/{}.{}", parent_path, file_name, new_extension );
+    debug!( "{}", format!("destination_path, ``{:?}``", destination_path) );
 
+    // -- and now copy
+    let bytes_copied = fs::copy( file_path, destination_path ).unwrap_or_else( |err| {
+        panic!("problem copying the file, ``{}``", err);
+    });
+    info!( "{}", format!("copied ``{:?}K``", (bytes_copied / 1024)) );
+
+    // -- finally, create the new empty file if necessary
+    info!( "{}", format!("creating new empty file") );
+    let _empty_file = File::create(&path).unwrap_or_else( |err| {
+        panic!("problem creating new empty file, ``{}``", err);
+    });
 }
 
 
