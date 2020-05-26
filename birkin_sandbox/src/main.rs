@@ -18,50 +18,72 @@ fn main() {
     // misc05();
 
     // -- loops through a json-object array, and explores the nature of the resulting items --
-    misc06();
+    // misc06();
+
+    // -- explores date-display
+    misc07();
 
 }
 
-fn misc06() {
-    use serde_json::{Value};
+fn misc07() {
 
-    // -- create the object --
-    let jsn = r#"[{"aa": "11"}, {"aa": "22"}]"#;
-    println!("jsn, ``{:?}``", jsn);  // yields: jsn, ``"[{\"aa\": \"11\"}, {\"aa\": \"22\"}]"`` -- looks good.
-    // let zz: () = jsn;  // yields: found `&str`
-    let json_obj: Value = serde_json::from_str( &jsn ).unwrap_or_else(|error| {
-        panic!("Problem reading the jsn string -- ``{:?}``", error);
-    });
-    println!("\njson_obj, ``{:?}``", json_obj);  // yields: json_obj, ``Array([Object({"aa": String("11")}), Object({"aa": String("22")})])`` -- good!
-    // let zz: () = json_obj;  // yields: found enum `serde_json::value::Value`
+    extern crate chrono;
+    use chrono::{DateTime, Local, Utc};
 
-    // -- process the object --
-    let v = json_obj.as_array().unwrap_or_else(|| {  // as_array() returns Option -- <https://docs.serde.rs/serde_json/value/enum.Value.html#method.as_array>
-        panic!("Problem handling json_obj");
-    });
-    println!("\nv, ``{:?}``", v);  // yields: v, ``[Object({"aa": String("11")}), Object({"aa": String("22")})]``
-    /*  This is good. Before the unwrap, I was getting the 'v' contents wrapped in a Some(),
-        ... so when I tried iterating through, there was only one item which was the whole thing. */
-    // let zz: () = v;  // yields: found reference `&std::vec::Vec<serde_json::value::Value>`
-    for item in v {
-        println!("item, ``{:?}``", item);  // good! yields... item, ``Object({"aa": String("11")})`` etc...
+    let now: DateTime<Utc> = Utc::now();
+    println!("UTC now is: {}", now);
+    println!("UTC now in RFC 2822 is: {}", now.to_rfc2822());
+    println!("UTC now in RFC 3339 is: {}", now.to_rfc3339());
+    println!("UTC now in a custom format is: {}", now.format("%a %b %e %T %Y"));
 
-        // let path = &item["aa"].as_str().unwrap_or_else( || {panic!("problem reading path from json-obj -- ``{:?}``", item);} );  // yields: problem reading path...
-        // println!("path, ``{:?}``", path);  // yields: path, ``"22"``
-        // // let zz: () = path;  // yields: found `&&str`
-
-        let path = item["aa"].as_str().unwrap_or_else( || {panic!("problem reading path from json-obj -- ``{:?}``", item);} );  // yields: problem reading path...
-        println!("path, ``{:?}``", path);  // yields: path, ``"22"`` (yes, looks the same)
-        // let zz: () = path;  // yields: found `&str`  (but this is different)
-
-        let path_str: String = path.into();
-        println!("path_str, ``{:?}``", path_str);  // yields: path_str, ``"22"``  (yes, still looks the same)
-        // let zz: () = path_str;  // yields: found struct `std::string::String`
-
-    }
-
+    let local: DateTime<Local> = Local::now();
+    println!("local is: {}", local);
+    println!("local in RFC 2822 is: {}", local.to_rfc2822());
+    println!("local in RFC 3339 is: {}", local.to_rfc3339());
+    println!("local in a custom format is: {}", local.format("%a %b %e %T %Y"));
 
 }
+
+
+
+// fn misc06() {
+//     use serde_json::{Value};
+
+//     // -- create the object --
+//     let jsn = r#"[{"aa": "11"}, {"aa": "22"}]"#;
+//     println!("jsn, ``{:?}``", jsn);  // yields: jsn, ``"[{\"aa\": \"11\"}, {\"aa\": \"22\"}]"`` -- looks good.
+//     // let zz: () = jsn;  // yields: found `&str`
+//     let json_obj: Value = serde_json::from_str( &jsn ).unwrap_or_else(|error| {
+//         panic!("Problem reading the jsn string -- ``{:?}``", error);
+//     });
+//     println!("\njson_obj, ``{:?}``", json_obj);  // yields: json_obj, ``Array([Object({"aa": String("11")}), Object({"aa": String("22")})])`` -- good!
+//     // let zz: () = json_obj;  // yields: found enum `serde_json::value::Value`
+
+//     // -- process the object --
+//     let v = json_obj.as_array().unwrap_or_else(|| {  // as_array() returns Option -- <https://docs.serde.rs/serde_json/value/enum.Value.html#method.as_array>
+//         panic!("Problem handling json_obj");
+//     });
+//     println!("\nv, ``{:?}``", v);  // yields: v, ``[Object({"aa": String("11")}), Object({"aa": String("22")})]``
+//       This is good. Before the unwrap, I was getting the 'v' contents wrapped in a Some(),
+//         ... so when I tried iterating through, there was only one item which was the whole thing.
+//     // let zz: () = v;  // yields: found reference `&std::vec::Vec<serde_json::value::Value>`
+//     for item in v {
+//         println!("item, ``{:?}``", item);  // good! yields... item, ``Object({"aa": String("11")})`` etc...
+
+//         // let path = &item["aa"].as_str().unwrap_or_else( || {panic!("problem reading path from json-obj -- ``{:?}``", item);} );  // yields: problem reading path...
+//         // println!("path, ``{:?}``", path);  // yields: path, ``"22"``
+//         // // let zz: () = path;  // yields: found `&&str`
+
+//         let path = item["aa"].as_str().unwrap_or_else( || {panic!("problem reading path from json-obj -- ``{:?}``", item);} );  // yields: problem reading path...
+//         println!("path, ``{:?}``", path);  // yields: path, ``"22"`` (yes, looks the same)
+//         // let zz: () = path;  // yields: found `&str`  (but this is different)
+
+//         let path_str: String = path.into();
+//         println!("path_str, ``{:?}``", path_str);  // yields: path_str, ``"22"``  (yes, still looks the same)
+//         // let zz: () = path_str;  // yields: found struct `std::string::String`
+
+//     }
+// }
 
 
 
