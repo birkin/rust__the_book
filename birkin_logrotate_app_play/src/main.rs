@@ -209,7 +209,11 @@ fn process_file( file_path: &str, file_name: &str, parent_path: &str ) {
         "6" => "7".to_string(),
         "7" => "8".to_string(),
         "8" => "9".to_string(),
-        _ => panic!( "unexpected extension found" )
+        _ => {
+            let err_message = "unexpected extension found".to_string();
+            error!( "{}", err_message );
+            panic!( err_message );
+        }
     };
     debug!( "{}", format!("new_extension, ``{:?}``", new_extension) );
     // let zz: () = new_extension;  // yields: found struct `std::string::String`
