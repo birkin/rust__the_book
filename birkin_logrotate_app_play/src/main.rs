@@ -95,7 +95,7 @@ fn main() {
 
     /* load log-paths json-object */
     let log_paths_obj: std::vec::Vec<serde_json::value::Value> = load_log_paths( &config.logger_json_file_path );
-    debug!( "{}", format!("log_paths_obj, ``{:#?}``", log_paths_obj) );
+    debug!( "{}", format!("log_paths_obj, ``{:?}``", log_paths_obj) );
 
     /* process files */
     process_logs( &log_paths_obj );
@@ -220,15 +220,24 @@ fn process_file( file_path: &str, file_name: &str, parent_path: &str ) {
 
     // -- and now copy
     let bytes_copied = fs::copy( file_path, destination_path ).unwrap_or_else( |err| {
+        error!( "{}", format!("problem copying the file, ``{}``", err) );
         panic!("problem copying the file, ``{}``", err);
     });
     info!( "{}", format!("copied ``{:?}K``", (bytes_copied / 1024)) );
 
     // -- finally, create the new empty file if necessary
-    info!( "{}", format!("creating new empty file") );
-    let _empty_file = File::create(&path).unwrap_or_else( |err| {
-        panic!("problem creating new empty file, ``{}``", err);
-    });
+    if extension_str == "log" {
+        info!( "{}", format!("creating new empty file") );
+        let _empty_file = File::create(&path).unwrap_or_else( |err| {
+            error!( "{}", format!("problem creating new empty file, ``{}``", err) );
+            panic!("problem creating new empty file, ``{}``", err);
+        });
+
+    }
+    // info!( "{}", format!("creating new empty file") );
+    // let _empty_file = File::create(&path).unwrap_or_else( |err| {
+    //     panic!("problem creating new empty file, ``{}``", err);
+    // });
 }
 
 
