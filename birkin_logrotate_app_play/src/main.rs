@@ -2,7 +2,10 @@
 extern crate log;
 
 extern crate env_logger;
-extern crate glob;
+extern crate chrono;  // <https://docs.rs/crate/chrono/0.4.11>
+extern crate glob;  // <https://docs.rs/glob/0.3.0/glob/>
+
+use chrono::{DateTime, Local};
 
 use serde::Deserialize;
 use serde_json::{Value};
@@ -13,10 +16,14 @@ use std::fs::File;
 use std::path::Path;
 use std::time::{Duration, Instant};
 
-use glob::glob;  // <https://docs.rs/glob/0.3.0/glob/>
+use glob::glob;
 
 // use serde_json::{json, Value};
 // use std::thread::sleep;
+
+
+use env_logger::{Builder, Target};
+
 
 
 /*
@@ -69,16 +76,22 @@ impl Config {
 
 fn main() {
 
+    /* start */
     let start_time = Instant::now();
-    println!("starting rust-custom-logrotate code at, ``{:?}``", start_time);
+    let local_time: DateTime<Local> = Local::now();
+    // println!( "\nstarting rust-custom-logrotate code at, ``{:?}``", local_time.to_rfc3339() );
 
     /* setup settings */
     let config = Config::new();
     // println!("config, ``{:?}``", config);
 
     /* setup logging */
-    env_logger::init();  // assumes ```export RUST_LOG="info"```; only error! will work if no RUST_LOG-level is set
+    let mut log_builder = Builder::from_default_env();
+    log_builder.target( Target::Stdout );
+    log_builder.init();
+    info!( "{}", format!("\n\nstarting rust-custom-logrotate code at, ``{:?}``", local_time.to_rfc3339()) );
     debug!( "{}", format!("config, ``{:#?}``", config) );  // debug! needs a string literal  :(
+
 
     /* load log-paths json-object */
     let log_paths_obj: std::vec::Vec<serde_json::value::Value> = load_log_paths( &config.logger_json_file_path );
@@ -90,6 +103,7 @@ fn main() {
     /* output */
     let duration: Duration = start_time.elapsed();
     info!( "{}", format!("elapsed-time, ``{:?}``", duration) );
+    // println!( "elapsed-time, ``{:?}``", duration );
 
 }
 
@@ -315,7 +329,7 @@ fn check_big_enough( path: &str ) -> bool {
         Called by manage_directory_entry().
         TODO: check against config setting */
 
-    const THRESHOLD: u64 = 1000;
+    const THRESHOLD: u64 = 250;
     let mut result = false;
 
     let metadata = fs::metadata(path);
