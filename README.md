@@ -179,7 +179,7 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch10-03-lifetime-syntax.html#thinking-in-terms-of-lifetimes>
+- <https://doc.rust-lang.org/stable/book/ch10-03-lifetime-syntax.html#generic-type-parameters-trait-bounds-and-lifetimes-together>
 
 ---
 
