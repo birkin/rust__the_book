@@ -1,11 +1,13 @@
 #[macro_use]
 extern crate log;
 
-extern crate env_logger;
 extern crate chrono;  // <https://docs.rs/crate/chrono/0.4.11>
+extern crate env_logger;
 extern crate glob;  // <https://docs.rs/glob/0.3.0/glob/>
 
 use chrono::{DateTime, Local};
+use env_logger::{Builder, Target};
+use glob::glob;
 
 use serde::Deserialize;
 use serde_json::{Value};
@@ -16,35 +18,17 @@ use std::fs::File;
 use std::path::Path;
 use std::time::{Duration, Instant};
 
-use glob::glob;
-
-// use serde_json::{json, Value};
-// use std::thread::sleep;
-
-
-use env_logger::{Builder, Target};
-
-
 
 /*
 
 NEXT:
 - next:
-    √ get sorted list of files from directory
-        x i got the list, but have to redo the function, to also pass in a filename.
-            x reason is because some directories have multiple sets of log-files -- and the way I'm doing this is based...
-              ... on the log-file-name-path, not the directory...
-              ... so I need to only return the files in a given directory that include the target filename.
-    √ copy files to destination file-names.
-    √ create new empty log file
-    - update crontab so it doesn't create mail-entries.
-    - change size-check to 250K
-    - put in human readable 'now' time-stamp for log.
+    - separate code into own repo.
 
 - someday:
     - pass in size-check as arg
     - consider more capable logger
-    - or consider updating a hash or an array that writes to a log-file
+        ... or consider updating a hash or an array that writes to a log-file
 
 */
 
@@ -122,46 +106,53 @@ fn process_logs( log_paths_obj: &std::vec::Vec<serde_json::value::Value> ) {
 
 fn manage_directory_entry( item: &serde_json::value::Value ) {
     /*  Manages the steps to process the log entry.
+        Called by: process_logs()
         Steps...
+        - check whether file exists and bail if it doesn't.
         - check file size and bail if it's not big enough.
-        - determine parent-directory from path.
+        - determine file-name and parent-directory from path.
+            ...they're needed to determine the list of relevant log-files to process.
+            ...this is because some log-directories contain more than one set of log files.
+            ...example, a 'usep' log-directory may contain a set of usep-webapp logs, and a set of usep-processing logs.
         - read all the files in the directory.
-        - in reverse-alphabetical-order, rename 09 through 01.
-        - rename the original file.
-        - create a new empty file.
-        Called by: process_logs() */
+        - create loop to process each relevant log-file.
+        */
 
     // debug!( "{}", format!("item from within manage_directory_entry, ``{:?}``", item) );  // yields (EG): item, ``Object({"path": String("/foo/the.log")})``
 
+    // -- get path String from json-dict-object
     let path_rfrnc = item["path"].as_str().unwrap_or_else( || {panic!("problem reading path from json-obj -- ``{:?}``");} );
-    // println!("path_rfrnc, ``{:?}``", path_rfrnc);
     // let zz: () = path_rfrnc;  // yields: found `&str`
-
     let path: String = path_rfrnc.into();
-    // println!("path, ``{:?}``", path);
     // let zz: () = path;  // yields: found struct `std::string::String`
 
+    // -- does file exist?
     if check_existence( &path ) == false {
         return;
     }
 
+    // -- is it big enough to process?
     if check_big_enough( &path ) == false {
         return;
     }
 
     info!( "{}", format!("PROCEEDING to process path, ``{:?}``", path) );
 
-    let file_name: String = make_file_name( &path );  // we need the filename to pass it to prep_file_list(), because some directories contain more than one set of log-files.
+    // -- get file_name
+    let file_name: String = make_file_name( &path );
 
-    // -- TODO...
-    //    Try something like: let mut parent_path = std::Path;
-    //    Then maybe sending the empty parent_path to the prep-function and returning it won't cause lifetime errors.
-    //    ...but getting a String works for now; so this try will be a refactor.
+    // -- get parent-path
+    //  TODO...
+    //  Try something like: let mut parent_path = std::Path;
+    //  Then maybe sending the empty parent_path to the prep-function and returning it won't cause lifetime errors.
+    //  ...but getting a String works for now; so this try will be a refactor.
     let parent_path: String = determine_directory( &path );
 
-    let file_list = prep_file_list( &parent_path, &file_name );
+    // -- get list of relevant log-file-paths
+    let file_list: Vec<String> = prep_file_list( &parent_path, &file_name );
     println!("file_list, ``{:?}``", file_list);
 
+    // -- process each log-file
     for file in file_list {
         process_file( &file, &file_name, &parent_path )
     }
@@ -171,7 +162,15 @@ fn manage_directory_entry( item: &serde_json::value::Value ) {
 
 fn process_file( file_path: &str, file_name: &str, parent_path: &str ) {
     /*  Examines given file and deletes it or backs it up.
-        Called by manage_directory_entry() */
+        Called by: manage_directory_entry()
+        Steps...
+        - determine the extension.
+        - delete oldest file if necessary.
+        - determine new extension.
+        - create destination filepath and copy source filepath to it.
+        - create the new empty file if necessary.
+        */
+
     debug!( "{}", format!("processing file_path, ``{:?}``", file_path) );
 
     // -- determine the extension
@@ -224,8 +223,9 @@ fn process_file( file_path: &str, file_name: &str, parent_path: &str ) {
 
     // -- and now copy
     let bytes_copied = fs::copy( file_path, destination_path ).unwrap_or_else( |err| {
-        error!( "{}", format!("problem copying the file, ``{}``", err) );
-        panic!("problem copying the file, ``{}``", err);
+        let err_message = format!( "problem copying the file, ``{}``", err );
+        error!( "{}", err_message );
+        panic!( err_message );
     });
     info!( "{}", format!("copied ``{:?}K``", (bytes_copied / 1024)) );
 
@@ -233,44 +233,42 @@ fn process_file( file_path: &str, file_name: &str, parent_path: &str ) {
     if extension_str == "log" {
         info!( "{}", format!("creating new empty file") );
         let _empty_file = File::create(&path).unwrap_or_else( |err| {
-            error!( "{}", format!("problem creating new empty file, ``{}``", err) );
-            panic!("problem creating new empty file, ``{}``", err);
+            let err_message = format!( "problem creating new empty file, ``{}``", err );
+            error!( "{}", err_message );
+            panic!( err_message );
         });
-
     }
-    // info!( "{}", format!("creating new empty file") );
-    // let _empty_file = File::create(&path).unwrap_or_else( |err| {
-    //     panic!("problem creating new empty file, ``{}``", err);
-    // });
-}
+
+} // end fn process_file()
 
 
 fn prep_file_list( parent_path: &str, file_name: &str ) -> Vec<String> {
     /*  Examines the directory for the target file-path and returns a list of all the log-entries.
-        Called by manage_directory_entry() */
+        Called by: manage_directory_entry() */
 
+    // -- initialize the holder
     let mut v: std::vec::Vec<String> = Vec::new();
 
-    // let pattern = format!( "{}/*.log*", parent_path );
+    // -- create the glob pattern
     let pattern = format!( "{}/*{}*", parent_path, file_name );
     debug!( "{}", format!("pattern, ``{:?}``", pattern) );
 
+    // -- apply the pattern
     let paths = glob( &pattern ).unwrap_or_else( |err| {
         panic!("could not glob the pattern; error, ``{}``", err);
     });
     // let zz: () = paths;  // yields (before unwrap): found enum `std::result::Result<glob::Paths, glob::PatternError>`
 
+    // -- convert each glob::Path into a String and add it to the Vector holder
     for entry in paths {
         let path = entry.unwrap_or_else( |err| {  // path without unwrap is: enum `std::result::Result<std::path::PathBuf, glob::GlobError>`
             panic!("could not access the path; error, ``{}``", err);
         });
-        // println!("path-buf obj, ``{:?}``", path);
         // let zz: () = path;  // yields: found struct `std::path::PathBuf`
 
         let path_str = path.to_str().unwrap_or_else( || {
             panic!("could turn the path into a string");
         });
-        // println!("path_str, ``{:?}``", path_str);
         // let zz: () = path_str;  // yields: found `&str`
 
         let path_string: String = path_str.into();
@@ -283,29 +281,33 @@ fn prep_file_list( parent_path: &str, file_name: &str ) -> Vec<String> {
     info!( "{}", format!("log-files before sort, ``{:#?}``", v) );
     // let zz: () = v; // yields: found struct `std::vec::Vec<std::string::String>`
 
-    v.sort();
+    v.sort();  // may not need this initial sort
     v.reverse();
     info!( "{}", format!("log-files after sort, ``{:#?}``", v) );
 
     v
 
-}
+} // end fn fn prep_file_list()
 
 
 fn determine_directory(  path: &str ) -> String {
+    /*  Takes full-path string-reference & determines the path to the parent-directory.
+        Called by: manage_directory_entry() */
+
+    // -- path-ify the string-reference and get the parent path-obj
     let parent = Path::new(path).parent().unwrap_or_else( || {
         panic!("no parent found");
     });
     // let zz: () = parent;  // yields: found `&std::path::Path`
-    // debug!( "{}", format!("parent, ``{:?}``", parent) );
 
+    // -- turn the path-obj into a string-reference on the way to getting a String
     let parent_str = parent.to_str().unwrap_or_else( || {
         panic!("could not get &str from parent-Path");
     });
     // let zz: () = parent_str;  // yields: found `&str`
-    // debug!( "{}", format!("parent_str, ``{:?}``", parent_str) );
 
-    let parent_string = parent_str.to_string();
+    // -- get the String
+    let parent_string: String = parent_str.into();  // TODO: combine this and the Option() step above.
     // let zz: () = parent_string;  // yields: found struct `std::string::String`  👍
     debug!( "{}", format!("parent_string, ``{:?}``", parent_string) );
 
@@ -315,21 +317,19 @@ fn determine_directory(  path: &str ) -> String {
 
 fn make_file_name( path: &str) -> String {
     /*  Extracts filename from path
-        Called by manage_directory_entry() */
+        Called by: manage_directory_entry() */
+
     let file_name_osstr = Path::new(path).file_name().unwrap_or_else( || {
         panic!("could not determine filename");
     });
-    // println!("file_name_osstr, ``{:?}``", file_name_osstr);
     // let zz: () = file_name_osstr;  // yields: found `&std::ffi::OsStr`
 
     let file_name_str = file_name_osstr.to_str().unwrap_or_else( || {
         panic!("could not derive file_name_str fro file_name_osstr");
     });
-    // println!("file_name_str, {:?}", file_name_str);
     // let zz: () = file_name_str;  // yields: found `&str`
 
     let file_name_string: String = file_name_str.into();
-    // println!("file_name_string, {:?}", file_name_string);
     // let zz: () = file_name_string; // yields: found struct `std::string::String`
 
     debug!( "{}", format!("file_name_string, ``{:?}``", file_name_string) );
@@ -339,7 +339,7 @@ fn make_file_name( path: &str) -> String {
 
 fn check_big_enough( path: &str ) -> bool {
     /*  Checks that file is big enough.
-        Called by manage_directory_entry().
+        Called by: manage_directory_entry().
         TODO: check against config setting */
 
     const THRESHOLD: u64 = 250;
@@ -371,7 +371,7 @@ fn check_big_enough( path: &str ) -> bool {
 
 fn check_existence( path: &str ) -> bool {
     /*  Checks that file exists.
-        Called by manage_directory_entry() */
+        Called by: manage_directory_entry() */
     if Path::new(path).exists() == false {
         error!( "{}", format!("path, ``{}`` does not exist", path) );
         false
@@ -417,32 +417,3 @@ fn load_log_paths( logger_json_file_path: &std::string::String ) -> std::vec::Ve
 
     return real_array;
 }
-
-
-
-// fn backup_files( log_directory: &serde_json::value::Value ) {
-
-//     // -- get a filepath
-//     // let first_filepath: &serde_json::value::Value = &log_directory[0]["path"];
-//     let first_filepath = &log_directory[0]["path"];
-//     // let zz: () = first_filepath;  // yields: found `&serde_json::value::Value`
-//     debug!( "{}", format!("first_filepath, ``{:#?}``", first_filepath) );
-//     // assert_eq!( first_filepath, String::from("/path/to/logs/addto_refworks_logs/addto_refworks.log") );
-
-//     // let destination_filepath = first_filepath.to_string() + "_02";
-//     // let destination_filepath = get_destination_filepath( first_filepath )
-//     // println!("destination_filepath, ``{:?}``", destination_filepath);
-
-//     // fs::copy("foo.txt", "bar.txt")?;
-
-//     sleep(Duration::new(0, 1)); // (seconds, nanoseconds)
-//     debug!( "end of backup_files()" )
-// }
-
-
-
-// fn quit(start_time: Instant) {
-//     let duration = start_time.elapsed();
-//     println!(" in quit(); duration, `{:?}`", duration);
-//     std::process::exit(0);
-// }
