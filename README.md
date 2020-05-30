@@ -63,6 +63,7 @@
 
     - blurb: """However, having lots of error checks in all of your functions would be verbose and annoying. Fortunately, you can use Rust’s type system (and thus the type checking the compiler does) to do many of the checks for you. If your function has a particular type as a parameter, you can proceed with your code’s logic knowing that the compiler has already ensured you have a valid value. For example, if you have a type rather than an Option, your program expects to have something rather than nothing. Your code then doesn’t have to handle two cases for the Some and None variants: it will only have one case for definitely having a value. Code trying to pass nothing to your function won’t even compile, so your function doesn’t have to check for that case at runtime. Another example is using an unsigned integer type such as u32, which ensures the parameter is never negative."""
 
+- cargo new name-of-project --lib _starts_ with a dummy test.
 
 ---
 
@@ -179,7 +180,7 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch11-00-testing.html>
+- <https://doc.rust-lang.org/stable/book/ch11-01-writing-tests.html#testing-equality-with-the-assert_eq-and-assert_ne-macros>
 
 ---
 
