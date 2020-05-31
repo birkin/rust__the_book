@@ -11,9 +11,40 @@ impl Rectangle {
 }
 
 
+pub fn add_two(a: i32) -> i32 {
+    a + 2
+}
+
+
+pub fn greeting( name: &str ) -> String {
+    format!( "Hello {}!", name )
+}
+
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    // -- greeting()
+
+    #[test]
+    fn should_contain_name() {
+        let result = greeting( "Carol" );
+        // assert!( result.contains("Carol") );
+        assert!(
+            result.contains( "Carol" ),
+            "Greeting did not contain name; value was ``{}``", result
+        );
+    }
+
+    // -- add_two()
+
+    #[test]
+    fn should_add_two() {
+        assert_eq!(4, add_two(2));
+    }
+
+    // -- Rectangle tests
 
     #[test]
     fn larger_can_hold_smaller() {
