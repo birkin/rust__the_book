@@ -1,3 +1,30 @@
+// -- Guess
+
+pub struct Guess {
+    value: i32,
+}
+
+impl Guess {
+    pub fn new(value: i32) -> Guess {
+        if value < 1 {
+            panic!(
+                "Guess value must be greater than or equal to 1; got ``{}``.",
+                value
+            );
+        } else if value > 100 {
+            panic!(
+                "Guess value must be less than or equal to 100; got ``{}``.",
+                value
+            );
+        }
+
+        Guess { value }
+    }
+}
+
+
+// -- Rectangle
+
 #[derive(Debug)]
 struct Rectangle {
     width: u32,
@@ -11,6 +38,8 @@ impl Rectangle {
 }
 
 
+// -- pub functions
+
 pub fn add_two(a: i32) -> i32 {
     a + 2
 }
@@ -21,9 +50,19 @@ pub fn greeting( name: &str ) -> String {
 }
 
 
+// -- tests
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    // -- Guess {}
+
+    #[test]
+    #[should_panic( expected = "Guess value must be less than or equal to 100" )]
+    fn greater_then_100() {
+        Guess::new( 200 );
+    }
 
     // -- greeting()
 
@@ -44,7 +83,7 @@ mod tests {
         assert_eq!(4, add_two(2));
     }
 
-    // -- Rectangle tests
+    // -- Rectangle {}
 
     #[test]
     fn larger_can_hold_smaller() {
@@ -70,5 +109,22 @@ mod tests {
             height: 1,
         };
         assert!( !smaller.can_hold(&larger) );
+    }
+
+    // -- misc
+
+    #[test]
+    fn it_works_A() {
+        assert_eq!(2 + 2, 4);
+    }
+
+
+    #[test]
+    fn it_works_B() -> Result<(), String> {
+        if 2 + 2 == 4 {
+            Ok( () )
+        } else {
+            Err( String::from("two plus two should equal four") )
+        }
     }
 }

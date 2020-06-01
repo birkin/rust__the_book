@@ -180,7 +180,7 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch11-01-writing-tests.html#testing-equality-with-the-assert_eq-and-assert_ne-macros>
+- <https://doc.rust-lang.org/stable/book/ch11-02-running-tests.html>
 
 ---
 
