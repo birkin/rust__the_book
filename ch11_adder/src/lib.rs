@@ -114,13 +114,13 @@ mod tests {
     // -- misc
 
     #[test]
-    fn it_works_A() {
+    fn it_works_a() {
         assert_eq!(2 + 2, 4);
     }
 
 
     #[test]
-    fn it_works_B() -> Result<(), String> {
+    fn it_works_b() -> Result<(), String> {
         if 2 + 2 == 4 {
             Ok( () )
         } else {
