@@ -180,7 +180,7 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch12-01-accepting-command-line-arguments.html>
+- <https://doc.rust-lang.org/stable/book/ch12-02-reading-a-file.html>
 
 ---
 
