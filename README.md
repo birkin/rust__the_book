@@ -182,6 +182,8 @@ Next...
 
 - <https://doc.rust-lang.org/stable/book/ch12-05-working-with-environment-variables.html>
 
+    - At: "First, we lowercase the query string"
+
 ---
 
 
