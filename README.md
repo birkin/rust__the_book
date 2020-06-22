@@ -135,6 +135,8 @@
 
 - lifetimes: re-read this a few times and play with it: <https://hellocode.dev/rust-lifetimes>
 
+- closures: "Unlike functions, closures can capture values from the scope in which they’re defined."
+
 ---
 
 #### logging...
