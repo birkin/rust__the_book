@@ -137,6 +137,10 @@
 
 - closures: "Unlike functions, closures can capture values from the scope in which they’re defined."
 
+    - a _fantastic_ chapter on closures: <https://doc.rust-lang.org/stable/book/ch13-01-closures.html#refactoring-using-functions>
+
+    - this was helpful... "Note that this let statement means expensive_closure contains the definition of an anonymous function, not the resulting value of calling the anonymous function."
+
 ---
 
 #### logging...
