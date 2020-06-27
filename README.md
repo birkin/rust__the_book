@@ -186,7 +186,9 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch13-01-closures.html#refactoring-using-functions>
+- <https://doc.rust-lang.org/stable/book/ch13-01-closures.html#storing-closures-using-generic-parameters-and-the-fn-traits>
+
+    - At: ```The caching logic of Cacher```
 
 ---
 
