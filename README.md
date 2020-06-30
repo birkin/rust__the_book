@@ -186,9 +186,7 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch13-01-closures.html#storing-closures-using-generic-parameters-and-the-fn-traits>
-
-    - At: ```The caching logic of Cacher```
+- <https://doc.rust-lang.org/stable/book/ch13-01-closures.html#capturing-the-environment-with-closures>
 
 ---
 
