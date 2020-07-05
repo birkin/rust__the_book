@@ -188,6 +188,8 @@ Next...
 
 - <https://doc.rust-lang.org/stable/book/ch13-01-closures.html#capturing-the-environment-with-closures>
 
+    - At `Closures can capture values`
+
 ---
 
 
