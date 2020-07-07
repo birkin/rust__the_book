@@ -186,9 +186,10 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch13-01-closures.html#capturing-the-environment-with-closures>
+- <https://doc.rust-lang.org/stable/book/ch13-02-iterators.html>
 
-    - At `Closures can capture values`
+    - At: ```Listing 13-15 demonstrates```
+
 
 ---
 
