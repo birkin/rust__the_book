@@ -18,3 +18,15 @@ fn misc01() {
     }
 
 }
+
+
+
+/*
+
+Notes...
+
+- An example of an object that, if I recall correctly, is a kind of iterator object -- that wouldn't print via the normal println!() technique, and how I got it to print:
+
+    <https://github.com/birkin/rust_marc_experimentation_code/blob/914be66aa5f0b084fbd219ae51194d0fadb0c7b0/exp01_list_marc_files/src/main.rs#L12-L21>
+
+ */
