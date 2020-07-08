@@ -141,6 +141,8 @@
 
     - this was helpful... "Note that this let statement means expensive_closure contains the definition of an anonymous function, not the resulting value of calling the anonymous function."
 
+- iterators... "The iter method produces an iterator over immutable references. If we want to create an iterator that takes ownership of v1 and returns owned values, we can call into_iter instead of iter. Similarly, if we want to iterate over mutable references, we can call iter_mut instead of iter.""
+
 ---
 
 #### logging...
@@ -186,9 +188,7 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch13-02-iterators.html>
-
-    - At: ```Listing 13-15 demonstrates```
+- <https://doc.rust-lang.org/stable/book/ch13-02-iterators.html#methods-that-produce-other-iterators>
 
 
 ---
