@@ -44,6 +44,10 @@
 
     - <https://www.snoyman.com/series/rust-crash-course>
 
+- printing while running tests...
+
+        cargo test -- --nocapture
+
 ---
 
 
@@ -188,7 +192,7 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch13-02-iterators.html#methods-that-produce-other-iterators>
+- <https://doc.rust-lang.org/stable/book/ch13-02-iterators.html#using-closures-that-capture-their-environment>
 
 
 ---
