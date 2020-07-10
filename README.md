@@ -48,6 +48,13 @@
 
         cargo test -- --nocapture
 
+- re the iterator filter example in <https://doc.rust-lang.org/stable/book/ch13-02-iterators.html#using-closures-that-capture-their-environment>...
+
+    - why the `use super::*;` in the test?
+
+    - why the `fn main() {}` at the bottom? The test runs fine without it.
+
+
 ---
 
 
@@ -194,6 +201,7 @@ Next...
 
 - <https://doc.rust-lang.org/stable/book/ch13-02-iterators.html#using-closures-that-capture-their-environment>
 
+    - At: ```The shoes_in_my_size function```
 
 ---
 
