@@ -44,6 +44,8 @@
 
     - <https://www.snoyman.com/series/rust-crash-course>
 
+    - <https://github.com/psibi/rust-book-summary>
+
 - printing while running tests...
 
         cargo test -- --nocapture
