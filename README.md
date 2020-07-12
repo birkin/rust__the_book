@@ -201,9 +201,7 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch13-02-iterators.html#using-closures-that-capture-their-environment>
-
-    - At: ```The shoes_in_my_size function```
+- <https://doc.rust-lang.org/stable/book/ch13-02-iterators.html#using-other-iterator-trait-methods>
 
 ---
 
