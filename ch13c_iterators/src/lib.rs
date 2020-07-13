@@ -42,6 +42,21 @@ fn calling_next_directly() {
 
 }
 
+
+/*  All these method calls are possible because we implemented
+    the Iterator trait by defining the next method.  */
+#[test]
+fn using_other_iterator_trait_methods() {
+    let sum: u32 = Counter::new()
+        .zip( Counter::new().skip(1) )
+        .map( |(a, b)| a * b )
+        .filter( |x| x % 3 == 0 )
+        .sum();
+
+    assert_eq!( 18, sum );
+}
+
+
 // fn main() {
 //     let cntr = Counter::new();
 //     println!("cntr, ``{:?}``", cntr );

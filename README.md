@@ -52,8 +52,6 @@
 
 - re the iterator filter example in <https://doc.rust-lang.org/stable/book/ch13-02-iterators.html#using-closures-that-capture-their-environment>...
 
-    - why the `use super::*;` in the test?
-
     - why the `fn main() {}` at the bottom? The test runs fine without it.
 
 
@@ -154,7 +152,11 @@
 
     - this was helpful... "Note that this let statement means expensive_closure contains the definition of an anonymous function, not the resulting value of calling the anonymous function."
 
-- iterators... "The iter method produces an iterator over immutable references. If we want to create an iterator that takes ownership of v1 and returns owned values, we can call into_iter instead of iter. Similarly, if we want to iterate over mutable references, we can call iter_mut instead of iter.""
+- iterators...
+
+    - "The iter method produces an iterator over immutable references. If we want to create an iterator that takes ownership of v1 and returns owned values, we can call into_iter instead of iter. Similarly, if we want to iterate over mutable references, we can call iter_mut instead of iter.""
+
+    - chapter14 has shows how simply implenting the Iterator trait by defining a next method -- automatically provides access to all the other Iterator methods (zip, map, filter, sum, maybe-more)
 
 ---
 
@@ -201,7 +203,7 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch13-02-iterators.html#using-other-iterator-trait-methods>
+- <https://doc.rust-lang.org/stable/book/ch13-03-improving-our-io-project.html>
 
 ---
 

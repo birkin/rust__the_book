@@ -1,5 +1,5 @@
 [package]
-name = "ch14_iterators"
+name = "ch13c_iterators"
 version = "0.1.0"
 authors = ["birkin <birkin.diana@gmail.com>"]
 edition = "2018"
