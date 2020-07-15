@@ -203,7 +203,7 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch13-03-improving-our-io-project.html#using-iterator-trait-methods-instead-of-indexing>
+- <https://doc.rust-lang.org/stable/book/ch13-04-performance.html#comparing-performance-loops-vs-iterators>
 
 ---
 
