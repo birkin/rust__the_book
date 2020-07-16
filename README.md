@@ -203,7 +203,7 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch13-04-performance.html#comparing-performance-loops-vs-iterators>
+- <https://doc.rust-lang.org/stable/book/ch14-02-publishing-to-crates-io.html#commonly-used-sections>
 
 ---
 
