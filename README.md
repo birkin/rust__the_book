@@ -205,6 +205,8 @@ Next...
 
 - <https://doc.rust-lang.org/stable/book/ch14-02-publishing-to-crates-io.html#exporting-a-convenient-public-api-with-pub-use>
 
+    - At: ```The files in your add directory should look like this:```
+
 ---
 
 
