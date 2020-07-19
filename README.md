@@ -203,9 +203,7 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch14-02-publishing-to-crates-io.html#exporting-a-convenient-public-api-with-pub-use>
-
-    - At: ```The files in your add directory should look like this:```
+- <https://doc.rust-lang.org/stable/book/ch14-03-cargo-workspaces.html?highlight=directory,should,look,like,this#depending-on-an-external-crate-in-a-workspace>
 
 ---
 
