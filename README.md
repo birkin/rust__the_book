@@ -203,7 +203,7 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch14-03-cargo-workspaces.html?highlight=directory,should,look,like,this#depending-on-an-external-crate-in-a-workspace>
+- <https://doc.rust-lang.org/stable/book/ch14-04-installing-binaries.html>
 
 ---
 
