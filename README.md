@@ -54,6 +54,9 @@
 
     - why the `fn main() {}` at the bottom? The test runs fine without it.
 
+- `$ cargo metadata | python3 -m json.tool` -- cool!
+
+- `$ cargo doc --open`
 
 ---
 
@@ -203,7 +206,7 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch14-04-installing-binaries.html>
+- <https://doc.rust-lang.org/stable/book/ch15-00-smart-pointers.html>
 
 ---
 
