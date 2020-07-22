@@ -1,4 +1,4 @@
-
+a
 ---
 
 ### Notes from ["The (rust) Book"](https://doc.rust-lang.org/stable/book/title-page.html)
@@ -161,6 +161,12 @@
 
     - chapter14 has shows how simply implenting the Iterator trait by defining a next method -- automatically provides access to all the other Iterator methods (zip, map, filter, sum, maybe-more)
 
+- smart pointers... (chapter 15)
+
+    - "...A pointer is a general concept for a variable that contains an address in memory. This address refers to, or “points at,” some other data. The most common kind of pointer in Rust is a reference..."
+
+    - "...Smart pointers, on the other hand, are data structures that not only act like a pointer but also have additional metadata and capabilities..."
+
 ---
 
 #### logging...
@@ -206,7 +212,7 @@
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch15-00-smart-pointers.html>
+- <https://doc.rust-lang.org/stable/book/ch15-01-box.html#using-a-boxt-to-store-data-on-the-heap>
 
 ---
 
