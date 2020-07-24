@@ -1,4 +1,4 @@
-use crate::List::{Cons, Nil};
+// use crate::List::{Cons, Nil};  // used by misc02()
 
 
 fn main() {
@@ -7,22 +7,47 @@ fn main() {
     // misc01();
 
     // -- recursion example
-    misc02();
+    // misc02();
+
+    // -- the dereference operator
+    // misc03();
+
+    // -- using Box<T> like a reference
+    misc04();
 
 }
 
 
-#[derive(Debug)]
-enum List {
-    Cons( i32, Box<List> ),
-    Nil,
+fn misc04() {
+    let x = 5;
+    let y = Box::new(x); // type-check yields: found struct `std::boxed::Box<{integer}>`
+
+    assert_eq!( 5, x );
+    assert_eq!( 5, *y );
 }
 
-fn misc02() {
-    let list = Cons( 1, Box::new(Cons(2, Box::new(Cons(3, Box::new(Nil))))) );
-    // let z: () = list;  // yields: found enum `List`
-    println!( "list, ``{:?}``", list );  // output: list, ``Cons(1, Cons(2, Cons(3, Nil)))``
-}
+
+// fn misc03() {
+//     let x = 5;  // type-check yields: found integer
+//     let y = &x;  // type-check yields: found `&{integer}`
+
+//     assert_eq!( 5, x );
+//     assert_eq!( 5, *y );
+// }
+
+
+// -- used by misc02()
+// #[derive(Debug)]
+// enum List {
+//     Cons( i32, Box<List> ),
+//     Nil,
+// }
+
+// fn misc02() {
+//     let list = Cons( 1, Box::new(Cons(2, Box::new(Cons(3, Box::new(Nil))))) );
+//     // let z: () = list;  // yields: found enum `List`
+//     println!( "list, ``{:?}``", list );  // output: list, ``Cons(1, Cons(2, Cons(3, Nil)))``
+// }
 
 
 

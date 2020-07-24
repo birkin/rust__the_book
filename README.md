@@ -212,9 +212,7 @@ a
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch15-01-box.html#using-a-boxt-to-store-data-on-the-heap>
-
-    - At: ```Listing 15-5: Definition of List that uses Box<T> in order to have a known size```
+- <https://doc.rust-lang.org/stable/book/ch15-02-deref.html#defining-our-own-smart-pointer>
 
 ---
 
