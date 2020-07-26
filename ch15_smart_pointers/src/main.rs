@@ -1,5 +1,7 @@
 // use crate::List::{Cons, Nil};  // used by misc02()
 
+use std::ops::Deref; // used by misc05()
+
 
 fn main() {
 
@@ -13,18 +15,60 @@ fn main() {
     // misc03();
 
     // -- using Box<T> like a reference
-    misc04();
+    // misc04();
+
+    // -- defining a smart pointer
+    misc05();
+
+    // -- implicit deref coercions with functions and methods
+    // -- uses the struct MyBox from misc05()
+    misc06();
 
 }
 
 
-fn misc04() {
+fn hello( name: &str ) {
+    println!( "Hello, ``{:?}``", name );
+}
+
+fn misc06() {
+    let m = MyBox::new( String::from("Rust") );
+    hello( &m );  // the `&` reference only works because Deref is implemented for MyBox.
+}
+
+
+struct MyBox<T>(T);
+
+impl<T> MyBox<T> {
+    fn new( x: T ) -> MyBox<T> {
+        MyBox( x )
+    }
+}
+
+impl<T> Deref for MyBox<T> {
+    type Target = T;
+
+    fn deref( &self ) -> &T {
+        &self.0
+    }
+}
+
+fn misc05() {
     let x = 5;
-    let y = Box::new(x); // type-check yields: found struct `std::boxed::Box<{integer}>`
+    let y = MyBox::new( x );
 
     assert_eq!( 5, x );
     assert_eq!( 5, *y );
 }
+
+
+// fn misc04() {
+//     let x = 5;
+//     let y = Box::new(x); // type-check yields: found struct `std::boxed::Box<{integer}>`
+
+//     assert_eq!( 5, x );
+//     assert_eq!( 5, *y );
+// }
 
 
 // fn misc03() {

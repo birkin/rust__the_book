@@ -212,7 +212,6 @@ a
 
 Next...
 
-- <https://doc.rust-lang.org/stable/book/ch15-02-deref.html#defining-our-own-smart-pointer>
-
+https://doc.rust-lang.org/stable/book/ch15-03-drop.html#running-code-on-cleanup-with-the-drop-trait
 ---
 
