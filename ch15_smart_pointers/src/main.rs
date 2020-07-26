@@ -1,6 +1,6 @@
 // use crate::List::{Cons, Nil};  // used by misc02()
 
-use std::ops::Deref; // used by misc05()
+use std::ops::Deref; // used by misc05() and misc06()
 
 
 fn main() {
@@ -24,6 +24,32 @@ fn main() {
     // -- uses the struct MyBox from misc05()
     misc06();
 
+    // -- drop
+    misc07();
+
+}
+
+
+// -- for misc07()
+
+struct CustomSmartPointer {
+    data: String,
+}
+
+impl Drop for CustomSmartPointer {
+    fn drop ( &mut self ) {
+        println!( "Dropping CustomSmartPointer with data ``{:?}``!", self.data );
+    }
+}
+
+fn misc07() {
+    let _c = CustomSmartPointer {
+        data: String::from( "my stuff" ),
+    };
+    let _d = CustomSmartPointer {
+        data: String::from( "other stuff" ),
+    };
+    println!( "CustomSmartPointers created." );
 }
 
 
@@ -37,6 +63,7 @@ fn misc06() {
 }
 
 
+// -- for misc05() and misc06()
 struct MyBox<T>(T);
 
 impl<T> MyBox<T> {
