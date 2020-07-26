@@ -212,6 +212,6 @@ a
 
 Next...
 
-https://doc.rust-lang.org/stable/book/ch15-03-drop.html#running-code-on-cleanup-with-the-drop-trait
+https://doc.rust-lang.org/stable/book/ch15-03-drop.html#dropping-a-value-early-with-stdmemdrop
 ---
 
