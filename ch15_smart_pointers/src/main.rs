@@ -46,10 +46,13 @@ fn misc07() {
     let _c = CustomSmartPointer {
         data: String::from( "my stuff" ),
     };
+    println!( "CustomSmartPointer c created." );
+    drop( _c );  // forces a call to the drop method
+    println!( "just manually dropped c" );
     let _d = CustomSmartPointer {
         data: String::from( "other stuff" ),
     };
-    println!( "CustomSmartPointers created." );
+    println!( "CustomSmartPointer d created." );
 }
 
 

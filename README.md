@@ -212,6 +212,7 @@ a
 
 Next...
 
-https://doc.rust-lang.org/stable/book/ch15-03-drop.html#dropping-a-value-early-with-stdmemdrop
+https://doc.rust-lang.org/stable/book/ch15-04-rc.html#rct-the-reference-counted-smart-pointer
+
 ---
 
