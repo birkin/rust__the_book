@@ -27,7 +27,34 @@ fn main() {
     // -- drop
     misc07();
 
+    // -- using reference-counting
+    misc08();
+
 }
+
+
+// -- for misc08()
+
+use crate::List::{ Cons, Nil };
+use std::rc::Rc;
+
+#[derive(Debug)]
+enum List {
+    Cons( i32, Rc<List> ),
+    Nil,
+}
+
+fn misc08() {
+    let a = Rc::new( Cons(5, Rc::new(Cons(10, Rc::new(Nil)))) );  // type-check yields: found struct `std::rc::Rc<List>`
+    let b = Cons( 3, Rc::clone(&a) );  // type-check yields: found enum `List`
+    let c = Cons( 4, Rc::clone(&a) );  // type-check yields: found enum `List`
+
+    println!( "\na, ``{:?}``", a );
+    println!( "b, ``{:?}``", b );
+    println!( "c, ``{:?}``", c );
+}
+
+// -- end of misc08()
 
 
 // -- for misc07()
@@ -55,6 +82,10 @@ fn misc07() {
     println!( "CustomSmartPointer d created." );
 }
 
+// -- end of misc07()
+
+
+// -- for misc06()
 
 fn hello( name: &str ) {
     println!( "Hello, ``{:?}``", name );
@@ -65,8 +96,11 @@ fn misc06() {
     hello( &m );  // the `&` reference only works because Deref is implemented for MyBox.
 }
 
+// -- end of misc06()
+
 
 // -- for misc05() and misc06()
+
 struct MyBox<T>(T);
 
 impl<T> MyBox<T> {
@@ -90,6 +124,8 @@ fn misc05() {
     assert_eq!( 5, x );
     assert_eq!( 5, *y );
 }
+
+// -- end of misc05()
 
 
 // fn misc04() {
