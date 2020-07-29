@@ -212,9 +212,8 @@ a
 
 Next...
 
-https://doc.rust-lang.org/stable/book/ch15-04-rc.html#rct-the-reference-counted-smart-pointer
+https://doc.rust-lang.org/stable/book/ch15-05-interior-mutability.html#refcellt-and-the-interior-mutability-pattern
 
-     - At: ```We need to add a use statement```
 
 ---
 

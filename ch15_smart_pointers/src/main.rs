@@ -30,10 +30,34 @@ fn main() {
     // -- using reference-counting
     misc08();
 
+    // -- counting the references
+    misc09();
+
 }
 
 
+// -- for misc09()
+
+fn misc09() {
+    let a = Rc::new( Cons(5, Rc::new(Cons(10, Rc::new(Nil)))) );
+    println!( "\ncount after creating `a`, ``{:?}``", Rc::strong_count(&a) );
+
+    let _b = Cons( 3, Rc::clone(&a) );
+    println!( "count after creating `b`, ``{:?}``", Rc::strong_count(&a) );
+
+    {
+        let _c = Cons( 4, Rc::clone(&a ) );
+        println!( "count after creating `c`, ``{:?}``", Rc::strong_count(&a) );
+    }
+    println!( "count after `c` goes out of scope, ``{:?}``", Rc::strong_count(&a) );
+}
+
+
+// -- end misc09()
+
+
 // -- for misc08()
+/* The two use statements and the enum are also used for misc09() */
 
 use crate::List::{ Cons, Nil };
 use std::rc::Rc;
