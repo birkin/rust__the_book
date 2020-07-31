@@ -212,8 +212,9 @@ a
 
 Next...
 
-https://doc.rust-lang.org/stable/book/ch15-05-interior-mutability.html#refcellt-and-the-interior-mutability-pattern
+https://doc.rust-lang.org/stable/book/ch15-05-interior-mutability.html#a-use-case-for-interior-mutability-mock-objects
 
+- At: ```Listing 15-20: A library to keep track```
 
 ---
 
