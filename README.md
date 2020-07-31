@@ -167,7 +167,16 @@ a
 
     - "...Smart pointers, on the other hand, are data structures that not only act like a pointer but also have additional metadata and capabilities..."
 
+- when to use usize/isize vs i32/i64
+
+    from <https://users.rust-lang.org/t/i32-vs-isize-u32-vs-usize/22657>...
+
+    Use usize and isize when it’s related to memory size – the size of an object, or indexing a vector, for instance. It will be a 32-bit number on 32-bit platforms, as that’s the limit of memory they can address, and likewise for 64-bit.
+
+    Use u32 and i32 when you just want numbers.
+
 ---
+
 
 #### logging...
 
@@ -214,7 +223,7 @@ Next...
 
 https://doc.rust-lang.org/stable/book/ch15-05-interior-mutability.html#a-use-case-for-interior-mutability-mock-objects
 
-- At: ```Listing 15-20: A library to keep track```
+- At: ```Listing 15-21: An attempt to implement```
 
 ---
 
