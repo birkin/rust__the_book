@@ -221,9 +221,7 @@ a
 
 Next...
 
-https://doc.rust-lang.org/stable/book/ch15-05-interior-mutability.html#a-use-case-for-interior-mutability-mock-objects
-
-- At: ```Listing 15-21: An attempt to implement```
+<https://doc.rust-lang.org/stable/book/ch15-05-interior-mutability.html#keeping-track-of-borrows-at-runtime-with-refcellt>
 
 ---
 
