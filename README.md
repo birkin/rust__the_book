@@ -221,7 +221,7 @@ a
 
 Next...
 
-<https://doc.rust-lang.org/stable/book/ch15-05-interior-mutability.html#keeping-track-of-borrows-at-runtime-with-refcellt>
+<https://doc.rust-lang.org/stable/book/ch15-06-reference-cycles.html#creating-a-reference-cycle>
 
 ---
 
