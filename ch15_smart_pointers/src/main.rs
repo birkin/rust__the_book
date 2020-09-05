@@ -59,7 +59,7 @@ struct Node {
 
 fn misc13() {
     let leaf = Rc::new( Node {
-        value = 3,
+        value: 3,
         parent: RefCell::new( Weak::new() ),
         children: RefCell::new( vec![] ),
     });
@@ -74,7 +74,7 @@ fn misc13() {
         let branch = Rc::new( Node {
             value: 5,
             parent: RefCell::new( Weak::new() ),
-            children: RefCell::new( vec![Rc::downgrade(&branch)] ),
+            children: RefCell::new( vec![Rc::clone( &leaf) ] ),
         });
 
         *leaf.parent.borrow_mut() = Rc::downgrade( &branch );
@@ -86,9 +86,22 @@ fn misc13() {
         );
 
         println!(
-            "leaf-INNER strong HEREZZ{:?}", );
+            "leaf-INNER strong = ``{:?}; weak = ``{:?}``",
+            Rc::strong_count( &leaf ),
+            Rc::weak_count( &leaf ),
+        );
 
     }  // end `{`
+
+    println!( "leaf parent = ``{:?}``",
+        leaf.parent.borrow().upgrade()
+    );
+
+    println!(
+        "leaf-FINAL strong = ``{:?}``, weak = ``{:?}``",
+        Rc::strong_count( &leaf ),
+        Rc::weak_count( &leaf ),
+    );
 
 }  // end fn misc13()
 

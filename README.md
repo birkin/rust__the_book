@@ -221,7 +221,7 @@ a
 
 Next...
 
-<https://doc.rust-lang.org/stable/book/ch15-06-reference-cycles.html#visualizing-changes-to-strong_count-and-weak_count>
+<https://doc.rust-lang.org/stable/book/ch16-00-concurrency.html>
 
 ---
 
