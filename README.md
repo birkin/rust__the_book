@@ -1,6 +1,3 @@
-a
----
-
 ### Notes from ["The (rust) Book"](https://doc.rust-lang.org/stable/book/title-page.html)
 
 (and other random notes)
@@ -221,7 +218,7 @@ a
 
 Next...
 
-<https://doc.rust-lang.org/stable/book/ch16-00-concurrency.html>
+<https://doc.rust-lang.org/stable/book/ch16-01-threads.html#waiting-for-all-threads-to-finish-using-join-handles>
 
 ---
 
