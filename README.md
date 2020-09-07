@@ -218,7 +218,7 @@
 
 Next...
 
-<https://doc.rust-lang.org/stable/book/ch16-01-threads.html#waiting-for-all-threads-to-finish-using-join-handles>
+<https://doc.rust-lang.org/stable/book/ch16-02-message-passing.html#using-message-passing-to-transfer-data-between-threads>
 
 ---
 
