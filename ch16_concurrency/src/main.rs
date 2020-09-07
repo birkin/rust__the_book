@@ -7,26 +7,53 @@ fn main() {
     // misc02();
 
     // -- using data from the outer environment in a thread
-    misc03();
+    // misc03();
+
+    // -- simple multiple-producer/single-consumer example
+    misc04();
 }
+
+
+
+// -- misc04()
+/*
+ * Listing 16-7
+ * doesn't print anything, likely because the main function ends before the spawned thread has time to do anything.
+ */
+
+use std::sync::mpsc;
+use std::thread;
+
+fn misc04() {
+    let (tx, rx) = mpsc::channel();
+
+    thread::spawn( move || {
+        println!( "foo" );
+        let val = String::from( "hi" );
+        tx.send( val ).unwrap();
+        println!( "rx, ``{:?}``", rx );
+    } );
+
+}
+
 
 
 
 // -- misc03()
 
-use std::thread;
+// use std::thread;
 
-fn misc03() {
+// fn misc03() {
 
-    let v = vec![1, 2, 3];
+//     let v = vec![1, 2, 3];
 
-    let handle = thread::spawn( move || {
-        println!( "Here's a vector: ``{:?}``", v );
-    } );
+//     let handle = thread::spawn( move || {
+//         println!( "Here's a vector: ``{:?}``", v );
+//     } );
 
-    handle.join().unwrap();
+//     handle.join().unwrap();
 
-}
+// }
 
 
 
