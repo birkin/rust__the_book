@@ -10,8 +10,67 @@ fn main() {
     // misc03();
 
     // -- simple multiple-producer/single-consumer example
-    misc04();
+    // misc04();
+
+    // -- getting the value from the receiving end of the channel
+    // misc05();
+
+    // -- sending multple messages
+    misc06();
 }
+
+
+
+// -- misc06()
+
+use std::sync::mpsc;
+use std::thread;
+use std::time::Duration;
+
+fn misc06() {
+    let (tx, rx) = mpsc::channel();
+
+    thread::spawn( move || {
+        let vals = vec![
+            String::from( "hi" ),
+            String::from( "from" ),
+            String::from( "the" ),
+            String::from( "thread" ),
+        ];
+
+        for val in vals {
+            tx.send( val ).unwrap();
+            thread::sleep( Duration::from_secs(1) );
+        }
+    } );
+
+    for received in rx {
+        println!( "Got ``{:?}``", received );
+    }
+}
+
+
+
+// -- misc05()
+
+/*
+ * Listing 16-8
+ */
+
+// use std::sync::mpsc;
+// use std::thread;
+
+// fn misc05() {
+//     let (tx, rx) = mpsc::channel();
+
+//     thread::spawn( move || {
+//         let val = String::from( "hi" );
+//         tx.send( val ).unwrap();
+//     } );
+
+//     let received = rx.recv().unwrap();
+//     println!( " Got: ``{:?}``", received );
+// }
 
 
 
@@ -21,21 +80,20 @@ fn main() {
  * doesn't print anything, likely because the main function ends before the spawned thread has time to do anything.
  */
 
-use std::sync::mpsc;
-use std::thread;
+// use std::sync::mpsc;
+// use std::thread;
 
-fn misc04() {
-    let (tx, rx) = mpsc::channel();
+// fn misc04() {
+//     let (tx, rx) = mpsc::channel();
 
-    thread::spawn( move || {
-        println!( "foo" );
-        let val = String::from( "hi" );
-        tx.send( val ).unwrap();
-        println!( "rx, ``{:?}``", rx );
-    } );
+//     thread::spawn( move || {
+//         println!( "foo" );
+//         let val = String::from( "hi" );
+//         tx.send( val ).unwrap();
+//         println!( "rx, ``{:?}``", rx );
+//     } );
 
-}
-
+// }
 
 
 

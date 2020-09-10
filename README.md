@@ -218,9 +218,7 @@
 
 Next...
 
-<https://doc.rust-lang.org/stable/book/ch16-02-message-passing.html#using-message-passing-to-transfer-data-between-threads>
-
-- At: ```In Listing 16-8, we’ll get the value...```
+<https://doc.rust-lang.org/stable/book/ch16-02-message-passing.html#creating-multiple-producers-by-cloning-the-transmitter>
 
 ---
 
