@@ -15,39 +15,138 @@ fn main() {
     // -- getting the value from the receiving end of the channel
     // misc05();
 
-    // -- sending multple messages
-    misc06();
+    // -- sending multple messages through a channel
+    // misc06();
+
+    // -- spawning multiple messages from multiple threads (each with own sender channel) to a single receiver
+    // misc07();
+
+    // -- mutex in a single-threaded context
+    // misc08();
+
+    // -- mutex in a multi-threaded context
+    misc09();
 }
+
+
+
+// -- misc09()
+
+use std::sync::{Arc, Mutex};
+use std::thread;
+
+fn misc09() {
+    let counter = Arc::new( Mutex::new(0) );
+    let mut handles = vec![];
+
+    for _ in 0..10 {
+        let counter = Arc::clone( &counter );
+        let handle = thread::spawn( move || {
+            let mut num = counter.lock().unwrap();
+
+            *num += 1;
+        } );
+        handles.push( handle );
+    }
+
+    for handle in handles {
+        handle.join().unwrap();
+    }
+
+    println!( "Result, ``{:?}``", *counter.lock().unwrap() );
+}
+
+
+// -- misc08()
+
+// use std::sync::Mutex;
+
+// fn misc08() {
+//     let m = Mutex::new( 5 );
+
+//     {
+//         let mut num = m.lock().unwrap();
+//         *num = 6;
+//     }
+
+//     println!( "m, ``{:?}``", m );
+// }
+
+
+
+// -- misc07()
+
+// use std::sync::mpsc;
+// use std::thread;
+// use std::time::Duration;
+
+// fn misc07() {
+//     let (tx, rx) = mpsc::channel();
+
+//     let tx1 = mpsc::Sender::clone( &tx );
+//     thread::spawn( move || {
+//         let vals = vec![
+//             String::from( "1a-hi" ),
+//             String::from( "1b-from" ),
+//             String::from( "1c-the" ),
+//             String::from( "1d-thread" ),
+//         ];
+
+//         for val in vals {
+//             tx1.send(val).unwrap();
+//             thread::sleep( Duration::from_secs(1) );
+//         }
+//     } );
+
+//     thread::spawn( move || {
+//         let vals = vec![
+//             String::from( "2a-more" ),
+//             String::from( "2b-messages" ),
+//             String::from( "2c-for" ),
+//             String::from( "2d-you" ),
+//         ];
+
+//         for val in vals {
+//             tx.send( val ).unwrap();
+//             thread::sleep( Duration::from_secs(1) );
+//         }
+//     } );
+
+//     for received in rx {
+//         println!( "Got: ``{:?}``", received );
+//     }
+
+// }
 
 
 
 // -- misc06()
 
-use std::sync::mpsc;
-use std::thread;
-use std::time::Duration;
+// use std::sync::mpsc;
+// use std::thread;
+// use std::time::Duration;
 
-fn misc06() {
-    let (tx, rx) = mpsc::channel();
+// fn misc06() {
+//     let (tx, rx) = mpsc::channel();
 
-    thread::spawn( move || {
-        let vals = vec![
-            String::from( "hi" ),
-            String::from( "from" ),
-            String::from( "the" ),
-            String::from( "thread" ),
-        ];
+//     thread::spawn( move || {
+//         let vals = vec![
+//             String::from( "hi" ),
+//             String::from( "from" ),
+//             String::from( "the" ),
+//             String::from( "thread" ),
+//         ];
 
-        for val in vals {
-            tx.send( val ).unwrap();
-            thread::sleep( Duration::from_secs(1) );
-        }
-    } );
+//         for val in vals {
+//             tx.send( val ).unwrap();
+//             thread::sleep( Duration::from_secs(1) );
+//         }
+//     } );
 
-    for received in rx {
-        println!( "Got ``{:?}``", received );
-    }
-}
+//     for received in rx {
+//         println!( "Got ``{:?}``", received );
+//     }
+// }
 
 
 

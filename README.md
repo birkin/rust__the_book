@@ -218,7 +218,7 @@
 
 Next...
 
-<https://doc.rust-lang.org/stable/book/ch16-02-message-passing.html#creating-multiple-producers-by-cloning-the-transmitter>
+<https://doc.rust-lang.org/stable/book/ch16-03-shared-state.html#similarities-between-refcelltrct-and-mutextarct>
 
 ---
 
