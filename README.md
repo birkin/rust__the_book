@@ -218,7 +218,7 @@
 
 Next...
 
-<https://doc.rust-lang.org/stable/book/ch16-03-shared-state.html#similarities-between-refcelltrct-and-mutextarct>
+<https://doc.rust-lang.org/stable/book/ch17-02-trait-objects.html>
 
 ---
 
