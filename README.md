@@ -218,7 +218,7 @@
 
 Next...
 
-<https://doc.rust-lang.org/stable/book/ch17-02-trait-objects.html>
+<https://doc.rust-lang.org/stable/book/ch17-02-trait-objects.html> -- read-through done, now code.
 
 ---
 
