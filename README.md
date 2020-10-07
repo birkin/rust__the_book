@@ -218,7 +218,7 @@
 
 Next...
 
-<https://doc.rust-lang.org/stable/book/ch17-02-trait-objects.html> -- read-through done, now code.
+<https://doc.rust-lang.org/stable/book/ch17-03-oo-design-patterns.html>
 
 ---
 

@@ -27,3 +27,16 @@ impl Draw for Button {
         // code to actually draw a button
     }
 }
+
+
+pub struct SelectBox {
+    pub width: u32,
+    pub height: u32,
+    pub options: Vec<String>,
+}
+
+impl Draw for SelectBox {
+    fn draw( &self ) {
+        // code to actually draw a select-box
+    }
+}

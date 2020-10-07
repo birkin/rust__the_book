@@ -1,17 +1,17 @@
-use ch17_obj_ori::Draw;
+use ch17_obj_ori::{Button, Screen, SelectBox};
 
 
-struct SelectBox {
-    width: u32,
-    height: u32,
-    options: Vec<String>,
-}
+// struct SelectBox {
+//     width: u32,
+//     height: u32,
+//     options: Vec<String>,
+// }
 
-impl Draw for SelectBox {
-    fn draw( &self ) {
-        // code to actually draw a select-box
-    }
-}
+// impl Draw for SelectBox {
+//     fn draw( &self ) {
+//         // code to actually draw a select-box
+//     }
+// }
 
 
 fn main() {
@@ -23,7 +23,7 @@ fn main() {
                 options: vec![
                     String::from( "Yes" ),
                     String::from( "Maybe" ),
-                    String::fro( "No" ),
+                    String::from( "No" ),
                 ],
             } ),
             Box::new( Button {
