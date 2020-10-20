@@ -13,8 +13,19 @@ fn main() {
 
 // -- misc02()
 
+use ch17_obj_ori::Post;
+
 fn misc02() {
-    println!("hello");
+    let mut post = Post::new();
+
+    post.add_text( "I ate a salad for lunch today" );
+    assert_eq!( "", post.content() );
+
+    post.request_review();
+    assert_eq!( "", post.content() );
+
+    post.approve();
+    assert_eq!( "I ate a salad for lunch today", post.content() );
 }
 
 
