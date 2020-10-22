@@ -218,7 +218,7 @@
 
 Next...
 
-<https://doc.rust-lang.org/stable/book/ch17-03-oo-design-patterns.html#adding-the-approve-method-that-changes-the-behavior-of-content>
+<https://doc.rust-lang.org/stable/book/ch17-03-oo-design-patterns.html#encoding-states-and-behavior-as-types>
 
 ---
 
