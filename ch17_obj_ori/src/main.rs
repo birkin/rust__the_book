@@ -5,29 +5,45 @@ fn main() {
     // misc01();
 
     // -- implementing OO-design-pattern 'state'
-    misc02();
+    // misc02();
 
+    // -- encoding States and Behavior as Types
+    misc03();
+
+}
+
+
+
+// -- misc03()
+
+use ch17_obj_ori::Post;
+
+fn misc03() {
+    let mut post = Post::new();
+
+    post.add_text( "I ate a salad for lunch today" );
+    assert_eq!( "", post.content() );
 }
 
 
 
 // -- misc02()
 
-use ch17_obj_ori::Post;
+// use ch17_obj_ori::Post;
 
-fn misc02() {
-    let mut post = Post::new();
+// fn misc02() {
+//     let mut post = Post::new();
 
-    post.add_text( "I ate a salad for lunch today" );
-    assert_eq!( "", post.content() );
+//     post.add_text( "I ate a salad for lunch today" );
+//     assert_eq!( "", post.content() );
 
-    post.request_review();
-    assert_eq!( "", post.content() );
+//     post.request_review();
+//     assert_eq!( "", post.content() );
 
-    post.approve();
-    assert_eq!( "I ate a salad for lunch today", post.content() );
-    println!( "post.content, ``{:?}``", post.content() );
-}
+//     post.approve();
+//     assert_eq!( "I ate a salad for lunch today", post.content() );
+//     println!( "post.content, ``{:?}``", post.content() );
+// }
 
 
 
