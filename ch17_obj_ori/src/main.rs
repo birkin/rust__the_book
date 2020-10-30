@@ -10,6 +10,8 @@ fn main() {
     // -- encoding States and Behavior as Types
     misc03();
 
+    // -- next: "Implementing Transitions as Transformations into Different Types"
+
 }
 
 

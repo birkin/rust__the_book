@@ -1,4 +1,14 @@
+
+
+
 // -- misc03()
+// -- NOTE: this doesn't work, yielding:
+
+// 26 |     assert_eq!("", post.content());
+//    |                         ^^^^^^^ private field, not a method
+
+// -- if, though, I make lib.rs the full content of 'Listing 17-20' (minus the main{}) -- it cargo-checks fine.
+
 
 pub struct Post {
     content: String,

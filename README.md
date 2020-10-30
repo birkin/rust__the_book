@@ -218,34 +218,8 @@
 
 Next...
 
-<https://doc.rust-lang.org/stable/book/ch17-03-oo-design-patterns.html#encoding-states-and-behavior-as-types>
+<https://doc.rust-lang.org/stable/book/ch17-03-oo-design-patterns.html#implementing-transitions-as-transformations-into-different-types>
 
-    Figure out why I'm getting...
-
-    bbox-2016:ch17_obj_ori birkin$
-    bbox-2016:ch17_obj_ori birkin$ cargo check
-        Checking ch17_obj_ori v0.1.0 (/Users/birkin/Library/Mobile Documents/com~apple~CloudDocs/docs/learning_rust/the_book_stuff/code/ch17_obj_ori)
-    warning: unused import: `ch17_obj_ori::DraftPost`
-      --> src/main.rs:20:5
-       |
-    20 | use ch17_obj_ori::DraftPost;
-       |     ^^^^^^^^^^^^^^^^^^^^^^^
-       |
-       = note: `#[warn(unused_imports)]` on by default
-
-    error[E0599]: no method named `content` found for struct `ch17_obj_ori::DraftPost` in the current scope
-      --> src/main.rs:26:26
-       |
-    26 |     assert_eq!( "", post.content() );
-       |                          ^^^^^^^ private field, not a method
-
-    error: aborting due to previous error; 1 warning emitted
-
-    For more information about this error, try `rustc --explain E0599`.
-    error: could not compile `ch17_obj_ori`.
-
-    To learn more, run the command again with --verbose.
-    bbox-2016:ch17_obj_ori birkin$
 
 
 ---
