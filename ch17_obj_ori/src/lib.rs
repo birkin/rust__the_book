@@ -1,20 +1,11 @@
+// -- misc04()
 
+// --------------------
+// Post
+// --------------------
 
-
-// -- misc03()
-// -- NOTE: this doesn't work, yielding:
-
-// 26 |     assert_eq!("", post.content());
-//    |                         ^^^^^^^ private field, not a method
-
-// -- if, though, I make lib.rs the full content of 'Listing 17-20' (minus the main{}) -- it cargo-checks fine.
-
-
+#[derive(Debug)]
 pub struct Post {
-    content: String,
-}
-
-pub struct DraftPost {
     content: String,
 }
 
@@ -30,11 +21,80 @@ impl Post {
     }
 }
 
+// --------------------
+// DraftPost
+// --------------------
+
+#[derive(Debug)]
+pub struct DraftPost {
+    content: String,
+}
+
 impl DraftPost {
     pub fn add_text( &mut self, text: &str ) {
         self.content.push_str( text );
     }
+
+    pub fn request_review(self) -> PendingReviewPost {
+        PendingReviewPost {
+            content: self.content,
+        }
+    }
 }
+
+// --------------------
+// PendingReviewPost
+// --------------------
+
+#[derive(Debug)]
+pub struct PendingReviewPost {
+    content: String,
+}
+
+impl PendingReviewPost {
+    pub fn approve(self) -> Post {
+        Post {
+            content: self.content
+        }
+    }
+}
+
+
+
+// -- misc03()
+// -- NOTE: this doesn't work, yielding:
+
+// 26 |     assert_eq!("", post.content());
+//    |                         ^^^^^^^ private field, not a method
+
+// -- if, though, I make lib.rs the full content of 'Listing 17-20' (minus the main{}) -- it cargo-checks fine.
+
+
+// pub struct Post {
+//     content: String,
+// }
+
+// pub struct DraftPost {
+//     content: String,
+// }
+
+// impl Post {
+//     pub fn new() -> DraftPost {
+//         DraftPost {
+//             content: String::new(),
+//         }
+//     }
+
+//     pub fn content( &self ) -> &str {
+//         &self.content
+//     }
+// }
+
+// impl DraftPost {
+//     pub fn add_text( &mut self, text: &str ) {
+//         self.content.push_str( text );
+//     }
+// }
 
 
 

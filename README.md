@@ -218,7 +218,7 @@
 
 Next...
 
-<https://doc.rust-lang.org/stable/book/ch17-03-oo-design-patterns.html#implementing-transitions-as-transformations-into-different-types>
+<https://doc.rust-lang.org/stable/book/ch18-00-patterns.html>
 
 
 

@@ -8,24 +8,52 @@ fn main() {
     // misc02();
 
     // -- encoding States and Behavior as Types
-    misc03();
+    // misc03();
 
     // -- next: "Implementing Transitions as Transformations into Different Types"
+    misc04()
 
+}
+
+
+
+// -- misc04()
+
+// use ch17_obj_ori::Post;
+// use ch17_obj_ori::PendingReviewPost;
+use ch17_obj_ori::{ DraftPost, PendingReviewPost, Post };
+
+
+fn misc04() {
+
+    let mut post: DraftPost = Post::new();
+    println!( "post after new(), ``{:?}``", post );
+
+    post.add_text( "I ate a salad for lunch today" );
+    println!( "post after add_text(), ``{:?}``", post );
+
+    let post: PendingReviewPost = post.request_review();
+    println!( "post after request_review, ``{:?}``", post );
+    // println!( "post.content, ``{:?}``", post.content() );  // yields: private field, not a method
+    // let zz: () = post;  // yields: expected `()`, found struct `ch17_obj_ori::PendingReviewPost`
+
+    let post: Post = post.approve();
+    println!( "post, ``{:?}``", post );
+    assert_eq!( "I ate a salad for lunch today", post.content() );
 }
 
 
 
 // -- misc03()
 
-use ch17_obj_ori::Post;
+// use ch17_obj_ori::Post;
 
-fn misc03() {
-    let mut post = Post::new();
+// fn misc03() {
+//     let mut post = Post::new();
 
-    post.add_text( "I ate a salad for lunch today" );
-    assert_eq!( "", post.content() );
-}
+//     post.add_text( "I ate a salad for lunch today" );
+//     assert_eq!( "", post.content() );
+// }
 
 
 
