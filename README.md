@@ -172,6 +172,14 @@
 
     Use u32 and i32 when you just want numbers.
 
+- if let expressions...
+
+    from <https://doc.rust-lang.org/stable/book/ch18-01-all-the-places-for-patterns.html#conditional-if-let-expressions>
+
+    - "...Listing 18-1 shows that it’s also possible to mix and match if let, else if, and else if let expressions. Doing so gives us more flexibility than a match expression in which we can express only one value to compare with the patterns. Also, the conditions in a series of if let, else if, else if let arms aren’t required to relate to each other..."
+
+    - "...The downside of using if let expressions is that the compiler doesn’t check exhaustiveness, whereas with match expressions it does. If we omitted the last else block and therefore missed handling some cases, the compiler would not alert us to the possible logic bug..."
+
 ---
 
 
@@ -218,7 +226,7 @@
 
 Next...
 
-<https://doc.rust-lang.org/stable/book/ch18-00-patterns.html>
+<https://doc.rust-lang.org/stable/book/ch18-01-all-the-places-for-patterns.html#for-loops>
 
 
 
