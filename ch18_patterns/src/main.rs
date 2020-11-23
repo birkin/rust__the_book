@@ -4,24 +4,39 @@ fn main() {
     // main01();
 
     // -- while let Conditional Loops
-    main02()
+    // main02()
+
+    // -- for-loops
+    main03();
+}
+
+
+
+// -- main03() -- for-loops
+fn main03() {
+    let v = vec!['a', 'b', 'c'];
+
+    for ( index, value ) in v.iter().enumerate() {
+        println!( "``{}`` is at index ``{}``", value, index );
+    }
 }
 
 
 
 // -- main02() -- while let Conditional Loops
 
-fn main02() {
-    let mut stack = Vec::new();
+// fn main02() {
+//     let mut stack = Vec::new();
 
-    stack.push(1);
-    stack.push(2);
-    stack.push(3);
+//     stack.push(1);
+//     stack.push(2);
+//     stack.push(3);
 
-    while let Some( top ) = stack.pop() {
-        println!( "top, ``{:?}``", top );
-    }
-}
+//     while let Some( top ) = stack.pop() {
+//         println!( "top, ``{:?}``", top );
+//     }
+// }
+
 
 
 // -- main01() -- conditional `if let` expressions
