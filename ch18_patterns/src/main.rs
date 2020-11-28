@@ -7,19 +7,36 @@ fn main() {
     // main02()
 
     // -- for-loops
-    main03();
+    // main03();
+
+    // -- function-parameters as patterns
+    main04();
+}
+
+
+
+// -- main04() -- function-parameters as patterns
+
+fn main04() {
+    let point = (3, 5);
+    print_coordinates( &point );
+}
+
+fn print_coordinates( &(x, y): &(i32, i32) ) {
+    println!( "Current location: (``{:?}``, ``{}``)", x, y );
 }
 
 
 
 // -- main03() -- for-loops
-fn main03() {
-    let v = vec!['a', 'b', 'c'];
 
-    for ( index, value ) in v.iter().enumerate() {
-        println!( "``{}`` is at index ``{}``", value, index );
-    }
-}
+// fn main03() {
+//     let v = vec!['a', 'b', 'c'];
+
+//     for ( index, value ) in v.iter().enumerate() {
+//         println!( "``{}`` is at index ``{}``", value, index );
+//     }
+// }
 
 
 
