@@ -226,7 +226,7 @@
 
 Next...
 
-<https://doc.rust-lang.org/stable/book/ch18-02-refutability.html>
+<https://doc.rust-lang.org/stable/book/ch18-03-pattern-syntax.html#-bindings>
 
 
 
