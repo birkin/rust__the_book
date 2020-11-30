@@ -226,8 +226,9 @@
 
 Next...
 
-<https://doc.rust-lang.org/stable/book/ch18-03-pattern-syntax.html#-bindings>
+<https://doc.rust-lang.org/stable/book/ch19-01-unsafe-rust.html#dereferencing-a-raw-pointer>
 
+At: ```...Notice that we don’t include...```
 
 
 ---
