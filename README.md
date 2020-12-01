@@ -226,10 +226,7 @@
 
 Next...
 
-<https://doc.rust-lang.org/stable/book/ch19-01-unsafe-rust.html#dereferencing-a-raw-pointer>
-
-At: ```...Notice that we don’t include...```
-
+<https://doc.rust-lang.org/stable/book/ch19-01-unsafe-rust.html#calling-an-unsafe-function-or-method>
 
 ---
 
