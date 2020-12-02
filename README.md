@@ -226,7 +226,7 @@
 
 Next...
 
-<https://doc.rust-lang.org/stable/book/ch19-01-unsafe-rust.html#calling-an-unsafe-function-or-method>
+<https://doc.rust-lang.org/stable/book/ch19-01-unsafe-rust.html#using-extern-functions-to-call-external-code>
 
 ---
 
