@@ -4,24 +4,40 @@ fn main() {
     // main01();
 
     // -- calling unsafe functions
-    main02();
+    // main02();
 
+    // -- calling external code
+    main03();
+
+}
+
+
+// -- main03() -- calling external code
+
+fn main03() {
+    unsafe {
+        println!( "Absolute value of -3 according to C: ``{:?}``", abs(-3) );
+    }
+}
+
+extern "C" {
+    fn abs( input: i32 ) -> i32;
 }
 
 
 
 // -- main02() -- calling unsafe functions
 
-fn main02() {
-    unsafe {
-        let result = dangerous();
-        println!( "result, ``{:?}``", result );
-    }
-}
+// fn main02() {
+//     unsafe {
+//         let result = dangerous();
+//         println!( "result, ``{:?}``", result );
+//     }
+// }
 
-unsafe fn dangerous() -> std::string::String {
-    String::from( "be careful")
-}
+// unsafe fn dangerous() -> std::string::String {
+//     String::from( "be careful")
+// }
 
 
 

@@ -55,6 +55,10 @@
 
 - `$ cargo doc --open`
 
+- Calling python from rust...
+
+    <https://pyo3.rs/master/faq.html>
+
 ---
 
 
@@ -226,7 +230,9 @@
 
 Next...
 
-<https://doc.rust-lang.org/stable/book/ch19-01-unsafe-rust.html#using-extern-functions-to-call-external-code>
+<https://doc.rust-lang.org/stable/book/ch19-01-unsafe-rust.html#accessing-or-modifying-a-mutable-static-variable>
+
+Also: to-read: <https://developers.redhat.com/blog/2017/11/16/speed-python-using-rust/>
 
 ---
 
