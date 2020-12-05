@@ -230,9 +230,9 @@
 
 Next...
 
-<https://doc.rust-lang.org/stable/book/ch19-01-unsafe-rust.html#accessing-or-modifying-a-mutable-static-variable>
+<https://doc.rust-lang.org/stable/book/ch19-01-unsafe-rust.html#implementing-an-unsafe-trait>
 
-Also: to-read: <https://developers.redhat.com/blog/2017/11/16/speed-python-using-rust/>
+Sometme, to-read: <https://developers.redhat.com/blog/2017/11/16/speed-python-using-rust/>
 
 ---
 

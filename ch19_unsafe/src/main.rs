@@ -7,22 +7,51 @@ fn main() {
     // main02();
 
     // -- calling external code
-    main03();
+    // main03();
+
+    // -- Accessing or Modifying a Mutable Static Variable
+    main04();
 
 }
+
+
+
+// -- main 04() -- Accessing or Modifying a Mutable Static Variable
+
+static STATIC_NAME: &str = "Foo";
+
+static mut COUNTER: u32 = 2;  // (1) static variables, unlike constants, can be mutable. (2) a "safe" way of doing this would be to use a Mutex, as shown in <https://doc.rust-lang.org/stable/book/ch16-03-shared-state.html#using-mutexes-to-allow-access-to-data-from-one-thread-at-a-time>
+
+fn main04() {
+    println!( "static-name is ``{:?}``", STATIC_NAME );
+    // let zz: () = STATIC_NAME;  // yields: found `&str`
+
+    add_to_count( 3 );
+
+    unsafe {
+        println!( "COUNTER, ``{:?}``", COUNTER );
+    }
+}
+
+fn add_to_count( increment: u32 ) {
+    unsafe {
+        COUNTER += increment;
+    }
+}
+
 
 
 // -- main03() -- calling external code
 
-fn main03() {
-    unsafe {
-        println!( "Absolute value of -3 according to C: ``{:?}``", abs(-3) );
-    }
-}
+// fn main03() {
+//     unsafe {
+//         println!( "Absolute value of -3 according to C: ``{:?}``", abs(-3) );
+//     }
+// }
 
-extern "C" {
-    fn abs( input: i32 ) -> i32;
-}
+// extern "C" {
+//     fn abs( input: i32 ) -> i32;
+// }
 
 
 
