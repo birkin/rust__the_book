@@ -230,7 +230,7 @@
 
 Next...
 
-<https://doc.rust-lang.org/stable/book/ch19-01-unsafe-rust.html#implementing-an-unsafe-trait>
+<https://doc.rust-lang.org/stable/book/ch19-03-advanced-traits.html>
 
 Sometme, to-read: <https://developers.redhat.com/blog/2017/11/16/speed-python-using-rust/>
 
