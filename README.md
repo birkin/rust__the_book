@@ -232,7 +232,7 @@
 
 Next...
 
-<https://doc.rust-lang.org/stable/book/ch19-03-advanced-traits.html#default-generic-type-parameters-and-operator-overloading>
+<https://doc.rust-lang.org/stable/book/ch19-03-advanced-traits.html#fully-qualified-syntax-for-disambiguation-calling-methods-with-the-same-name>
 
 ---
 

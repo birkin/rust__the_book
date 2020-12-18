@@ -15,6 +15,27 @@ fn main() {
 
 // -- main03()
 
+use std::ops::Add;
+
+# [derive( Debug, PartialEq )]
+struct Millimeters( u32 );
+
+struct Meters( u32 );
+
+impl Add<Meters> for Millimeters {
+    type Output = Millimeters;
+
+    fn add( self, other: Meters ) -> Millimeters {
+        Millimeters( self.0 + (other.0 * 1000) )
+    }
+}
+
+fn main03() {
+    let summed_millimeters: Millimeters = Millimeters(500) + Meters( 1 );
+    println!( "summed_millimeters, ``{:?}``", summed_millimeters );
+    assert_eq!( summed_millimeters, Millimeters(1500) );
+}
+
 
 
 // // -- main02() -- Default Generic Type Parameters and Operator Overloading
