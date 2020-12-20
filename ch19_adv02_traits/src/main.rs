@@ -6,35 +6,80 @@ fn main() {
     // -- Default Generic Type Parameters and Operator Overloading
     // main02();
 
-    // -- Customizing the `Rhs` of the Output
-    main03();
+    // -- Customizing the `Rhs` of the Output for operator-overloading
+    // main03();
+
+    // -- Fully Qualified Syntax for Disambiguation: Calling Methods with the Same Name
+    main04();
+
+    // -- Disambiguating methods with the same name with associated-types that are part of traits, which don't have a `self` parameter
+    // main05();
 
 }
 
 
 
-// -- main03()
+// -- main04() -- Disambiguating methods with the same name
 
-use std::ops::Add;
+trait Pilot {
+    fn fly( &self );
+}
 
-# [derive( Debug, PartialEq )]
-struct Millimeters( u32 );
+trait Wizard {
+    fn fly( &self );
+}
 
-struct Meters( u32 );
+struct Human;
 
-impl Add<Meters> for Millimeters {
-    type Output = Millimeters;
-
-    fn add( self, other: Meters ) -> Millimeters {
-        Millimeters( self.0 + (other.0 * 1000) )
+impl Pilot for Human {
+    fn fly( &self ) {
+        println!( "This is your captain speaking" );
     }
 }
 
-fn main03() {
-    let summed_millimeters: Millimeters = Millimeters(500) + Meters( 1 );
-    println!( "summed_millimeters, ``{:?}``", summed_millimeters );
-    assert_eq!( summed_millimeters, Millimeters(1500) );
+impl Wizard for Human {
+    fn fly( &self ) {
+        println!( "Up!" );
+    }
 }
+
+impl Human {
+    fn fly( &self ) {
+        println!( "*** waving arms furiosuly ***" );
+    }
+}
+
+fn main04() {
+    let person = Human;
+    person.fly();           // outputs ``*** waving arms furiosuly ***``
+    Pilot::fly( &person );  // outputs ``This is your captain speaking``
+    Wizard::fly( &person ); // outputs ``Up!``
+}
+
+
+
+// -- main03() -- Customizing the `Rhs` of the Output for operator-overloading
+
+// use std::ops::Add;
+
+// # [derive( Debug, PartialEq )]
+// struct Millimeters( u32 );
+
+// struct Meters( u32 );
+
+// impl Add<Meters> for Millimeters {
+//     type Output = Millimeters;
+
+//     fn add( self, other: Meters ) -> Millimeters {
+//         Millimeters( self.0 + (other.0 * 1000) )
+//     }
+// }
+
+// fn main03() {
+//     let summed_millimeters: Millimeters = Millimeters(500) + Meters( 1 );
+//     println!( "summed_millimeters, ``{:?}``", summed_millimeters );
+//     assert_eq!( summed_millimeters, Millimeters(1500) );
+// }
 
 
 

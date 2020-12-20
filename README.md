@@ -234,5 +234,7 @@ Next...
 
 <https://doc.rust-lang.org/stable/book/ch19-03-advanced-traits.html#fully-qualified-syntax-for-disambiguation-calling-methods-with-the-same-name>
 
+At...  ```Because the fly method takes a self parameter```
+
 ---
 
