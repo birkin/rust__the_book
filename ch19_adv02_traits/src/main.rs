@@ -16,44 +16,66 @@ fn main() {
     // main05();
 
     // -- Using Supertraits
-    main06();
+    // main06();
+
+    // -- Implementing External Traits on External Types
+    main07();
 }
 
 
 
-// -- main06() -- Using Supertraits
+// -- main07() -- Implementing External Traits on External Types
 
 use std::fmt;
 
-trait OutlinePrint: fmt::Display {
-    fn outline_print( &self ) {
-        let output = self.to_string();
-        let len = output.len();
-        println!( "{}", "*".repeat(len + 4) );
-        println!( "*{}*", " ".repeat(len + 2) );
-        println!( "* {} *", output );
-        println!( "*{}*", " ".repeat(len + 2) );
-        println!( "{}", "*".repeat(len + 4) );
-    }
-}
+struct Wrapper( Vec<String> );
 
-struct Point {
-    x: i32,
-    y: i32,
-}
-
-impl OutlinePrint for Point {}
-
-impl fmt::Display for Point {
+impl fmt::Display for Wrapper {
     fn fmt( &self, f: &mut fmt::Formatter ) -> fmt::Result {
-        write!( f, "({}, {})", self.x, self.y )
+        write!( f, "[{}]", self.0.join(", ") )
     }
 }
 
-fn main06() {
-    let p = Point{ x: 111, y: 333 };
-    p.outline_print();
+fn main07() {
+    let w = Wrapper( vec![String::from("hello"), String::from("world")] );
+    println!( "w = ``{}``", w);
 }
+
+
+
+// // -- main06() -- Using Supertraits
+
+// use std::fmt;
+
+// trait OutlinePrint: fmt::Display {
+//     fn outline_print( &self ) {
+//         let output = self.to_string();
+//         let len = output.len();
+//         println!( "{}", "*".repeat(len + 4) );
+//         println!( "*{}*", " ".repeat(len + 2) );
+//         println!( "* {} *", output );
+//         println!( "*{}*", " ".repeat(len + 2) );
+//         println!( "{}", "*".repeat(len + 4) );
+//     }
+// }
+
+// struct Point {
+//     x: i32,
+//     y: i32,
+// }
+
+// impl OutlinePrint for Point {}
+
+// impl fmt::Display for Point {
+//     fn fmt( &self, f: &mut fmt::Formatter ) -> fmt::Result {
+//         write!( f, "({}, {})", self.x, self.y )
+//     }
+// }
+
+// fn main06() {
+//     let p = Point{ x: 111, y: 333 };
+//     p.outline_print();
+// }
 
 
 
