@@ -13,36 +13,74 @@ fn main() {
     // main04();
 
     // -- Disambiguating methods with the same name with associated-types that are part of traits, which don't have a `self` parameter
-    main05();
+    // main05();
 
+    // -- Using Supertraits
+    main06();
 }
 
 
 
-// -- main05() -- Disambiguating methods with the same name with associated-types that are part of traits, which don't have a `self` parameter
+// -- main06() -- Using Supertraits
 
-trait Animal {
-    fn baby_name() -> String;
-}
+use std::fmt;
 
-struct Dog;
-
-impl Dog {
-    fn baby_name() -> String {
-        String::from( "Spot" )
+trait OutlinePrint: fmt::Display {
+    fn outline_print( &self ) {
+        let output = self.to_string();
+        let len = output.len();
+        println!( "{}", "*".repeat(len + 4) );
+        println!( "*{}*", " ".repeat(len + 2) );
+        println!( "* {} *", output );
+        println!( "*{}*", " ".repeat(len + 2) );
+        println!( "{}", "*".repeat(len + 4) );
     }
 }
 
-impl Animal for Dog {
-    fn baby_name() -> String {
-        String::from( "puppy" )
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+impl OutlinePrint for Point {}
+
+impl fmt::Display for Point {
+    fn fmt( &self, f: &mut fmt::Formatter ) -> fmt::Result {
+        write!( f, "({}, {})", self.x, self.y )
     }
 }
 
-fn main05() {
-    println!( "A baby dog is called a ``{:?}``", Dog::baby_name() );  // compiles, but wrong; outputs: A baby dog is called a ``"Spot"``
-    println!( "A baby dog is called a ``{:?}``", <Dog as Animal>::baby_name() );  // what we want; outputs: A baby dog is called a ``"puppy"``
+fn main06() {
+    let p = Point{ x: 111, y: 333 };
+    p.outline_print();
 }
+
+
+
+// // -- main05() -- Disambiguating methods with the same name with associated-types that are part of traits, which don't have a `self` parameter
+
+// trait Animal {
+//     fn baby_name() -> String;
+// }
+
+// struct Dog;
+
+// impl Dog {
+//     fn baby_name() -> String {
+//         String::from( "Spot" )
+//     }
+// }
+
+// impl Animal for Dog {
+//     fn baby_name() -> String {
+//         String::from( "puppy" )
+//     }
+// }
+
+// fn main05() {
+//     println!( "A baby dog is called a ``{:?}``", Dog::baby_name() );  // compiles, but wrong; outputs: A baby dog is called a ``"Spot"``
+//     println!( "A baby dog is called a ``{:?}``", <Dog as Animal>::baby_name() );  // what we want; outputs: A baby dog is called a ``"puppy"``
+// }
 
 
 

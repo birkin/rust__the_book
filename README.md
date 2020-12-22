@@ -232,7 +232,7 @@
 
 Next...
 
-<https://doc.rust-lang.org/stable/book/ch19-03-advanced-traits.html#using-supertraits-to-require-one-traits-functionality-within-another-trait>
+<https://doc.rust-lang.org/stable/book/ch19-03-advanced-traits.html#using-the-newtype-pattern-to-implement-external-traits-on-external-types>
 
 ---
 
