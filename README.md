@@ -234,5 +234,7 @@ Next...
 
 <https://doc.rust-lang.org/stable/book/ch19-04-advanced-types.html#creating-type-synonyms-with-type-aliases>
 
+    At... ```Type aliases are also commonly```
+
 ---
 
