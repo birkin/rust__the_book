@@ -232,9 +232,7 @@
 
 Next...
 
-<https://doc.rust-lang.org/stable/book/ch19-04-advanced-types.html#creating-type-synonyms-with-type-aliases>
-
-    At... ```Type aliases are also commonly```
+<https://doc.rust-lang.org/stable/book/ch19-05-advanced-functions-and-closures.html#advanced-functions-and-closures>
 
 ---
 
