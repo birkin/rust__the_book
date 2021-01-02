@@ -232,7 +232,7 @@
 
 Next...
 
-<https://doc.rust-lang.org/stable/book/ch20-01-single-threaded.html#listening-to-the-tcp-connection>
+<https://doc.rust-lang.org/stable/book/ch20-01-single-threaded.html#validating-the-request-and-selectively-responding>
 
 ---
 
