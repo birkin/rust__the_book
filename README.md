@@ -232,7 +232,7 @@
 
 Next...
 
-<https://doc.rust-lang.org/stable/book/ch20-01-single-threaded.html#validating-the-request-and-selectively-responding>
+<https://doc.rust-lang.org/stable/book/ch20-01-single-threaded.html#a-touch-of-refactoring>
 
 ---
 
