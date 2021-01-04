@@ -232,7 +232,7 @@
 
 Next...
 
-<https://doc.rust-lang.org/stable/book/ch20-01-single-threaded.html#a-touch-of-refactoring>
+<https://doc.rust-lang.org/stable/book/ch20-02-multithreaded.html#creating-a-similar-interface-for-a-finite-number-of-threads>
 
 ---
 
