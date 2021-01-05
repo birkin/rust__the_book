@@ -232,7 +232,9 @@
 
 Next...
 
-<https://doc.rust-lang.org/stable/book/ch20-02-multithreaded.html#creating-a-similar-interface-for-a-finite-number-of-threads>
+<https://doc.rust-lang.org/stable/book/ch20-02-multithreaded.html#building-the-threadpool-struct-using-compiler-driven-development>
+
+At... ```It compiles! But note that if you try cargo run and make a request in the browser```
 
 ---
 
