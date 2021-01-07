@@ -232,9 +232,9 @@
 
 Next...
 
-<https://doc.rust-lang.org/stable/book/ch20-02-multithreaded.html#building-the-threadpool-struct-using-compiler-driven-development>
+<https://doc.rust-lang.org/stable/book/ch20-02-multithreaded.html#implementing-the-execute-method>
 
-At... ```It compiles! But note that if you try cargo run and make a request in the browser```
+Go through last listing, seeing all, and try to figure out why my code shows the server running, threads being executed, but does not return html.
 
 ---
 
