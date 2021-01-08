@@ -7,6 +7,8 @@
 
 ##### random...
 
+- twice going through the book i wasn't able to get something running, and wasn't able to see the problem via the code-snippets (even with the expanded-eye view). Looking at the [complete github code for a chapter](https://github.com/rust-lang/book/tree/master/listings) was invaluable.
+
 - if i want to have a 'code' and 'binaries' directory in the 'stuff_dir', and I'm in 'code', I can compile with:
 
         $ rustc --out-dir ../binaries/ ./hello_world.rs
@@ -232,9 +234,7 @@
 
 Next...
 
-<https://doc.rust-lang.org/stable/book/ch20-02-multithreaded.html#implementing-the-execute-method>
-
-Go through last listing, seeing all, and try to figure out why my code shows the server running, threads being executed, but does not return html.
+<https://doc.rust-lang.org/stable/book/ch20-03-graceful-shutdown-and-cleanup.html>
 
 ---
 
