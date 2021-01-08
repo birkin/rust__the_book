@@ -65,5 +65,3 @@ impl Worker {
         Worker { id, thread }
     }
 }
-
-fn main() {}
