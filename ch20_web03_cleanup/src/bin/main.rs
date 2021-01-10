@@ -1,6 +1,6 @@
 fn main() {
 
-    // -- title coming
+    // -- implementing Drop Trait on ThreadPool
     main01();
 
 
@@ -8,7 +8,8 @@ fn main() {
 
 
 
-// main01() -- title coming
+// main01() -- implementing Drop Trait on ThreadPool
+// (most action is in lib.rs)
 
 use ch20_web03_cleanup::ThreadPool;
 
@@ -25,7 +26,8 @@ fn main01() {
     let pool = ThreadPool::new( 4 );
     // let zz: () = pool;  // yields: found struct `ch20_web02_multithread::ThreadPool`
 
-    for stream in listener.incoming() {
+    // for stream in listener.incoming() {
+    for stream in listener.incoming().take(2) {  // server will gracefully shutdown after accepting two requests (to demonstrate the graceful-shutdown code in lib.rs)
         let stream = stream.unwrap();
         println!( "starting stream, ``{:?}``", stream );
 

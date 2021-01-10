@@ -234,11 +234,7 @@
 
 Next...
 
-<https://doc.rust-lang.org/stable/book/ch20-03-graceful-shutdown-and-cleanup.html#implementing-the-drop-trait-on-threadpool>
-
-At: ```So we know we want to update the definition of Worker...```
-
-Note: code doesn't currently compile.
+Done! (for now)
 
 ---
 
