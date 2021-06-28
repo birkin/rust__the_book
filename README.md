@@ -5,6 +5,16 @@
 ---
 
 
+##### notes from 2nd time through...
+
+At
+- <https://doc.rust-lang.org/book/ch02-00-guessing-game-tutorial.html#programming-a-guessing-game>
+
+- interesting: from <https://doc.rust-lang.org/book/ch02-00-guessing-game-tutorial.html#storing-values-with-variables> -- """... The :: syntax in the ::new line indicates that new is an associated function of the String type. An _associated function_ is implemented on a type, in this case String, rather than on a particular instance of a String. Some languages call this a _static method_. ..."""
+
+---
+
+
 ##### random...
 
 - twice going through the book i wasn't able to get something running, and wasn't able to see the problem via the code-snippets (even with the expanded-eye view). Looking at the [complete github code for a chapter](https://github.com/rust-lang/book/tree/master/listings) was invaluable.
